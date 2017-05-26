@@ -1,4 +1,4 @@
-package videodemo.com.cn.myapplication;
+package both.video.venvy.com.appdemo;
 
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
@@ -16,7 +16,15 @@ import android.widget.VideoView;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
 
+import cn.com.venvy.Platform;
+import cn.com.venvy.PlatformInfo;
+import cn.com.venvy.common.http.HttpRequest;
+import cn.com.venvy.common.http.RequestFactory;
+import cn.com.venvy.common.http.base.IRequestHandler;
+import cn.com.venvy.common.http.base.OkHttpDownLoadRequestHandler;
+import cn.com.venvy.common.http.base.Request;
 import cn.com.venvy.common.utils.VenvyLog;
+import cn.com.venvy.common.utils.VenvyMD5Util;
 import cn.com.venvy.common.utils.VenvyUIUtil;
 import cn.com.videopls.pub.Provider;
 import cn.com.videopls.pub.VideoPlusAdapter;
@@ -80,7 +88,6 @@ public class MainActivity extends Activity implements
 
     public void initVideoOsView() {
         videoOsView = (VideoOsView) findViewById(R.id.video);
-        videoOsView = (VideoOsView) findViewById(R.id.video);
         adapter = new MyAdapter();
         videoOsView.setVideoOSAdapter(adapter);
         adapter.onCreate();
@@ -143,18 +150,22 @@ public class MainActivity extends Activity implements
             final int width = VenvyUIUtil.getScreenWidth(MainActivity.this);
             final int height = VenvyUIUtil.getScreenHeight(MainActivity.this);
             Provider provider = new Provider.Builder()
-                    .setAppKey("ryKc0El-Z")
-                    .setHorVideoHeight(Math.min(width, height))
-                    .setHorVideoWidth(Math.max(width, height))
-                    .setVerVideoWidth(Math.min(width, height))
-                    .setVerVideoHeight(screenHeightSmall)
-                    .setVideoPath("http://7xr5j6.com1.z0.glb.clouddn.com/hunantv0129.mp4?v=1101")
-                    .setVideoType(3)
-                    .setVideoTitle("ttt")
+                    .setAppKey("ryKc0El-Z")//appkey
+                    .setHorVideoHeight(Math.min(width, height))//横屏视频的高
+                    .setHorVideoWidth(Math.max(width, height))//横屏视频的宽
+                    .setVerVideoWidth(Math.min(width, height))//small视频小屏视频的宽
+                    .setVerVideoHeight(screenHeightSmall)//small 视频小屏视频的高
+                    .setVideoPath("http://7xr5j6.com1.z0.glb.clouddn.com/hunantv0129.mp4?v=1102")//视频地址
+                    .setVideoType(3)//
+                    .setVideoTitle("ttt")//
                     .build();
             return provider;
         }
 
+        /**
+         *点播视频控制监听接口，该接口必须提供，否则点播业务无法正常工作
+         * @return
+         */
         @Override
         public IMediaControlListener buildMediaController() {
             return new MyMediaController();
@@ -170,6 +181,11 @@ public class MainActivity extends Activity implements
             };
         }
 
+        /**
+         * 用来监听页面元素的点击事件,当点击图片，图文链接等元素时会回调此方法，获取对应页面元素的
+         *跳转url,url可能为null
+         * @return
+         */
         @Override
         public OnOutsideLinkClickListener buildOutsideLinkListener() {
             return new OnOutsideLinkClickListener() {
@@ -185,6 +201,10 @@ public class MainActivity extends Activity implements
             };
         }
 
+        /**
+         *热点出现监听接口，当视频中出现热点的时候回调用该方法
+         * @return
+         */
         @Override
         public OnTagShowListener buildTagShowListener() {
             return new OnTagShowListener() {
@@ -202,6 +222,7 @@ public class MainActivity extends Activity implements
         mVideoView.setVideoURI(Uri.parse("http://7xr5j6.com1.z0.glb.clouddn.com/hunantv0129.mp4?v=999"));
         mVideoView.start();
         adapter.onStart();
+
     }
 
     @Override

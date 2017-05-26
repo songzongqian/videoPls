@@ -1,4 +1,4 @@
-package videodemo.com.cn.myapplication;
+package both.video.venvy.com.appdemo;
 
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
@@ -12,7 +12,10 @@ import android.widget.Button;
 import android.widget.MediaController;
 import android.widget.RelativeLayout;
 import android.widget.VideoView;
-import com.facebook.drawee.backends.pipeline.Fresco;
+
+import cn.com.live.videopls.venvy.entry.listeners.OnViewClickListener;
+import cn.com.live.videopls.venvy.entry.listeners.WedgeListener;
+import cn.com.venvy.common.utils.VenvyLog;
 import cn.com.venvy.common.utils.VenvyUIUtil;
 import cn.com.videopls.pub.Provider;
 import cn.com.videopls.pub.VideoPlusAdapter;
@@ -30,6 +33,7 @@ public class LiveActivity extends Activity implements
     private RelativeLayout.LayoutParams rootParams;
     private RelativeLayout rootView;
     LiveAdapter liveAdatper;
+    private String mRoomId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +44,7 @@ public class LiveActivity extends Activity implements
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_live);
-        Fresco.initialize(this);
+        mRoomId = getIntent().getStringExtra("roomId");
         initView();
         initVideoLiveView();
     }
@@ -114,24 +118,52 @@ public class LiveActivity extends Activity implements
             final int height = VenvyUIUtil.getScreenHeight(LiveActivity.this);
 
             Provider provider = new Provider.Builder()
-                    .setUserId("34")
-                    .setPlatformId("556c38e7ec69d5bf655a0fb2")
-                    .setHorVideoHeight(height)
-                    .setHorVideoWidth(width)
-                    .setVerVideoHeight(height)
-                    .setVerVideoWidth(width)
-                    .setVerticalSmallVideoWidth(width)
-                    .setVerticalSmallVideoHeight(screenHeightSmall)
-                    .setVerticalType(1)
-                    //2横竖屏，0竖屏，1是横屏
-                    .setDirection(2)
+                    .setUserId(mRoomId)//roomId 或者userId
+                    .setPlatformId("556c38e7ec69d5bf655a0fb2")//videojj直播后台平台Id
+                    .setHorVideoHeight(height)//横屏视频的高
+                    .setHorVideoWidth(width)//横屏视频的宽
+                    .setVerVideoHeight(screenHeightSmall)//small 视频小屏视频的高
+                    .setVerVideoWidth(width)//small视频小屏视频的宽
+                    .setVerticalFullVideoWidth(height)//Full 视频全屏视频的高
+                    .setVerticalFullVideoHeight(width)//视频全屏视屏的宽
+                    .setVerticalType(1)//1 竖屏小屏，0竖屏全屏
+                    .setDirection(2) //2横竖屏，0竖屏，1是横屏
                     .build();
             return provider;
         }
 
+        /**
+         *中插视频播放监听接口，用来监听中插视频的播放和结束，
+         * 如果不用中插功能的话，不用重写buildWedgeListener
+         * @return WedgeListener
+         */
+        public WedgeListener buildWedgeListener() {
+            return new WedgeListener() {
+                @Override
+                public void onStart() {
+                    VenvyLog.i("-------中插开始播放--------");
+                }
+
+                @Override
+                public void onFinish() {
+                    VenvyLog.i("******中插结束播放******");
+                }
+            };
+        }
+
+        /**
+         * 用来监听页面元素的点击事件,当点击图片，图文链接等元素时会回调此方法，获取对应页面元素的
+         *跳转url,url可能为null
+         * @return
+         */
         @Override
-        public IMediaControlListener buildMediaController() {
-            return null;
+        public OnViewClickListener buildOnViewClickListener() {
+          return new OnViewClickListener() {
+              @Override
+              public void onClick(String url) {
+                  VenvyLog.i("---点击图片等页面元素的时候返回对应的url----");
+              }
+          };
         }
     }
 
@@ -139,7 +171,8 @@ public class LiveActivity extends Activity implements
     @Override
     protected void onStart() {
         super.onStart();
-        mVideoView.setVideoURI(Uri.parse("http://7xr5j6.com1.z0.glb.clouddn.com/hunantv0129.mp4?v=999"));
+        mVideoView.setVideoURI(Uri.parse("http://7xr5j6.com1.z0.glb.clouddn.com/hunantv0129" +
+                ".mp4?v=999"));
         mVideoView.start();
     }
 
@@ -177,7 +210,8 @@ public class LiveActivity extends Activity implements
         float e = 16f;
         float f = d / e;
         screenHeightSmall = (int) (f * screenWidth);
-        rootParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+        rootParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,
+                RelativeLayout.LayoutParams.WRAP_CONTENT);
         rootParams.width = screenWidth;
         rootParams.height = screenHeightSmall;
         rootView.setLayoutParams(rootParams);
@@ -190,7 +224,8 @@ public class LiveActivity extends Activity implements
         if (VenvyUIUtil.isScreenOriatationPortrait(this)) {
             this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);// 设置为横屏
         }
-        rootParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
+        rootParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,
+                RelativeLayout.LayoutParams.MATCH_PARENT);
 
         int a = VenvyUIUtil.getScreenWidth(this);
         int b = VenvyUIUtil.getScreenHeight(this);
@@ -206,7 +241,8 @@ public class LiveActivity extends Activity implements
         if (!VenvyUIUtil.isScreenOriatationPortrait(this)) {
             this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);// 设置为横屏
         }
-        rootParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
+        rootParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,
+                RelativeLayout.LayoutParams.MATCH_PARENT);
 
         int a = VenvyUIUtil.getScreenWidth(this);
         int b = VenvyUIUtil.getScreenHeight(this);
@@ -222,7 +258,8 @@ public class LiveActivity extends Activity implements
             this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);// 设置为竖屏
         }
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);// 设置为横屏
-        rootParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+        rootParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,
+                RelativeLayout.LayoutParams.WRAP_CONTENT);
         rootParams.width = screenWidth;
         rootParams.height = screenHeightSmall;
         rootView.setLayoutParams(rootParams);
