@@ -1,4 +1,4 @@
-package both.video.venvy.com.appdemo;
+package videodemo.com.cn.myapplication;
 
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
@@ -13,18 +13,8 @@ import android.widget.Button;
 import android.widget.MediaController;
 import android.widget.RelativeLayout;
 import android.widget.VideoView;
-
 import com.facebook.drawee.backends.pipeline.Fresco;
-
-import cn.com.venvy.Platform;
-import cn.com.venvy.PlatformInfo;
-import cn.com.venvy.common.http.HttpRequest;
-import cn.com.venvy.common.http.RequestFactory;
-import cn.com.venvy.common.http.base.IRequestHandler;
-import cn.com.venvy.common.http.base.OkHttpDownLoadRequestHandler;
-import cn.com.venvy.common.http.base.Request;
 import cn.com.venvy.common.utils.VenvyLog;
-import cn.com.venvy.common.utils.VenvyMD5Util;
 import cn.com.venvy.common.utils.VenvyUIUtil;
 import cn.com.videopls.pub.Provider;
 import cn.com.videopls.pub.VideoPlusAdapter;

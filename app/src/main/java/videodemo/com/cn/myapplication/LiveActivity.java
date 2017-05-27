@@ -1,4 +1,4 @@
-package both.video.venvy.com.appdemo;
+package videodemo.com.cn.myapplication;
 
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
@@ -20,7 +20,6 @@ import cn.com.venvy.common.utils.VenvyUIUtil;
 import cn.com.videopls.pub.Provider;
 import cn.com.videopls.pub.VideoPlusAdapter;
 import cn.com.videopls.pub.live.VideoLiveView;
-import cn.com.videopls.venvy.listener.IMediaControlListener;
 
 public class LiveActivity extends Activity implements
         MediaPlayer.OnErrorListener, MediaPlayer.OnCompletionListener {
@@ -128,6 +127,7 @@ public class LiveActivity extends Activity implements
                     .setVerticalFullVideoHeight(width)//视频全屏视屏的宽
                     .setVerticalType(1)//1 竖屏小屏，0竖屏全屏
                     .setDirection(2) //2横竖屏，0竖屏，1是横屏
+                    .setIsPear()
                     .build();
             return provider;
         }
