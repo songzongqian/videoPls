@@ -140,7 +140,7 @@ public class MainActivity extends Activity implements
             final int width = VenvyUIUtil.getScreenWidth(MainActivity.this);
             final int height = VenvyUIUtil.getScreenHeight(MainActivity.this);
             Provider provider = new Provider.Builder()
-                    .setAppKey("HyhoRPUb-")//appkey
+                    .setAppKey("BJqehoIZZ")//appkey
                     .setHorVideoHeight(Math.min(width, height))//横屏视频的高
                     .setHorVideoWidth(Math.max(width, height))//横屏视频的宽
                     .setVerVideoWidth(Math.min(width, height))//small视频小屏视频的宽
