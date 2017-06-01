@@ -13,7 +13,6 @@ import android.widget.Button;
 import android.widget.MediaController;
 import android.widget.RelativeLayout;
 import android.widget.VideoView;
-
 import com.facebook.drawee.backends.pipeline.Fresco;
 
 import cn.com.venvy.common.utils.VenvyLog;
@@ -142,12 +141,12 @@ public class MainActivity extends Activity implements
             final int width = VenvyUIUtil.getScreenWidth(MainActivity.this);
             final int height = VenvyUIUtil.getScreenHeight(MainActivity.this);
             Provider provider = new Provider.Builder()
-                    .setAppKey("ryKc0El-Z")//appkey
+                    .setAppKey("BJqehoIZZ")//appkey
                     .setHorVideoHeight(Math.min(width, height))//横屏视频的高
                     .setHorVideoWidth(Math.max(width, height))//横屏视频的宽
                     .setVerVideoWidth(Math.min(width, height))//small视频小屏视频的宽
                     .setVerVideoHeight(screenHeightSmall)//small 视频小屏视频的高
-                    .setVideoPath("http://7xr5j6.com1.z0.glb.clouddn.com/hunantv0129.mp4?v=1102")//视频地址
+                    .setVideoPath("http://7xr5j6.com1.z0.glb.clouddn.com/zjws-wpdwp.mp4")//视频地址
                     .setVideoType(3)//
                     .setVideoTitle("ttt")//
                     .build();
