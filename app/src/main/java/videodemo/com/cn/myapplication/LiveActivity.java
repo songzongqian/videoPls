@@ -1,4 +1,4 @@
-package both.video.venvy.com.appdemo;
+package videodemo.com.cn.myapplication;
 
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
