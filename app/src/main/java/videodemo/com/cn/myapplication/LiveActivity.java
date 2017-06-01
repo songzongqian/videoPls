@@ -135,7 +135,7 @@ public class LiveActivity extends Activity implements
                     .setVerticalFullVideoHeight(width)//视频全屏视屏的宽
                     .setVerticalType(1)//1 竖屏小屏，0竖屏全屏
                     .setDirection(2) //2横竖屏，0竖屏，1是横屏
-                    .setIsPear()
+                    .setIsMango()
                     .build();
             return provider;
         }
