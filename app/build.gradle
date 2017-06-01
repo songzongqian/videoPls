@@ -4,7 +4,7 @@ android {
     compileSdkVersion 23
     buildToolsVersion "25.0.3"
     defaultConfig {
-        applicationId "videodemo.com.cn.myapplication"
+        applicationId "both.video.venvy.com.appdemo"
         minSdkVersion 15
         targetSdkVersion 23
         versionCode 1
@@ -21,11 +21,6 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
-
-    testCompile 'junit:junit:4.12'
 
     // android Video++ 互动层依赖
     compile 'com.videoli:video_pub:1.2.0.4'

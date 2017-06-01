@@ -13,6 +13,7 @@ import android.widget.MediaController;
 import android.widget.RelativeLayout;
 import android.widget.VideoView;
 
+import both.video.venvy.com.appdemo.R;
 import cn.com.live.videopls.venvy.entry.listeners.OnViewClickListener;
 import cn.com.live.videopls.venvy.entry.listeners.WedgeListener;
 import cn.com.venvy.common.utils.VenvyDebug;

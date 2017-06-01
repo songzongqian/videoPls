@@ -3,7 +3,6 @@ package videodemo.com.cn.myapplication;
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
 import android.media.MediaPlayer;
-import android.media.MediaPlayer.OnPreparedListener;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -13,8 +12,10 @@ import android.widget.Button;
 import android.widget.MediaController;
 import android.widget.RelativeLayout;
 import android.widget.VideoView;
+
 import com.facebook.drawee.backends.pipeline.Fresco;
 
+import both.video.venvy.com.appdemo.R;
 import cn.com.venvy.common.utils.VenvyDebug;
 import cn.com.venvy.common.utils.VenvyLog;
 import cn.com.venvy.common.utils.VenvyUIUtil;
@@ -61,7 +62,7 @@ public class MainActivity extends Activity implements
         mVideoView.setMediaController(new MediaController(this));
         mVideoView.setOnErrorListener(this);
         mVideoView.setOnCompletionListener(this);
-        mVideoView.setOnPreparedListener(new OnPreparedListener() {
+        mVideoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
             public void onPrepared(MediaPlayer mp) {
                 videoOsView.start();
@@ -83,20 +84,6 @@ public class MainActivity extends Activity implements
         adapter = new MyAdapter();
         videoOsView.setVideoOSAdapter(adapter);
         adapter.onCreate();
-    }
-
-    private String getAppKey() {
-        if (VenvyDebug.getInstance().isDebug()) {
-            return "ryKc0El-Z";
-        }
-        return "ryZSzdBWZ";
-    }
-
-    private String getVideoPath() {
-        if (VenvyDebug.getInstance().isDebug()) {
-            return "http://7xr5j6.com1.z0.glb.clouddn.com/hunantv0129.mp4?v=1102";
-        }
-        return "http://sdkcdn.videojj.com/flash/player/video/1.mp4";
     }
 
 
@@ -147,6 +134,20 @@ public class MainActivity extends Activity implements
 
     }
 
+    private String getAppKey() {
+        if (VenvyDebug.getInstance().isDebug()) {
+            return "ryKc0El-Z";
+        }
+        return "ryZSzdBWZ";
+    }
+
+    private String getVideoPath() {
+        if (VenvyDebug.getInstance().isDebug()) {
+            return "http://7xr5j6.com1.z0.glb.clouddn.com/hunantv0129.mp4?v=1102";
+        }
+        return "http://sdkcdn.videojj.com/flash/player/video/1.mp4";
+    }
+
 
     private class MyAdapter extends VideoPlusAdapter {
 
@@ -169,7 +170,8 @@ public class MainActivity extends Activity implements
         }
 
         /**
-         *点播视频控制监听接口，该接口必须提供，否则点播业务无法正常工作
+         * 点播视频控制监听接口，该接口必须提供，否则点播业务无法正常工作
+         *
          * @return
          */
         @Override
@@ -189,7 +191,8 @@ public class MainActivity extends Activity implements
 
         /**
          * 用来监听页面元素的点击事件,当点击图片，图文链接等元素时会回调此方法，获取对应页面元素的
-         *跳转url,url可能为null
+         * 跳转url,url可能为null
+         *
          * @return
          */
         @Override
@@ -208,7 +211,8 @@ public class MainActivity extends Activity implements
         }
 
         /**
-         *热点出现监听接口，当视频中出现热点的时候回调用该方法
+         * 热点出现监听接口，当视频中出现热点的时候回调用该方法
+         *
          * @return
          */
         @Override

@@ -10,6 +10,8 @@ import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import both.video.venvy.com.appdemo.R;
+
 public class WelcomeActivity extends Activity implements View.OnClickListener{
 
     private ImageView btnDianbo, btnLive;
