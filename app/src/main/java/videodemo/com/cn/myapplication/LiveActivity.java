@@ -15,6 +15,7 @@ import android.widget.VideoView;
 
 import cn.com.live.videopls.venvy.entry.listeners.OnViewClickListener;
 import cn.com.live.videopls.venvy.entry.listeners.WedgeListener;
+import cn.com.venvy.common.utils.VenvyDebug;
 import cn.com.venvy.common.utils.VenvyLog;
 import cn.com.venvy.common.utils.VenvyUIUtil;
 import cn.com.videopls.pub.Provider;
@@ -108,6 +109,13 @@ public class LiveActivity extends Activity implements
         setLayoutParam();
     }
 
+    private String getPlatformId() {
+        if (VenvyDebug.getInstance().isDebug()) {
+            return "556c38e7ec69d5bf655a0fb2";
+        }
+        return "575e6e087c395e0501980c89";
+    }
+
     //竖屏小屏adapter
     private class LiveAdapter extends VideoPlusAdapter {
 
@@ -118,7 +126,7 @@ public class LiveActivity extends Activity implements
 
             Provider provider = new Provider.Builder()
                     .setUserId(mRoomId)//roomId 或者userId
-                    .setPlatformId("556c38e7ec69d5bf655a0fb2")//videojj直播后台平台Id
+                    .setPlatformId(getPlatformId())//videojj直播后台平台Id
                     .setHorVideoHeight(height)//横屏视频的高
                     .setHorVideoWidth(width)//横屏视频的宽
                     .setVerVideoHeight(screenHeightSmall)//small 视频小屏视频的高

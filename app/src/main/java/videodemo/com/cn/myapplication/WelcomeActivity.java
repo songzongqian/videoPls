@@ -1,22 +1,19 @@
 package videodemo.com.cn.myapplication;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Intent;
-import android.media.Image;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 
 public class WelcomeActivity extends Activity implements View.OnClickListener{
 
     private ImageView btnDianbo, btnLive;
+    private AlertDialog mDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,10 +59,36 @@ public class WelcomeActivity extends Activity implements View.OnClickListener{
         WelcomeActivity.this.startActivity(intent);
     }
 
+
     private void goLiveActivity(){
-        Intent intent=new Intent();
-        intent.setClass(WelcomeActivity.this, LiveActivity.class);
-        WelcomeActivity.this.startActivity(intent);
+
+        View selectRoom = getLayoutInflater().inflate(R.layout.layout_select_room, null);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this)
+                .setTitle("设置房间号")
+                .setView(selectRoom);
+        mDialog = builder.create();
+        mDialog.show();
+
+        setRoomId(selectRoom);
     }
+
+    private void setRoomId(final View selectRoom) {
+
+        final Intent intent=new Intent(WelcomeActivity.this, LiveActivity.class);
+
+        final EditText et = (EditText) selectRoom.findViewById(R.id.edittext);
+
+        selectRoom.findViewById(R.id.enter).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String roomId = et.getText().toString();
+                intent.putExtra("roomId", roomId);
+                startActivity(intent);
+                mDialog.dismiss();
+            }
+        });
+
+    }
+
 
 }

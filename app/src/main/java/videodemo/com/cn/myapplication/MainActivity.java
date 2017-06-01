@@ -15,6 +15,7 @@ import android.widget.RelativeLayout;
 import android.widget.VideoView;
 import com.facebook.drawee.backends.pipeline.Fresco;
 
+import cn.com.venvy.common.utils.VenvyDebug;
 import cn.com.venvy.common.utils.VenvyLog;
 import cn.com.venvy.common.utils.VenvyUIUtil;
 import cn.com.videopls.pub.Provider;
@@ -84,6 +85,20 @@ public class MainActivity extends Activity implements
         adapter.onCreate();
     }
 
+    private String getAppKey() {
+        if (VenvyDebug.getInstance().isDebug()) {
+            return "ryKc0El-Z";
+        }
+        return "ryZSzdBWZ";
+    }
+
+    private String getVideoPath() {
+        if (VenvyDebug.getInstance().isDebug()) {
+            return "http://7xr5j6.com1.z0.glb.clouddn.com/hunantv0129.mp4?v=1102";
+        }
+        return "http://sdkcdn.videojj.com/flash/player/video/1.mp4";
+    }
+
 
     private class MyMediaController implements IMediaControlListener {
         @Override
@@ -141,12 +156,12 @@ public class MainActivity extends Activity implements
             final int width = VenvyUIUtil.getScreenWidth(MainActivity.this);
             final int height = VenvyUIUtil.getScreenHeight(MainActivity.this);
             Provider provider = new Provider.Builder()
-                    .setAppKey("BJqehoIZZ")//appkey
+                    .setAppKey(getAppKey())//appkey
                     .setHorVideoHeight(Math.min(width, height))//横屏视频的高
                     .setHorVideoWidth(Math.max(width, height))//横屏视频的宽
                     .setVerVideoWidth(Math.min(width, height))//small视频小屏视频的宽
                     .setVerVideoHeight(screenHeightSmall)//small 视频小屏视频的高
-                    .setVideoPath("http://7xr5j6.com1.z0.glb.clouddn.com/zjws-wpdwp.mp4")//视频地址
+                    .setVideoPath(getVideoPath())//视频地址
                     .setVideoType(3)//
                     .setVideoTitle("ttt")//
                     .build();

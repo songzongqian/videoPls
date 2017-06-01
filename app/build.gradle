@@ -1,12 +1,12 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 25
+    compileSdkVersion 23
     buildToolsVersion "25.0.3"
     defaultConfig {
         applicationId "videodemo.com.cn.myapplication"
         minSdkVersion 15
-        targetSdkVersion 25
+        targetSdkVersion 23
         versionCode 1
         versionName "1.2.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -24,7 +24,17 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile 'com.android.support:appcompat-v7:25.3.1'
+
     testCompile 'junit:junit:4.12'
-    compile 'com.videoli:video_pub:1.2.0.3'
+
+    // android Video++ 互动层依赖
+    compile 'com.videoli:video_pub:1.2.0.4'
+    // v4，v7依赖，项目中如已有依赖可以不用导入,且导入版本可按照编译版本来
+    compile 'com.android.support:support-v4:+'
+    // fresco 依赖，项目中如已有依赖可以不用导入
+    compile 'com.facebook.fresco:fresco:1.1.0'
+    // 支持 GIF 动图，项目中如已有依赖可以不用导入
+    compile 'com.facebook.fresco:animated-gif:1.1.0'
+    // okhttp 依赖，项目中如已有依赖可以不用导入
+    compile 'com.squareup.okhttp3:okhttp:3.8.0'
 }
