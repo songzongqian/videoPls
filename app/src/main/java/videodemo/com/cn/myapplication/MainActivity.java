@@ -94,35 +94,30 @@ public class MainActivity extends Activity implements
                 mVideoView.start();
             }
         }
-
         @Override
         public void pause() {
             if (mVideoView != null) {
                 mVideoView.pause();
             }
         }
-
         @Override
         public void seekTo(long position) {
             if (mVideoView != null) {
                 mVideoView.seekTo(0);
             }
         }
-
         @Override
         public void restart() {
             if (mVideoView != null) {
                 mVideoView.start();
             }
         }
-
         @Override
         public void stop() {
             if (mVideoView != null) {
                 mVideoView.stopPlayback();
             }
         }
-
         @Override
         public long getCurrentPosition() {
             if (mVideoView != null) {
