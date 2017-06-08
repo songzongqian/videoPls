@@ -23,7 +23,7 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
     // android Video++ 互动层依赖
-    compile 'com.videoli:video_pub:1.2.0.8'
+    compile 'com.videoli:video_pub:1.2.0.9'
     // v4，v7依赖，项目中如已有依赖可以不用导入,且导入版本可按照编译版本来
     compile 'com.android.support:support-v4:+'
     // fresco 依赖，项目中如已有依赖可以不用导入
