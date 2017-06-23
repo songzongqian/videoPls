@@ -1,33 +1,28 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/content_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#3c3c3c">
 
-    <RelativeLayout
-        android:id="@+id/root"
+    <!--<videodemo.com.cn.myapplication.MediaPlayerView-->
+    <!--android:id="@+id/media_player"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:layout_gravity="top" />-->
+
+    <FrameLayout
+        android:id="@+id/root_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="195dp">
 
-        <VideoView
-            android:id="@+id/videoview"
+        <videodemo.com.cn.myapplication.weidget.CustomVideoView
+            android:id="@+id/video_view"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-        <cn.com.videopls.pub.os.VideoOsView
-            android:id="@+id/video"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-    </RelativeLayout>
-
-    <Button
-        android:id="@+id/btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:text="切屏"
-        android:visibility="visible" />
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"/>
+    </FrameLayout>
 
 </RelativeLayout>

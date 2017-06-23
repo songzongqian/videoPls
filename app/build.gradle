@@ -1,15 +1,16 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "25.0.3"
+    compileSdkVersion Integer.parseInt(project.VENVY_BUILD_SDK_VERSION)
+    buildToolsVersion project.VENVY_BUILD_TOOS_SDK_VERSION
+
     defaultConfig {
         applicationId "both.video.venvy.com.appdemo"
-        minSdkVersion 15
-        targetSdkVersion 23
+        minSdkVersion Integer.parseInt(project.VENVY_ANDROID_MIN_SDK)
+        targetSdkVersion Integer.parseInt(project.VENVY_ANDROID_TARGET_SDK)
         versionCode 1
-        versionName "1.2.0"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        versionName "1.0"
+
     }
     buildTypes {
         release {
@@ -20,16 +21,12 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     // android Video++ 互动层依赖
-    compile 'com.videoli:video_pub:1.2.0.9'
+    compile 'com.videoli:video_pub:1.3.2.0'
     // v4，v7依赖，项目中如已有依赖可以不用导入,且导入版本可按照编译版本来
-    compile 'com.android.support:support-v4:+'
+    compile "com.android.support:support-v4:${VENVY_V4_VERSION}"
     // fresco 依赖，项目中如已有依赖可以不用导入
-    compile 'com.facebook.fresco:fresco:1.1.0'
-    // 支持 GIF 动图，项目中如已有依赖可以不用导入
-    compile 'com.facebook.fresco:animated-gif:1.1.0'
-    // okhttp 依赖，项目中如已有依赖可以不用导入
-    compile 'com.squareup.okhttp3:okhttp:3.8.0'
+    compile "com.facebook.fresco:fresco:${VENVY_FRESCO_LIBRARY_VERSION}"
+    compile project(':vitamio')
 }
