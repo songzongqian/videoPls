@@ -22,11 +22,12 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    // android Video++ 互动层依赖
-    compile 'com.videoli:video_pub:1.3.2.0'
-    // v4，v7依赖，项目中如已有依赖可以不用导入,且导入版本可按照编译版本来
+
+    // android Video++ 互动层依赖，必须导入
+    compile 'com.videoli:video_pub:1.3.4.2'
+    // v4，v7依赖，项目中如已有依赖可以不用导入,且导入版本可按照编译版本来，注意gradle.properties 配置版本
     compile "com.android.support:support-v4:${VENVY_V4_VERSION}"
-    // fresco 依赖，项目中如已有依赖可以不用导入
-    compile "com.facebook.fresco:fresco:${VENVY_FRESCO_LIBRARY_VERSION}"
+
+    //视频播放器Demo，接入方忽略此导入
     compile project(':vitamio')
 }
