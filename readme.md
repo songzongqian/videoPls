@@ -14,7 +14,7 @@ Video++ 互动层目前支持直播和点播功能的同时集成。其中具体
 
   2. Video++互动层对于三方的引入，为了避免冲突和重复引入，导入三方版本开放给最外层调用，如项目中已配置，可按照项目中原有配置版本，具体依赖版本可看gradle.properties文件注释说明.（其中名称不要改变，版本号可以根据实际情况定义）
 
-  3. 请在Application中实例化Fresco。 至少应该在调用Video ++ 逻辑前实例化。可参考MyApp.java的实例化设置
+  3. 请在Application中调用Videopls.appCreate()方法，可参考MyApp.java的实例化设置（重要，V1.3.4.x以上版本增加）
 
   4. 直播和点播均会需要构造一个VideoPlusAdapter 设置给对应的View。直播和点播目前根据对接平台的不一致可能在构造Adapter的时候可能会有略微的差异性。请参考Demo中的Adapter构造。
 
@@ -48,5 +48,11 @@ Video++ 互动层目前支持直播和点播功能的同时集成。其中具体
 
   v1.3.2.0版本升级内容
 
-  1. 对于V1.2.0.x版本接入方，外部三方引入依赖方式有稍微变化，不需要再build.gradle中写除了vido++依赖以外的三方complie依赖，需要在gradle.properties文件中指定三方依赖版本（重要）
+  1. 对于V1.2.0.x版本接入方，外部三方引入依赖方式有稍微变化，不需要再build.gradle中写除了vido++依赖以外的三方complie依赖，需要在gradle.properties文件中指定三方依赖版本（非常重要）
   2. 增强android广告缓存，加载速度优化
+
+  v1.3.4.6 版本升级内容
+  1. 增强资源缓存方式
+  2. 将默认图片框架改为Glide，如果对接上需要Fresco 作为图片框架，请联系技术同学。
+  3. 因为图片框架变更的影响，低于v1.3.4.x以下版本的对接方请留意gradle.properties文件里面的配置。具体可参考demo项目的配置写法（非常重要）。
+  4. 请在项目application里调用VideoPlus.appCreate()方法。（非常重要，V1.3.4.x及以上版本必须需要调用)
