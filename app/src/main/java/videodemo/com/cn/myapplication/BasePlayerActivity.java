@@ -30,6 +30,7 @@ public abstract class BasePlayerActivity extends Activity implements CustomMedia
     protected FrameLayout mContentView;
     private CustomVideoView mVideoView;
     protected CustomMediaController mController;
+    protected VideoPlusView videoPlusView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,14 +49,19 @@ public abstract class BasePlayerActivity extends Activity implements CustomMedia
         mVideoView = (CustomVideoView) findViewById(R.id.video_view);
         initMediaPlayerController();
 
-        VideoPlusView videoPlusView = initVideoPlusView();
+        //Video++实例化
+        videoPlusView = initVideoPlusView();
         mVideoPlusAdapter = initVideoPlusAdapter();
         ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         getContentView().addView(videoPlusView, layoutParams);
         videoPlusView.setVideoOSAdapter(mVideoPlusAdapter);
+        //Video++中在一段视频播放中只调用一次start()，如果同页面切换视频，请先调用stop(),然后再调用start()
         videoPlusView.start();
     }
 
+    /**
+     * 播放器控制，对接时忽略
+     */
     protected void initMediaPlayerController() {
         mController = new CustomMediaController(this, true, getContentView());
         mController.setMediaScreenChangedListener(this);
@@ -87,7 +93,10 @@ public abstract class BasePlayerActivity extends Activity implements CustomMedia
     @Override
     protected void onResume() {
         super.onResume();
+        //Video++调用
         mVideoPlusAdapter.onResume();
+
+        //开始播放视频，对接忽略
         String url = getMediaUrl();
         mVideoView.setVideoPath(url);
     }
@@ -95,55 +104,74 @@ public abstract class BasePlayerActivity extends Activity implements CustomMedia
     @Override
     protected void onStart() {
         super.onStart();
+        //Video++调用
+        mVideoPlusAdapter.onStart();
     }
 
     @Override
     protected void onRestart() {
         super.onRestart();
+        //Video++调用
         mVideoPlusAdapter.onRestart();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
+        //Video++调用
         mVideoPlusAdapter.onPause();
     }
 
 
     @Override
     protected void onStop() {
+        //Video++调用
         mVideoPlusAdapter.onStop();
+
+        //播放器暂停，对接忽略
         mVideoView.pause();
         super.onStop();
     }
 
     @Override
     protected void onDestroy() {
+        //Video++调用
         mVideoPlusAdapter.onDestroy();
+        videoPlusView.destroy();
+
+        //播放控制器销毁，对接忽略
         mController.onDestory();
         super.onDestroy();
     }
 
     public void startPlay() {
+        //Video++主动调用，开始播放
         mVideoView.start();
     }
 
     public void pausePlay() {
+        //Video++主动调用，暂停播放器
         mVideoView.pause();
     }
 
     public void stopPlay() {
+        //Video++主动调用，停止播放器
         mVideoView.stopPlayback();
     }
 
     public long getPlayerPosition() {
+        //Video++主动调用，获取播放器播放时间
         return mVideoView.getCurrentPosition();
     }
 
     public void seekTo(long position) {
+        //Video++主动调用，快进播放器
         mVideoView.seekTo(position);
     }
 
+    /**
+     * 对接忽略
+     */
     protected String getSDPath() {
         File sdDir = null;
         boolean sdCardExist = Environment.getExternalStorageState()
@@ -154,6 +182,9 @@ public abstract class BasePlayerActivity extends Activity implements CustomMedia
         return sdDir == null ? "" : sdDir.toString();
     }
 
+    /**
+     * 模拟屏幕切换
+     */
     @Override
     public void screenChanged(CustomMediaController.Screen screen) {
         switch (screen) {

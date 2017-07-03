@@ -203,4 +203,34 @@ public class MainActivity extends BasePlayerActivity {
         }
         return super.onKeyDown(keyCode, event);
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        //注意父类中的调用
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        //注意父类中的调用
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        //注意父类中的调用
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        //注意父类中的调用
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        //注意父类中的调用
+    }
 }

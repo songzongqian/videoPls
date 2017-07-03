@@ -23,11 +23,8 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-
-    // android Video++ 互动层依赖，必须导入
-    compile "com.videoli:video_pub:1.3.4.8"
-    // v4，v7依赖，项目中如已有依赖可以不用导入,且导入版本可按照编译版本来，注意gradle.properties 配置版本
-    compile "com.android.support:support-v4:${VENVY_V4_VERSION}"
+    // android Video++ 互动层依赖，必须导入,在对接完毕后提测前请和技术最后确认版本号
+    compile "com.videoli:video_pub:1.3.4.10"
 
     //视频播放器Demo，接入方忽略此导入
     compile project(':vitamio')

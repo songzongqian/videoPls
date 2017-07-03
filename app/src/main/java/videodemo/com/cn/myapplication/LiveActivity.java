@@ -38,8 +38,6 @@ public class LiveActivity extends BasePlayerActivity {
 
     /**
      * Video++直播PlatformId
-     *
-     * @return
      */
     private String getPlatformId() {
         if (VenvyDebug.getInstance().isDebug()) {
@@ -123,11 +121,11 @@ public class LiveActivity extends BasePlayerActivity {
         super.screenChanged(screen);
         switch (screen) {
             case PORTRAIT:
-                //竖屏小屏
+                //屏幕切换调用，切换竖屏小屏
                 getAdapter().notifyLiveVerticalScreen(1);
                 break;
             case PORTRAIT_FULL:
-                //竖屏全屏
+                //屏幕切换调用，切换竖屏全屏
                 getAdapter().notifyLiveVerticalScreen(0);
                 break;
 
@@ -135,5 +133,35 @@ public class LiveActivity extends BasePlayerActivity {
 
                 break;
         }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        //注意父类中的调用
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        //注意父类中的调用
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        //注意父类中的调用
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        //注意父类中的调用
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        //注意父类中的调用
     }
 }
