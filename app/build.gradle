@@ -24,7 +24,7 @@ android {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     // android Video++ 互动层依赖，必须导入,在对接完毕后提测前请和技术最后确认版本号
-    compile "com.videoli:video_pub:1.3.4.10"
+    compile "com.videoli:video_pub:1.3.4.16"
 
     //视频播放器Demo，接入方忽略此导入
     compile project(':vitamio')

@@ -31,21 +31,17 @@ public class MainActivity extends BasePlayerActivity {
     protected VideoPlusAdapter initVideoPlusAdapter() {
         return new MyAdapter();
     }
-
-
     @NonNull
     @Override
     protected String getMediaUrl() {
         return getVideoPath();
     }
-
     @Override
     protected void initMediaPlayerController() {
         super.initMediaPlayerController();
         //点播不支持竖屏全屏
         mController.isLive(false);
     }
-
     /**
      * 申请的Video++ KEY
      *
@@ -89,7 +85,6 @@ public class MainActivity extends BasePlayerActivity {
                     .setVideoTitle("ttt")// 视频标题
                     .build();
         }
-
         /**
          * 点播视频控制监听接口，该接口必须提供，否则点播业务无法正常工作
          * 此接口是控制播放器行为
