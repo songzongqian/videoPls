@@ -39,7 +39,7 @@ public class LiveActivity extends BasePlayerActivity {
     /**
      * Video++直播PlatformId
      */
-    private String getPlatformId() {
+    private static String getPlatformId() {
         if (VenvyDebug.getInstance().isDebug()) {
             return "556c38e7ec69d5bf655a0fb2";
         }
