@@ -205,7 +205,7 @@ public class VideoOsActivity extends BasePlayerActivity {
             };
         }
 
-        public IWidgetShowListener<WidgetInfo> buildWidgeShowListener() {
+        public IWidgetShowListener<WidgetInfo> buildWidgetShowListener() {
             return new IWidgetShowListener<WidgetInfo>() {
                 @Override
                 public void onShow(WidgetInfo widgetInfo) {
@@ -214,7 +214,7 @@ public class VideoOsActivity extends BasePlayerActivity {
             };
         }
 
-        public IWidgetCloseListener<WidgetInfo> buildWidgeCloseListener() {
+        public IWidgetCloseListener<WidgetInfo> buildWidgetCloseListener() {
             return new IWidgetCloseListener<WidgetInfo>() {
                 @Override
                 public void onClose(WidgetInfo widgetInfo) {
