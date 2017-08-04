@@ -57,7 +57,7 @@ public class WelcomeActivity extends Activity implements View.OnClickListener{
 
     private void goDianboActivity(){
         Intent intent=new Intent();
-        intent.setClass(WelcomeActivity.this, MainActivity.class);
+        intent.setClass(WelcomeActivity.this, VideoOsActivity.class);
         WelcomeActivity.this.startActivity(intent);
     }
 
@@ -76,7 +76,7 @@ public class WelcomeActivity extends Activity implements View.OnClickListener{
 
     private void setRoomId(final View selectRoom) {
 
-        final Intent intent=new Intent(WelcomeActivity.this, LiveActivity.class);
+        final Intent intent=new Intent(WelcomeActivity.this, LiveOsActivity.class);
 
         final EditText et = (EditText) selectRoom.findViewById(R.id.edittext);
 
