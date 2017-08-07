@@ -205,6 +205,7 @@ public class VideoOsActivity extends BasePlayerActivity {
             };
         }
 
+
         public IWidgetShowListener<WidgetInfo> buildWidgetShowListener() {
             return new IWidgetShowListener<WidgetInfo>() {
                 @Override

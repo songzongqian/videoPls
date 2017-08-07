@@ -10,6 +10,7 @@ import cn.com.live.videopls.venvy.entry.listeners.WedgeListener;
 import cn.com.venvy.common.bean.WidgetInfo;
 import cn.com.venvy.common.interf.IWidgetClickListener;
 import cn.com.venvy.common.interf.IWidgetCloseListener;
+import cn.com.venvy.common.interf.IWidgetEmptyListener;
 import cn.com.venvy.common.interf.IWidgetShowListener;
 import cn.com.venvy.common.utils.VenvyDebug;
 import cn.com.venvy.common.utils.VenvyLog;
@@ -142,6 +143,16 @@ public class LiveOsActivity extends BasePlayerActivity {
                 @Override
                 public void onShow(WidgetInfo widgetInfo) {
                     //展示监听
+                }
+            };
+        }
+
+        @Override
+        public IWidgetEmptyListener buildWidgetEmptyListener() {
+            return new IWidgetEmptyListener() {
+                @Override
+                public void onEmpty() {
+                  //进入直播间没有互动广告时回调
                 }
             };
         }
