@@ -3,6 +3,7 @@ package videodemo.com.cn.myapplication;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.widget.Toast;
 
 import cn.com.live.videopls.venvy.entry.listeners.OnViewClickListener;
@@ -110,7 +111,7 @@ public class LiveOsActivity extends BasePlayerActivity {
         }
 
         /**
-         * 已废弃，请使用最新接口IWidgetClickListener
+         * 1.6.0+版本已废弃，请使用最新接口IWidgetClickListener
          * 用来监听页面元素的点击事件,当点击图片，图文链接等元素时会回调此方法，获取对应页面元素的
          * 跳转url,url可能为null
          */
@@ -124,8 +125,9 @@ public class LiveOsActivity extends BasePlayerActivity {
             };
         }
 
+
         /**
-         * 点击监听
+         * 广告点击监听
          * @return
          */
         public IWidgetClickListener<WidgetInfo> buildWidgetClickListener() {
@@ -133,39 +135,98 @@ public class LiveOsActivity extends BasePlayerActivity {
 
                 @Override
                 public void onClick(@Nullable WidgetInfo widgetInfo) {
+                    if (widgetInfo != null) {
+                        WidgetInfo.WidgetType type = widgetInfo.getWidgetType();
+                        String url = widgetInfo.getUrl();
+                        if (TextUtils.isEmpty(url)) {
+                            return;
+                        }
+                        //具体type为区分广告类型。具体广告内容可看枚举注释
+                        switch (type) {
+                            case CLOUND:
+                                //TODO,根据广告类型做不同的逻辑
+                                break;
 
+                            case ADGIFT:
+
+                                break;
+                        }
+                    }
                 }
             };
         }
 
+        /**
+         * 广告点击监听
+         * @return
+         */
         public IWidgetShowListener<WidgetInfo> buildWidgetShowListener() {
             return new IWidgetShowListener<WidgetInfo>() {
                 @Override
                 public void onShow(WidgetInfo widgetInfo) {
-                    //展示监听
+                    if (widgetInfo != null) {
+                        WidgetInfo.WidgetType type = widgetInfo.getWidgetType();
+                        String url = widgetInfo.getUrl();
+                        if (TextUtils.isEmpty(url)) {
+                            return;
+                        }
+                        //具体type为区分广告类型。具体广告内容可看枚举注释
+                        switch (type) {
+                            case CLOUND:
+                                //TODO,根据广告类型做不同的逻辑
+                                break;
+
+                            case ADGIFT:
+
+                                break;
+                        }
+                    }
                 }
             };
         }
+
+        /**
+         * 广告关闭监听
+         * @return
+         */
+        public IWidgetCloseListener<WidgetInfo> buildWidgetCloseListener() {
+            return new IWidgetCloseListener<WidgetInfo>() {
+                @Override
+                public void onClose(WidgetInfo widgetInfo) {
+                    if (widgetInfo != null) {
+                        WidgetInfo.WidgetType type = widgetInfo.getWidgetType();
+                        String url = widgetInfo.getUrl();
+                        if (TextUtils.isEmpty(url)) {
+                            return;
+                        }
+                        //具体type为区分广告类型。具体广告内容可看枚举注释
+                        switch (type) {
+                            case CLOUND:
+                                //TODO,根据广告类型做不同的逻辑
+                                break;
+
+                            case ADGIFT:
+
+                                break;
+                        }
+                    }
+                }
+            };
+        }
+
+        /**
+         * 进入直播间没有互动广告时回调
+         */
 
         @Override
         public IWidgetEmptyListener buildWidgetEmptyListener() {
             return new IWidgetEmptyListener() {
                 @Override
                 public void onEmpty() {
-                  //进入直播间没有互动广告时回调
-                }
-            };
-        }
-
-        public IWidgetCloseListener<WidgetInfo> buildWidgetCloseListener() {
-            return new IWidgetCloseListener<WidgetInfo>() {
-                @Override
-                public void onClose(WidgetInfo widgetInfo) {
 
                 }
             };
         }
-
     }
 
     @Override
