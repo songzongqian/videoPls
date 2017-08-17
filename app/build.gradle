@@ -1,13 +1,13 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion Integer.parseInt(project.VENVY_BUILD_SDK_VERSION)
-    buildToolsVersion project.VENVY_BUILD_TOOS_SDK_VERSION
+    compileSdkVersion 25
+    buildToolsVersion '25.0.0'
 
     defaultConfig {
         applicationId "both.video.venvy.com.appdemo"
-        minSdkVersion Integer.parseInt(project.VENVY_ANDROID_MIN_SDK)
-        targetSdkVersion Integer.parseInt(project.VENVY_ANDROID_TARGET_SDK)
+        minSdkVersion 14
+        targetSdkVersion 19
         versionCode 1
         versionName "1.0"
 
@@ -23,7 +23,8 @@ android {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     // android Video++ 互动层依赖，必须导入,在对接完毕后提测前请和技术最后确认版本号
-    compile "com.videoli:video_pub:1.6.0.2"
+
+    compile 'com.videoli:video_pub:1.6.0.16'
 
     //视频播放器Demo，接入方忽略此导入
     compile project(':vitamio')

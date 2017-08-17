@@ -107,6 +107,11 @@ public class LiveOsActivity extends BasePlayerActivity {
                 public void onFinish() {
                     VenvyLog.i("******中插结束播放******");
                 }
+
+                @Override
+                public void onEmpty() {
+
+                }
             };
         }
 
@@ -216,6 +221,7 @@ public class LiveOsActivity extends BasePlayerActivity {
 
         /**
          * 进入直播间没有互动广告时回调
+         * 直播专用，点播业务不生效
          */
 
         @Override
