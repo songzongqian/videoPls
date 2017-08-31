@@ -127,7 +127,7 @@ public abstract class BasePlayerActivity extends Activity implements CustomMedia
     protected void onStop() {
         //Video++调用
         mVideoPlusAdapter.onStop();
-
+        videoPlusView.stop();
         //播放器暂停，对接忽略
         mVideoView.pause();
         super.onStop();

@@ -106,6 +106,11 @@ public class LiveOsActivity extends BasePlayerActivity {
                 public void onFinish() {
                     VenvyLog.i("******中插结束播放******");
                 }
+
+                @Override
+                public void onEmpty() {
+
+                }
             };
         }
 
@@ -196,7 +201,6 @@ public class LiveOsActivity extends BasePlayerActivity {
     @Override
     protected void onRestart() {
         super.onRestart();
-        //注意父类中的调用
     }
 
     @Override
