@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
@@ -16,6 +17,7 @@ public class WelcomeActivity extends Activity implements View.OnClickListener{
 
     private ImageView btnDianbo, btnLive;
     private AlertDialog mDialog;
+    private Button mOttButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,11 +35,13 @@ public class WelcomeActivity extends Activity implements View.OnClickListener{
     private void findView() {
         btnDianbo = (ImageView) findViewById(R.id.btn_dianbo);
         btnLive = (ImageView) findViewById(R.id.btn_live);
+        mOttButton = (Button) findViewById(R.id.ott);
     }
 
     private void initListerner(){
         btnDianbo.setOnClickListener(this);
         btnLive.setOnClickListener(this);
+        mOttButton.setOnClickListener(this);
     }
 
     @Override
@@ -49,11 +53,22 @@ public class WelcomeActivity extends Activity implements View.OnClickListener{
             case R.id.btn_live:
                 goLiveActivity();
                 break;
+            case R.id.ott:
+                goOTTActivity();
+                break;
             default:
                 break;
         }
 
     }
+
+
+    private void goOTTActivity() {
+        Intent intent = new Intent();
+        intent.setClass(WelcomeActivity.this, OTTActivity.class);
+        startActivity(intent);
+    }
+
 
     private void goDianboActivity(){
         Intent intent=new Intent();

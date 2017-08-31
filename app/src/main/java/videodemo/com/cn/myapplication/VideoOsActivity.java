@@ -2,6 +2,7 @@ package videodemo.com.cn.myapplication;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 
 import cn.com.venvy.common.bean.WidgetInfo;
@@ -148,6 +149,7 @@ public class VideoOsActivity extends BasePlayerActivity {
 
         /**
          * 云窗显示回调接口
+         * 此接口1.6.0+版本已废弃，请尽快迁移，请使用通用的组件显示接口 IWidgetShowListener
          */
         @Override
         public OnCloudWindowShowListener buildCloudWindowShowListener() {
@@ -162,6 +164,7 @@ public class VideoOsActivity extends BasePlayerActivity {
         /**
          * 用来监听页面元素的点击事件,当点击图片，图文链接等元素时会回调此方法，获取对应页面元素的
          * 跳转url,url可能为null
+         * 此接口1.6.0+版本已废弃，请尽快迁移，请使用通用的点击监听接口 IWidgetClickListener
          */
         @Override
         public OnOutsideLinkClickListener buildOutsideLinkListener() {
@@ -180,6 +183,7 @@ public class VideoOsActivity extends BasePlayerActivity {
 
         /**
          * 热点出现监听接口，当视频中出现热点的时候回调用该方法
+         * 此接口1.6.0+版本已废弃，请尽快迁移，此接口已废弃，请使用通用的组件显示接口 IWidgetShowListener
          */
         @Override
         public OnTagShowListener buildTagShowListener() {
@@ -192,7 +196,7 @@ public class VideoOsActivity extends BasePlayerActivity {
         }
 
         /**
-         * 点击监听
+         * 广告点击监听
          * @return
          */
         public IWidgetClickListener<WidgetInfo> buildWidgetClickListener() {
@@ -200,26 +204,81 @@ public class VideoOsActivity extends BasePlayerActivity {
 
                 @Override
                 public void onClick(@Nullable WidgetInfo widgetInfo) {
+                    if (widgetInfo != null) {
+                        WidgetInfo.WidgetType type = widgetInfo.getWidgetType();
+                        String url = widgetInfo.getUrl();
+                        if (TextUtils.isEmpty(url)) {
+                            return;
+                        }
+                        //具体type为区分广告类型。具体广告内容可看枚举注释
+                        switch (type) {
+                            case CLOUND:
+                                //TODO,根据广告类型做不同的逻辑
+                                break;
 
+                            case ADGIFT:
+
+                                break;
+                        }
+                    }
                 }
             };
         }
 
-
+        /**
+         * 广告点击监听
+         * @return
+         */
         public IWidgetShowListener<WidgetInfo> buildWidgetShowListener() {
             return new IWidgetShowListener<WidgetInfo>() {
                 @Override
                 public void onShow(WidgetInfo widgetInfo) {
-                    //展示监听
+                    if (widgetInfo != null) {
+                        WidgetInfo.WidgetType type = widgetInfo.getWidgetType();
+                        String url = widgetInfo.getUrl();
+                        if (TextUtils.isEmpty(url)) {
+                            return;
+                        }
+                        //具体type为区分广告类型。具体广告内容可看枚举注释
+                        switch (type) {
+                            case CLOUND:
+                                //TODO,根据广告类型做不同的逻辑
+                                break;
+
+                            case ADGIFT:
+
+                                break;
+                        }
+                    }
                 }
             };
         }
 
+        /**
+         * 广告关闭监听
+         * @return
+         */
         public IWidgetCloseListener<WidgetInfo> buildWidgetCloseListener() {
             return new IWidgetCloseListener<WidgetInfo>() {
                 @Override
                 public void onClose(WidgetInfo widgetInfo) {
+                    if (widgetInfo != null) {
+                        WidgetInfo.WidgetType type = widgetInfo.getWidgetType();
+                        String url = widgetInfo.getUrl();
+                        if (TextUtils.isEmpty(url)) {
+                            return;
+                        }
+                        //具体type为区分广告类型。具体广告内容可看枚举注释
+                        switch (type) {
+                            case CLOUND:
+                                //TODO,根据广告类型做不同的逻辑
+                                break;
 
+                            case ADGIFT:
+
+                                break;
+                        }
+                    }
                 }
             };
         }

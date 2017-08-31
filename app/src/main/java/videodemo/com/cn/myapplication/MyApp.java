@@ -17,6 +17,11 @@ public class MyApp extends Application {
         VenvyUIUtil.runOnUIThreadDelay(new Runnable() {
             @Override
             public void run() {
+                // VideoType 中标识本次接入业务类型，具体接入请咨询商务同学
+                // VideoType.BOTH 表示接入点播和直播
+                // VideoType.LIVEOS 表示只接入直播
+                // VideoType.VIDEOOS 表示只接入点播
+                // VideoType.OTT 表示只接入OTT
                 VideoPlus.appCreate(MyApp.this, VideoPlus.VideoType.BOTH);
             }
         }, 3000);
