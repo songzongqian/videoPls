@@ -4,22 +4,20 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
-import android.widget.Toast;
 
-import cn.com.live.videopls.venvy.entry.listeners.OnViewClickListener;
-import cn.com.live.videopls.venvy.entry.listeners.WedgeListener;
 import cn.com.venvy.common.bean.WidgetInfo;
 import cn.com.venvy.common.interf.IWidgetClickListener;
 import cn.com.venvy.common.interf.IWidgetCloseListener;
 import cn.com.venvy.common.interf.IWidgetEmptyListener;
 import cn.com.venvy.common.interf.IWidgetShowListener;
+import cn.com.venvy.common.interf.OnViewClickListener;
+import cn.com.venvy.common.interf.WedgeListener;
 import cn.com.venvy.common.utils.VenvyDebug;
 import cn.com.venvy.common.utils.VenvyLog;
 import cn.com.videopls.pub.Provider;
 import cn.com.videopls.pub.VideoPlusAdapter;
 import cn.com.videopls.pub.VideoPlusView;
 import cn.com.videopls.pub.live.VideoLiveView;
-import io.vov.vitamio.utils.Log;
 import videodemo.com.cn.myapplication.weidget.CustomMediaController;
 
 public class LiveOsActivity extends BasePlayerActivity {
@@ -96,20 +94,36 @@ public class LiveOsActivity extends BasePlayerActivity {
          *
          * @return WedgeListener
          */
+        @Override
         public WedgeListener buildWedgeListener() {
             return new WedgeListener() {
                 @Override
                 public void onStart() {
-                    VenvyLog.i("-------中插开始播放--------");
+
                 }
 
                 @Override
                 public void onFinish() {
-                    VenvyLog.i("******中插结束播放******");
+
                 }
 
                 @Override
                 public void onEmpty() {
+
+                }
+
+                @Override
+                public void goBack() {
+
+                }
+
+                @Override
+                public void onResume() {
+
+                }
+
+                @Override
+                public void onPause() {
 
                 }
             };
@@ -133,6 +147,7 @@ public class LiveOsActivity extends BasePlayerActivity {
 
         /**
          * 广告点击监听
+         *
          * @return
          */
         public IWidgetClickListener<WidgetInfo> buildWidgetClickListener() {
@@ -163,6 +178,7 @@ public class LiveOsActivity extends BasePlayerActivity {
 
         /**
          * 广告点击监听
+         *
          * @return
          */
         public IWidgetShowListener<WidgetInfo> buildWidgetShowListener() {
@@ -192,6 +208,7 @@ public class LiveOsActivity extends BasePlayerActivity {
 
         /**
          * 广告关闭监听
+         *
          * @return
          */
         public IWidgetCloseListener<WidgetInfo> buildWidgetCloseListener() {
