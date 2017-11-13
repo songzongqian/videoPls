@@ -1,10 +1,20 @@
-Video++互动层Android SDK对接指南
+Video++互动层Android SDK对接指南(注:此接入方式为aar本地接入)
 
 Video++ 互动层目前支持直播和点播功能的同时集成。其中具体集成直播、点播、或者直播点播融合的版本请先和商务同学确认。
 
 引入SDK到项目的方式非常简单：
 
-  1. 在项目 build.gradle 中complie 'com.videoli:video_pub:1.3.2.0' (版本号只是举例，具体版本请咨询对接技术同学)
+ 1. 在项目 build.gradle 中添加配置aar（注：完整请参考demo）
+    
+    compile(name: 'video_pub-1.7.0.44', ext: 'aar')
+    
+    compile(name: 'venvy_library-1.7.0.44', ext: 'aar')
+    
+    compile(name: 'venvy_live-1.7.0.44', ext: 'aar')
+    
+    compile(name: 'video_os-1.7.0.44', ext: 'aar')
+    
+    (版本号只是举例，具体版本请咨询对接技术同学)
   2. 如果集成点播功能，请参考Demo项目中MainActivity.java 中的调用。
   3. 如果集成直播功能，请参考Demo项目中LiveActivity.java 中的调用。
 
