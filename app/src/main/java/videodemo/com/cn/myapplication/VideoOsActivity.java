@@ -4,24 +4,26 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.KeyEvent;
+import android.widget.TextView;
 
 import cn.com.venvy.common.bean.WidgetInfo;
 import cn.com.venvy.common.interf.IWidgetClickListener;
 import cn.com.venvy.common.interf.IWidgetCloseListener;
 import cn.com.venvy.common.interf.IWidgetShowListener;
 import cn.com.venvy.common.utils.VenvyDebug;
-import cn.com.venvy.common.utils.VenvyLog;
+import cn.com.venvy.common.utils.VenvyUIUtil;
 import cn.com.videopls.pub.Provider;
 import cn.com.videopls.pub.VideoPlusAdapter;
 import cn.com.videopls.pub.VideoPlusView;
 import cn.com.videopls.pub.os.VideoOsView;
 import cn.com.videopls.venvy.listener.IMediaControlListener;
-import cn.com.videopls.venvy.listener.OnCloudWindowShowListener;
-import cn.com.videopls.venvy.listener.OnOutsideLinkClickListener;
-import cn.com.videopls.venvy.listener.OnTagShowListener;
+import videodemo.com.cn.myapplication.base.BasePlayerActivity;
+import videodemo.com.cn.myapplication.bean.SettingsBean;
 
 public class VideoOsActivity extends BasePlayerActivity {
 
+    private SettingsBean mSettingsBean;
+    private boolean enableMQTT = false;
 
     @NonNull
     @Override
@@ -34,17 +36,14 @@ public class VideoOsActivity extends BasePlayerActivity {
     protected VideoPlusAdapter initVideoPlusAdapter() {
         return new MyAdapter();
     }
-    @NonNull
+
     @Override
-    protected String getMediaUrl() {
-        return getVideoPath();
-    }
-    @Override
-    protected void initMediaPlayerController() {
-        super.initMediaPlayerController();
-        //点播不支持竖屏全屏
+    protected void initMediaController() {
+        super.initMediaController();
         mController.isLive(false);
     }
+
+
     /**
      * 申请的Video++ KEY
      *
@@ -57,7 +56,6 @@ public class VideoOsActivity extends BasePlayerActivity {
         return "ryZSzdBWZ";
     }
 
-
     /**
      * Video path或者Video ID
      *
@@ -65,29 +63,30 @@ public class VideoOsActivity extends BasePlayerActivity {
      */
     private String getVideoPath() {
         if (VenvyDebug.getInstance().isDebug()) {
-            //return "http://7xr5j6.com1.z0.glb.clouddn.com/hunantv0129.mp4?v=1102";
             return "http://sdkcdn.videojj.com/flash/player/video/1.mp4?v=5";
         }
         return "http://sdkcdn.videojj.com/flash/player/video/1.mp4?v=5";
     }
 
-
     private class MyAdapter extends VideoPlusAdapter {
 
         @Override
         public Provider createProvider() {
-
-            return new Provider.Builder()
+            final int width = VenvyUIUtil.getScreenWidth(VideoOsActivity.this);
+            final int height = VenvyUIUtil.getScreenHeight(VideoOsActivity.this);
+            Provider provider = new Provider.Builder()
                     .setAppKey(getAppKey())//appkey
-                    .setHorVideoHeight(Math.min(mScreenWidth, mScreenHeight))//横屏视频的高
-                    .setHorVideoWidth(Math.max(mScreenWidth, mScreenHeight))//横屏视频的宽
-                    .setVerVideoWidth(Math.min(mScreenWidth, mScreenHeight))//small视频小屏视频的宽
+                    .setHorVideoHeight(Math.min(width, height))//横屏视频的高
+                    .setHorVideoWidth(Math.max(width, height))//横屏视频的宽
+                    .setVerVideoWidth(Math.min(width, height))//small视频小屏视频的宽
                     .setVerVideoHeight(mWidowPlayerHeight)//small 视频小屏视频的高
                     .setVideoPath(getVideoPath())//视频地址
-                    .setVideoType(VideoType.LOCAL_VIDEO)// 视频类型
-                    .setVideoTitle("ttt")// 视频标题
+                    .setVideoType(3)//
+                    .setVideoTitle("ttt")//
                     .build();
+            return provider;
         }
+
         /**
          * 点播视频控制监听接口，该接口必须提供，否则点播业务无法正常工作
          * 此接口是控制播放器行为
@@ -95,108 +94,46 @@ public class VideoOsActivity extends BasePlayerActivity {
         @Override
         public IMediaControlListener buildMediaController() {
             return new IMediaControlListener() {
-
-                /**
-                 * 开始播放
-                 */
                 @Override
                 public void start() {
-                    startPlay();
+
                 }
 
-                /**
-                 * 暂停播放
-                 */
                 @Override
                 public void pause() {
-                    pausePlay();
+
                 }
 
-                /**
-                 * 继续播放
-                 */
                 @Override
                 public void restart() {
-                    startPlay();
+
                 }
 
-                /**
-                 * 拖动
-                 * position 指拖动到视频哪个位置，单位为毫秒
-                 */
                 @Override
                 public void seekTo(long position) {
-                    VideoOsActivity.this.seekTo(position);
+
                 }
 
-                /**
-                 * 停止播放
-                 */
                 @Override
                 public void stop() {
-                    stopPlay();
+
                 }
 
-                /**
-                 * 获取播放器当前播放时间，单位ms
-                 */
                 @Override
                 public long getCurrentPosition() {
-                    return getPlayerPosition();
+                    if (mCustomVideoView != null) {
+                        return mCustomVideoView.getMediaPlayerCurrentPosition();
+                    } else {
+                        return -1;
+                    }
                 }
             };
         }
 
-        /**
-         * 云窗显示回调接口
-         * 此接口1.6.0+版本已废弃，请尽快迁移，请使用通用的组件显示接口 IWidgetShowListener
-         */
-        @Override
-        public OnCloudWindowShowListener buildCloudWindowShowListener() {
-            return new OnCloudWindowShowListener() {
-                @Override
-                public void onCloudWindowShow() {
-                    VenvyLog.e("==========333云窗显示======");
-                }
-            };
-        }
-
-        /**
-         * 用来监听页面元素的点击事件,当点击图片，图文链接等元素时会回调此方法，获取对应页面元素的
-         * 跳转url,url可能为null
-         * 此接口1.6.0+版本已废弃，请尽快迁移，请使用通用的点击监听接口 IWidgetClickListener
-         */
-        @Override
-        public OnOutsideLinkClickListener buildOutsideLinkListener() {
-            return new OnOutsideLinkClickListener() {
-                @Override
-                public void onLinkShow(String mUrl) {
-                    VenvyLog.e("==========333外链显示======");
-                }
-
-                @Override
-                public void onLinkClose() {
-                    VenvyLog.e("==========333外链关闭======");
-                }
-            };
-        }
-
-        /**
-         * 热点出现监听接口，当视频中出现热点的时候回调用该方法
-         * 此接口1.6.0+版本已废弃，请尽快迁移，此接口已废弃，请使用通用的组件显示接口 IWidgetShowListener
-         */
-        @Override
-        public OnTagShowListener buildTagShowListener() {
-            return new OnTagShowListener() {
-                @Override
-                public void onTagShow() {
-                    VenvyLog.e("==========333热点显示======");
-                }
-            };
-        }
 
         /**
          * 广告点击监听
+         *
          * @return
          */
         public IWidgetClickListener<WidgetInfo> buildWidgetClickListener() {
@@ -227,6 +164,7 @@ public class VideoOsActivity extends BasePlayerActivity {
 
         /**
          * 广告点击监听
+         *
          * @return
          */
         public IWidgetShowListener<WidgetInfo> buildWidgetShowListener() {
@@ -256,6 +194,7 @@ public class VideoOsActivity extends BasePlayerActivity {
 
         /**
          * 广告关闭监听
+         *
          * @return
          */
         public IWidgetCloseListener<WidgetInfo> buildWidgetCloseListener() {
@@ -323,4 +262,42 @@ public class VideoOsActivity extends BasePlayerActivity {
         super.onDestroy();
         //注意父类中的调用
     }
+
+    @Override
+    protected void initSettingsValue() {
+        mSettingsBean = new SettingsBean();
+        mSettingsBean.mAppkey = getAppKey();
+        mSettingsBean.mUrl = getVideoPath();
+    }
+
+    private void updateAdapter() {
+        final int width = VenvyUIUtil.getScreenWidth(VideoOsActivity.this);
+        final int height = VenvyUIUtil.getScreenHeight(VideoOsActivity.this);
+        Provider provider = new Provider.Builder()
+                .setAppKey(mSettingsBean.mAppkey)//appkey
+                .setHorVideoHeight(Math.min(width, height))//横屏视频的高
+                .setHorVideoWidth(Math.max(width, height))//横屏视频的宽
+                .setVerVideoWidth(Math.min(width, height))//small视频小屏视频的宽
+                .setVerVideoHeight(mWidowPlayerHeight)//small 视频小屏视频的高
+                .setVideoPath(mSettingsBean.mUrl)//视频地址
+                .setVideoType(3)//
+                .setVideoTitle("ttt")//
+                .build();
+        mCustomVideoView.mediaPlayerSeekTo(0);
+        getAdapter().updateProvider(provider);
+        videoPlusView.destroy();
+        videoPlusView.start();
+    }
+
+    private void setMQTT(boolean isChecked, TextView textView) {
+        if (isChecked) {
+            textView.setText("关闭MQTT");
+            enableMQTT = false;
+        } else {
+            textView.setText("打开MQTT");
+            enableMQTT = true;
+        }
+    }
+
+
 }

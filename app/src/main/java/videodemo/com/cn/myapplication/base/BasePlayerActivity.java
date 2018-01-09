@@ -1,36 +1,33 @@
-package videodemo.com.cn.myapplication;
+package videodemo.com.cn.myapplication.base;
 
 import android.app.Activity;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.annotation.NonNull;
+import android.view.MotionEvent;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 
-import java.io.File;
-
 import both.video.venvy.com.appdemo.R;
 import cn.com.venvy.common.utils.VenvyUIUtil;
 import cn.com.videopls.pub.VideoPlusAdapter;
 import cn.com.videopls.pub.VideoPlusView;
-import videodemo.com.cn.myapplication.weidget.CustomMediaController;
 import videodemo.com.cn.myapplication.weidget.CustomVideoView;
+import videodemo.com.cn.myapplication.weidget.VideoControllerView;
 
-/**
- * 模拟播放器播放视频功能
- */
-public abstract class BasePlayerActivity extends Activity implements CustomMediaController.OnMediaScreenChangedListener {
+public abstract class BasePlayerActivity extends Activity implements VideoControllerView.OnMediaScreenChangedListener {
 
     protected VideoPlusAdapter mVideoPlusAdapter;
+    protected VideoPlusView videoPlusView;
     protected int mScreenWidth;
     protected int mScreenHeight;
     protected int mWidowPlayerHeight;
-    protected FrameLayout mContentView;
-    private CustomVideoView mVideoView;
-    protected CustomMediaController mController;
-    protected VideoPlusView videoPlusView;
+    protected FrameLayout mRootView;
+    protected VideoControllerView mController;
+    protected CustomVideoView mCustomVideoView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,15 +36,23 @@ public abstract class BasePlayerActivity extends Activity implements CustomMedia
         // 隐藏状态栏
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        //定义全屏参数
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        mContentView = (FrameLayout) findViewById(R.id.root_view);
+        initSettingsValue();
+        setContentView(R.layout.activity_base_player);
         mScreenWidth = VenvyUIUtil.getScreenWidth(this);
         mScreenHeight = VenvyUIUtil.getScreenHeight(this);
         mWidowPlayerHeight = VenvyUIUtil.dip2px(this, 195);
-        mVideoView = (CustomVideoView) findViewById(R.id.video_view);
-        initMediaPlayerController();
+        mRootView = (FrameLayout) findViewById(R.id.root);
+
+        mCustomVideoView = new CustomVideoView(this);
+        mRootView.addView(mCustomVideoView);
+
+        if (this.getRequestedOrientation() == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) {
+            rebuildSize(Math.max(mScreenWidth, mScreenHeight), Math.min(mScreenWidth, mScreenHeight));
+            mCustomVideoView.rebuildSize(Math.max(mScreenWidth, mScreenHeight), Math.min(mScreenWidth, mScreenHeight));
+
+        }
+        initMediaController();
 
         //Video++实例化
         videoPlusView = initVideoPlusView();
@@ -59,15 +64,6 @@ public abstract class BasePlayerActivity extends Activity implements CustomMedia
         videoPlusView.start();
     }
 
-    /**
-     * 播放器控制，对接时忽略
-     */
-    protected void initMediaPlayerController() {
-        mController = new CustomMediaController(this, true, getContentView());
-        mController.setMediaScreenChangedListener(this);
-        mVideoView.setMediaController(mController);
-    }
-
 
     @NonNull
     protected abstract VideoPlusView initVideoPlusView();
@@ -75,30 +71,12 @@ public abstract class BasePlayerActivity extends Activity implements CustomMedia
     @NonNull
     protected abstract VideoPlusAdapter initVideoPlusAdapter();
 
-    @NonNull
-    protected String getMediaUrl() {
-        return getSDPath() + "/download/0502.mp4";
-    }
-
-
-    protected VideoPlusAdapter getAdapter() {
-        return mVideoPlusAdapter;
-    }
-
-    protected FrameLayout getContentView() {
-        return mContentView;
-    }
-
 
     @Override
     protected void onResume() {
         super.onResume();
         //Video++调用
         mVideoPlusAdapter.onResume();
-
-        //开始播放视频，对接忽略
-        String url = getMediaUrl();
-        mVideoView.setVideoPath(url);
     }
 
     @Override
@@ -128,8 +106,6 @@ public abstract class BasePlayerActivity extends Activity implements CustomMedia
         //Video++调用
         mVideoPlusAdapter.onStop();
         videoPlusView.stop();
-        //播放器暂停，对接忽略
-        mVideoView.pause();
         super.onStop();
     }
 
@@ -140,65 +116,43 @@ public abstract class BasePlayerActivity extends Activity implements CustomMedia
         videoPlusView.destroy();
 
         //播放控制器销毁，对接忽略
-        mController.onDestory();
+        if (mCustomVideoView != null) {
+            mCustomVideoView.stopPlaying();
+        }
         super.onDestroy();
     }
 
-    public void startPlay() {
-        //Video++主动调用，开始播放
-        mVideoView.start();
+    protected FrameLayout getContentView() {
+        return mRootView;
     }
 
-    public void pausePlay() {
-        //Video++主动调用，暂停播放器
-        mVideoView.pause();
+    protected void initMediaController() {
+        mController = new VideoControllerView(this, this);
+        mController.setMediaScreenChangedListener(this);
+        mCustomVideoView.setMediaController(mController);
     }
 
-    public void stopPlay() {
-        //Video++主动调用，停止播放器
-        mVideoView.stopPlayback();
-    }
-
-    public long getPlayerPosition() {
-        //Video++主动调用，获取播放器播放时间
-        return mVideoView.getCurrentPosition();
-    }
-
-    public void seekTo(long position) {
-        //Video++主动调用，快进播放器
-        mVideoView.seekTo(position);
-    }
-
-    /**
-     * 对接忽略
-     */
-    protected String getSDPath() {
-        File sdDir = null;
-        boolean sdCardExist = Environment.getExternalStorageState()
-                .equals(android.os.Environment.MEDIA_MOUNTED); //判断sd卡是否存在
-        if (sdCardExist) {
-            sdDir = Environment.getExternalStorageDirectory();//获取跟目录
-        }
-        return sdDir == null ? "" : sdDir.toString();
+    protected VideoPlusAdapter getAdapter() {
+        return mVideoPlusAdapter;
     }
 
     /**
      * 模拟屏幕切换
      */
     @Override
-    public void screenChanged(CustomMediaController.Screen screen) {
+    public void screenChanged(VideoControllerView.Screen screen) {
         switch (screen) {
             case PORTRAIT:
                 rebuildSize(Math.min(mScreenWidth, mScreenHeight), mWidowPlayerHeight);
-                mVideoView.rebuildSize(Math.min(mScreenWidth, mScreenHeight), mWidowPlayerHeight);
+                mCustomVideoView.rebuildSize(Math.min(mScreenWidth, mScreenHeight), mWidowPlayerHeight);
                 break;
             case PORTRAIT_FULL:
                 rebuildSize(Math.min(mScreenWidth, mScreenHeight), Math.max(mScreenWidth, mScreenHeight));
-                mVideoView.rebuildSize(Math.min(mScreenWidth, mScreenHeight), Math.max(mScreenWidth, mScreenHeight));
+                mCustomVideoView.rebuildSize(Math.min(mScreenWidth, mScreenHeight), mWidowPlayerHeight);
                 break;
             case LAND_SCAPE:
                 rebuildSize(Math.max(mScreenWidth, mScreenHeight), Math.min(mScreenWidth, mScreenHeight));
-                mVideoView.rebuildSize(Math.max(mScreenWidth, mScreenHeight), Math.min(mScreenWidth, mScreenHeight));
+                mCustomVideoView.rebuildSize(Math.max(mScreenWidth, mScreenHeight), Math.min(mScreenWidth, mScreenHeight));
                 break;
         }
     }
@@ -208,5 +162,14 @@ public abstract class BasePlayerActivity extends Activity implements CustomMedia
         lp.width = width;
         lp.height = height;
         getContentView().setLayoutParams(lp);
+    }
+
+    protected void initSettingsValue() {
+
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        return false;
     }
 }

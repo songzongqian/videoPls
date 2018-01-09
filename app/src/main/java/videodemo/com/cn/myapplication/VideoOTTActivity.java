@@ -3,60 +3,131 @@ package videodemo.com.cn.myapplication;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 
 import cn.com.venvy.common.bean.WidgetInfo;
-
 import cn.com.venvy.common.interf.IWidgetClickListener;
 import cn.com.venvy.common.interf.IWidgetCloseListener;
-import cn.com.venvy.common.interf.IWidgetEmptyListener;
 import cn.com.venvy.common.interf.IWidgetShowListener;
+import cn.com.venvy.common.utils.VenvyDebug;
+import cn.com.venvy.common.utils.VenvyUIUtil;
 import cn.com.videopls.pub.Provider;
 import cn.com.videopls.pub.VideoPlusAdapter;
+import cn.com.videopls.pub.VideoPlusView;
+import cn.com.videopls.pub.ott.VideoOTTView;
+import cn.com.videopls.venvy.listener.IMediaControlListener;
+import videodemo.com.cn.myapplication.base.BasePlayerActivity;
+import videodemo.com.cn.myapplication.bean.SettingsBean;
 
-public class LiveOsActivity extends LiveBaseActivity {
+public class VideoOTTActivity extends BasePlayerActivity {
+
+    private SettingsBean mSettingsBean;
+
+    @NonNull
+    @Override
+    protected VideoPlusView initVideoPlusView() {
+        return new VideoOTTView(this);
+    }
 
     @NonNull
     @Override
     protected VideoPlusAdapter initVideoPlusAdapter() {
-        return new LiveAdapter();
+        return new MyAdapter();
     }
 
-    //竖屏小屏adapter
-    private class LiveAdapter extends VideoPlusAdapter {
+    @Override
+    protected void initMediaController() {
+        super.initMediaController();
+        mController.isLive(false);
+    }
+
+
+    /**
+     * 申请的Video++ KEY
+     *
+     * @return
+     */
+    private String getAppKey() {
+        if (VenvyDebug.getInstance().isDebug()) {
+            return "Hk_MWKOEW";
+        }
+        return "Hk_MWKOEW";
+    }
+
+    /**
+     * Video path或者Video ID
+     *
+     * @return
+     */
+    private String getVideoPath() {
+        if (VenvyDebug.getInstance().isDebug()) {
+            return "http://7xr4xn.media1.z0.glb.clouddn.com/snh48sxhsy.mp4?v=0";
+        }
+        return "http://sdkcdn.videojj.com/flash/player/video/1.mp4?v=5";
+    }
+
+    private class MyAdapter extends VideoPlusAdapter {
 
         @Override
         public Provider createProvider() {
-
-            return new Provider.Builder()
-                    .setUserId(mSettingsBean.mRoomId)//roomId 或者userId
-                    .setPlatformId(mSettingsBean.mPlatformId)//videojj直播后台平台Id
-                    .setHorVideoWidth(Math.max(mScreenWidth, mScreenHeight))//横屏视频的宽
-                    .setHorVideoHeight(Math.min(mScreenWidth, mScreenHeight))//横屏视频的高
-                    .setVerticalFullVideoWidth(Math.min(mScreenWidth, mScreenHeight))//竖屏全屏视频的宽
-                    .setVerticalFullVideoHeight(Math.max(mScreenWidth, mScreenHeight))//竖屏全屏视屏的高
-                    .setVerVideoWidth(Math.min(mScreenWidth, mScreenHeight))//small视频小屏视频的宽
+            final int width = VenvyUIUtil.getScreenWidth(VideoOTTActivity.this);
+            final int height = VenvyUIUtil.getScreenHeight(VideoOTTActivity.this);
+            Provider provider = new Provider.Builder()
+                    .setAppKey(getAppKey())//appkey
+                    .setHorVideoHeight(Math.min(width, height))//横屏视频的高
+                    .setHorVideoWidth(Math.max(width, height))//横屏视频的宽
+                    .setVerVideoWidth(Math.min(width, height))//small视频小屏视频的宽
                     .setVerVideoHeight(mWidowPlayerHeight)//small 视频小屏视频的高
-                    .setVerticalType(0)//1 竖屏小屏，0竖屏全屏
-                    .setDirection(2) //2横竖屏，0竖屏，1是横屏
+                    .setVideoPath(getVideoPath())//视频地址
+                    .setVideoType(3)//
+                    .setVideoTitle("ttt")//
                     .build();
+            return provider;
         }
 
-//        /**
-//         * buildLoginInterface : 设置分区信息, 用户登录信息
-//         *
-//         * @return
-//         */
-//        @Override
-//        public IPlatformLoginInterface buildLoginInterface() {
-//            return new PlatFormUserInfoImpl() {
-//                @Override
-//                public PlatformUserInfo getLoginUser() {
-//                    PlatformUserInfo userInfo = new PlatformUserInfo();
-//                    userInfo.cate = mSettingsBean.mCate;
-//                    return userInfo;
-//                }
-//            };
-//        }
+        /**
+         * 点播视频控制监听接口，该接口必须提供，否则点播业务无法正常工作
+         * 此接口是控制播放器行为
+         */
+        @Override
+        public IMediaControlListener buildMediaController() {
+            return new IMediaControlListener() {
+                @Override
+                public void start() {
+
+                }
+
+                @Override
+                public void pause() {
+
+                }
+
+                @Override
+                public void restart() {
+
+                }
+
+                @Override
+                public void seekTo(long position) {
+
+                }
+
+                @Override
+                public void stop() {
+
+                }
+
+                @Override
+                public long getCurrentPosition() {
+                    if (mCustomVideoView != null) {
+                        return mCustomVideoView.getMediaPlayerCurrentPosition();
+                    } else {
+                        return -1;
+                    }
+                }
+            };
+        }
+
 
         /**
          * 广告点击监听
@@ -90,7 +161,7 @@ public class LiveOsActivity extends LiveBaseActivity {
         }
 
         /**
-         * 广告展示监听
+         * 广告点击监听
          *
          * @return
          */
@@ -149,20 +220,15 @@ public class LiveOsActivity extends LiveBaseActivity {
             };
         }
 
-        /**
-         * 进入直播间没有互动广告时回调
-         * 直播专用，点播业务不生效
-         */
+    }
 
-        @Override
-        public IWidgetEmptyListener buildWidgetEmptyListener() {
-            return new IWidgetEmptyListener() {
-                @Override
-                public void onEmpty() {
-
-                }
-            };
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            this.finish();
+            return true;
         }
+        return super.onKeyDown(keyCode, event);
     }
 
     @Override
@@ -174,6 +240,7 @@ public class LiveOsActivity extends LiveBaseActivity {
     @Override
     protected void onRestart() {
         super.onRestart();
+        //注意父类中的调用
     }
 
     @Override
@@ -193,4 +260,12 @@ public class LiveOsActivity extends LiveBaseActivity {
         super.onDestroy();
         //注意父类中的调用
     }
+
+    @Override
+    protected void initSettingsValue() {
+        mSettingsBean = new SettingsBean();
+        mSettingsBean.mAppkey = getAppKey();
+        mSettingsBean.mUrl = getVideoPath();
+    }
+
 }
