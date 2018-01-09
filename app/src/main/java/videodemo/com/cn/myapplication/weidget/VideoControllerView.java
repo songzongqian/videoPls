@@ -628,4 +628,8 @@ public class VideoControllerView extends FrameLayout {
         LAND_SCAPE
     }
 
+    public void onDestory() {
+        mHandler.removeCallbacksAndMessages(null);
+    }
+
 }

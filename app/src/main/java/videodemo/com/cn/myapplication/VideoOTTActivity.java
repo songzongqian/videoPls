@@ -104,12 +104,12 @@ public class VideoOTTActivity extends BasePlayerActivity {
 
                 @Override
                 public void restart() {
-
+                    startPlay();
                 }
 
                 @Override
                 public void seekTo(long position) {
-                    seekTo(position);
+                    playerSeekTo(position);
                 }
 
                 @Override
@@ -123,7 +123,6 @@ public class VideoOTTActivity extends BasePlayerActivity {
                 }
             };
         }
-
 
         /**
          * 广告点击监听

@@ -106,6 +106,11 @@ public abstract class BasePlayerActivity extends Activity implements VideoContro
         //Video++调用
         mVideoPlusAdapter.onStop();
         videoPlusView.stop();
+
+        //播放器销毁，对接忽略
+        if(mCustomVideoView != null){
+            mCustomVideoView.stopPlaying();
+        }
         super.onStop();
     }
 
@@ -116,8 +121,8 @@ public abstract class BasePlayerActivity extends Activity implements VideoContro
         videoPlusView.destroy();
 
         //播放控制器销毁，对接忽略
-        if (mCustomVideoView != null) {
-            mCustomVideoView.stopPlaying();
+        if (mController != null) {
+            mController.onDestory();
         }
         super.onDestroy();
     }
@@ -194,7 +199,7 @@ public abstract class BasePlayerActivity extends Activity implements VideoContro
         return mCustomVideoView.getMediaPlayerCurrentPosition();
     }
 
-    public void seekTo(long position) {
+    public void playerSeekTo(long position) {
         //Video++主动调用，快进播放器
         mCustomVideoView.mediaPlayerSeekTo((int) position);
     }

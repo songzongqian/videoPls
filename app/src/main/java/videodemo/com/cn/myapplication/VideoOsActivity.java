@@ -105,12 +105,12 @@ public class VideoOsActivity extends BasePlayerActivity {
 
                 @Override
                 public void restart() {
-
+                    startPlay();
                 }
 
                 @Override
                 public void seekTo(long position) {
-                    seekTo(position);
+                    playerSeekTo(position);
                 }
 
                 @Override
