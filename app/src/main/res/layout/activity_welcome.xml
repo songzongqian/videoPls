@@ -36,6 +36,25 @@
         android:text="直播"/>
 
     <Button
+        android:id="@+id/mall"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="10dp"
+        android:text="子商城" />
+
+    <Button
+        android:id="@+id/myoder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="10dp"
+        android:text="我的订单" />
+    <Button
         android:id="@+id/ott"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

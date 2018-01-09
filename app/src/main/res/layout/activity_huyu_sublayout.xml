@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <TextView
+        android:gravity="center"
+        android:background="@drawable/huyu_config_bg"
+        android:textColor="#ffffff"
+        android:text="随性互动管理"
+        android:id="@+id/pre_config"
+        android:layout_width="120dp"
+        android:layout_height="30dp"/>
+
+    <TextView
+        android:gravity="center"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/huyu_config_bg"
+        android:textColor="#ffffff"
+        android:layout_below="@+id/pre_config"
+        android:id="@+id/btn_huyu"
+        android:text="互娱"
+        android:layout_width="60dp"
+        android:layout_height="30dp"/>
+</LinearLayout>

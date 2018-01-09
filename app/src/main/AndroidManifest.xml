@@ -39,6 +39,16 @@
             android:name="videodemo.com.cn.myapplication.LiveOsActivity"
             android:configChanges="orientation|screenSize|smallestScreenSize|keyboard|keyboardHidden|navigation"
             android:screenOrientation="portrait" />
+
+        <activity
+            android:name="videodemo.com.cn.myapplication.MallOsActivity"
+            android:configChanges="orientation|screenSize|smallestScreenSize|keyboard|keyboardHidden|navigation"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name="videodemo.com.cn.myapplication.MyOrderAcitvity"
+            android:configChanges="orientation|screenSize|smallestScreenSize|keyboard|keyboardHidden|navigation"
+            android:screenOrientation="portrait" />
         <activity
             android:name="videodemo.com.cn.myapplication.VideoOTTActivity"
             android:configChanges="orientation|screenSize|smallestScreenSize|keyboard|keyboardHidden|navigation"

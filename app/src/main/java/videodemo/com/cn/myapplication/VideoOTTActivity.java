@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import android.view.KeyEvent;
 
 import cn.com.venvy.common.bean.WidgetInfo;
+import cn.com.venvy.common.interf.IMediaControlListener;
 import cn.com.venvy.common.interf.IWidgetClickListener;
 import cn.com.venvy.common.interf.IWidgetCloseListener;
 import cn.com.venvy.common.interf.IWidgetShowListener;
@@ -15,7 +16,6 @@ import cn.com.videopls.pub.Provider;
 import cn.com.videopls.pub.VideoPlusAdapter;
 import cn.com.videopls.pub.VideoPlusView;
 import cn.com.videopls.pub.ott.VideoOTTView;
-import cn.com.videopls.venvy.listener.IMediaControlListener;
 import videodemo.com.cn.myapplication.base.BasePlayerActivity;
 import videodemo.com.cn.myapplication.bean.SettingsBean;
 
@@ -48,7 +48,7 @@ public class VideoOTTActivity extends BasePlayerActivity {
      * @return
      */
     private String getAppKey() {
-        if (VenvyDebug.getInstance().isDebug()) {
+        if (VenvyDebug.isDebug()) {
             return "Hk_MWKOEW";
         }
         return "Hk_MWKOEW";
@@ -60,7 +60,7 @@ public class VideoOTTActivity extends BasePlayerActivity {
      * @return
      */
     private String getVideoPath() {
-        if (VenvyDebug.getInstance().isDebug()) {
+        if (VenvyDebug.isDebug()) {
             return "http://7xr4xn.media1.z0.glb.clouddn.com/snh48sxhsy.mp4?v=0";
         }
         return "http://sdkcdn.videojj.com/flash/player/video/1.mp4?v=5";

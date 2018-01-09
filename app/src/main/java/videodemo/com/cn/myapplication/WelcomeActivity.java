@@ -16,7 +16,7 @@ import both.video.venvy.com.appdemo.R;
 public class WelcomeActivity extends Activity implements View.OnClickListener {
 
     private ImageView mImageDianbo, mImageLive;
-    private Button mOttButton;
+    private Button mOttButton, mMallBtn, mMyOderBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,12 +35,16 @@ public class WelcomeActivity extends Activity implements View.OnClickListener {
         mImageDianbo = (ImageView) findViewById(R.id.btn_dianbo);
         mImageLive = (ImageView) findViewById(R.id.btn_live);
         mOttButton = (Button) findViewById(R.id.ott);
+        mMallBtn = (Button) findViewById(R.id.mall);
+        mMyOderBtn = (Button) findViewById(R.id.myoder);
     }
 
     private void initListerner() {
         mImageDianbo.setOnClickListener(this);
         mImageLive.setOnClickListener(this);
         mOttButton.setOnClickListener(this);
+        mMallBtn.setOnClickListener(this);
+        mMyOderBtn.setOnClickListener(this);
     }
 
     @Override
@@ -54,6 +58,12 @@ public class WelcomeActivity extends Activity implements View.OnClickListener {
                 break;
             case R.id.ott:
                 goOTTActivity();
+                break;
+            case R.id.mall:
+               goMallActivity();
+                break;
+            case R.id.myoder:
+                goOrderActivity();
                 break;
             default:
                 break;
@@ -79,6 +89,16 @@ public class WelcomeActivity extends Activity implements View.OnClickListener {
 
     private void goLiveActivity() {
         final Intent intent = new Intent(WelcomeActivity.this, LiveOsActivity.class);
+        startActivity(intent);
+    }
+
+    private void goMallActivity() {
+        final Intent intent = new Intent(WelcomeActivity.this, MallOsActivity.class);
+        startActivity(intent);
+    }
+
+    private void goOrderActivity() {
+        final Intent intent = new Intent(WelcomeActivity.this, MyOrderAcitvity.class);
         startActivity(intent);
     }
 }

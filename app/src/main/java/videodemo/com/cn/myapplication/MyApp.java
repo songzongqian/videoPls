@@ -2,6 +2,7 @@ package videodemo.com.cn.myapplication;
 
 import android.app.Application;
 
+import cn.com.venvy.common.utils.VenvyDebug;
 import cn.com.venvy.common.utils.VenvyUIUtil;
 import cn.com.videopls.pub.VideoPlus;
 
@@ -14,6 +15,7 @@ public class MyApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        VenvyDebug.changeEnvironmentStatus(VenvyDebug.EnvironmentStatus.RELEASE);
         VenvyUIUtil.runOnUIThreadDelay(new Runnable() {
             @Override
             public void run() {
@@ -22,7 +24,8 @@ public class MyApp extends Application {
                 // VideoType.LIVEOS 表示只接入直播
                 // VideoType.VIDEOOS 表示只接入点播
                 // VideoType.OTT 表示只接入OTT
-                VideoPlus.appCreate(MyApp.this, VideoPlus.VideoType.BOTH);
+                // VideoType.MALL 表示只接入子商城
+                VideoPlus.appCreate(MyApp.this, VideoPlus.VideoType.BOTH, VideoPlus.VideoType.MALL);
             }
         }, 3000);
     }

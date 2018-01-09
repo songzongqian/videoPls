@@ -4,9 +4,9 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.KeyEvent;
-import android.widget.TextView;
 
 import cn.com.venvy.common.bean.WidgetInfo;
+import cn.com.venvy.common.interf.IMediaControlListener;
 import cn.com.venvy.common.interf.IWidgetClickListener;
 import cn.com.venvy.common.interf.IWidgetCloseListener;
 import cn.com.venvy.common.interf.IWidgetShowListener;
@@ -16,7 +16,6 @@ import cn.com.videopls.pub.Provider;
 import cn.com.videopls.pub.VideoPlusAdapter;
 import cn.com.videopls.pub.VideoPlusView;
 import cn.com.videopls.pub.os.VideoOsView;
-import cn.com.videopls.venvy.listener.IMediaControlListener;
 import videodemo.com.cn.myapplication.base.BasePlayerActivity;
 import videodemo.com.cn.myapplication.bean.SettingsBean;
 
@@ -49,7 +48,7 @@ public class VideoOsActivity extends BasePlayerActivity {
      * @return
      */
     private String getAppKey() {
-        if (VenvyDebug.getInstance().isDebug()) {
+        if (VenvyDebug.isDebug()) {
             return "ryKc0El-Z";
         }
         return "ryZSzdBWZ";
@@ -61,7 +60,7 @@ public class VideoOsActivity extends BasePlayerActivity {
      * @return
      */
     private String getVideoPath() {
-        if (VenvyDebug.getInstance().isDebug()) {
+        if (VenvyDebug.isDebug()) {
             return "http://sdkcdn.videojj.com/flash/player/video/1.mp4?v=5";
         }
         return "http://sdkcdn.videojj.com/flash/player/video/1.mp4?v=5";
