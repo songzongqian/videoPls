@@ -94,12 +94,12 @@ public class VideoOTTActivity extends BasePlayerActivity {
             return new IMediaControlListener() {
                 @Override
                 public void start() {
-
+                    startPlay();
                 }
 
                 @Override
                 public void pause() {
-
+                    pausePlay();
                 }
 
                 @Override
@@ -109,21 +109,17 @@ public class VideoOTTActivity extends BasePlayerActivity {
 
                 @Override
                 public void seekTo(long position) {
-
+                    seekTo(position);
                 }
 
                 @Override
                 public void stop() {
-
+                    stopPlay();
                 }
 
                 @Override
                 public long getCurrentPosition() {
-                    if (mCustomVideoView != null) {
-                        return mCustomVideoView.getMediaPlayerCurrentPosition();
-                    } else {
-                        return -1;
-                    }
+                    return getPlayerPosition();
                 }
             };
         }

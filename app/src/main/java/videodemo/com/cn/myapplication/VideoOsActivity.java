@@ -23,7 +23,6 @@ import videodemo.com.cn.myapplication.bean.SettingsBean;
 public class VideoOsActivity extends BasePlayerActivity {
 
     private SettingsBean mSettingsBean;
-    private boolean enableMQTT = false;
 
     @NonNull
     @Override
@@ -96,12 +95,12 @@ public class VideoOsActivity extends BasePlayerActivity {
             return new IMediaControlListener() {
                 @Override
                 public void start() {
-
+                    startPlay();
                 }
 
                 @Override
                 public void pause() {
-
+                    pausePlay();
                 }
 
                 @Override
@@ -111,21 +110,17 @@ public class VideoOsActivity extends BasePlayerActivity {
 
                 @Override
                 public void seekTo(long position) {
-
+                    seekTo(position);
                 }
 
                 @Override
                 public void stop() {
-
+                    stopPlay();
                 }
 
                 @Override
                 public long getCurrentPosition() {
-                    if (mCustomVideoView != null) {
-                        return mCustomVideoView.getMediaPlayerCurrentPosition();
-                    } else {
-                        return -1;
-                    }
+                    return getPlayerPosition();
                 }
             };
         }
@@ -269,35 +264,5 @@ public class VideoOsActivity extends BasePlayerActivity {
         mSettingsBean.mAppkey = getAppKey();
         mSettingsBean.mUrl = getVideoPath();
     }
-
-    private void updateAdapter() {
-        final int width = VenvyUIUtil.getScreenWidth(VideoOsActivity.this);
-        final int height = VenvyUIUtil.getScreenHeight(VideoOsActivity.this);
-        Provider provider = new Provider.Builder()
-                .setAppKey(mSettingsBean.mAppkey)//appkey
-                .setHorVideoHeight(Math.min(width, height))//横屏视频的高
-                .setHorVideoWidth(Math.max(width, height))//横屏视频的宽
-                .setVerVideoWidth(Math.min(width, height))//small视频小屏视频的宽
-                .setVerVideoHeight(mWidowPlayerHeight)//small 视频小屏视频的高
-                .setVideoPath(mSettingsBean.mUrl)//视频地址
-                .setVideoType(3)//
-                .setVideoTitle("ttt")//
-                .build();
-        mCustomVideoView.mediaPlayerSeekTo(0);
-        getAdapter().updateProvider(provider);
-        videoPlusView.destroy();
-        videoPlusView.start();
-    }
-
-    private void setMQTT(boolean isChecked, TextView textView) {
-        if (isChecked) {
-            textView.setText("关闭MQTT");
-            enableMQTT = false;
-        } else {
-            textView.setText("打开MQTT");
-            enableMQTT = true;
-        }
-    }
-
 
 }

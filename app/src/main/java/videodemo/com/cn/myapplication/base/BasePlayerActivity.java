@@ -172,4 +172,30 @@ public abstract class BasePlayerActivity extends Activity implements VideoContro
     public boolean onTouchEvent(MotionEvent event) {
         return false;
     }
+
+
+    public void startPlay() {
+        //Video++主动调用，开始播放
+        mCustomVideoView.mediaPlayerStart();
+    }
+
+    public void pausePlay() {
+        //Video++主动调用，暂停播放器
+        mCustomVideoView.mediaPlayerPause();
+    }
+
+    public void stopPlay() {
+        //Video++主动调用，停止播放器
+        mCustomVideoView.mediaPlayerPause();
+    }
+
+    public long getPlayerPosition() {
+        //Video++主动调用，获取播放器播放时间
+        return mCustomVideoView.getMediaPlayerCurrentPosition();
+    }
+
+    public void seekTo(long position) {
+        //Video++主动调用，快进播放器
+        mCustomVideoView.mediaPlayerSeekTo((int) position);
+    }
 }
