@@ -45,7 +45,7 @@ public class MallOsActivity extends LiveBaseActivity {
         super.onCreate(savedInstanceState);
         mMallRootView = getLayoutInflater().inflate(R.layout.activity_mall_buttons, getContentView(), true);
         initView();
-        initLogin();
+//        initLogin();
         initMall();
     }
 
@@ -63,6 +63,7 @@ public class MallOsActivity extends LiveBaseActivity {
 
         @Override
         public IPlatformLoginInterface buildLoginInterface() {
+            initLogin();
             return iPlatformLoginInterface;
         }
 
