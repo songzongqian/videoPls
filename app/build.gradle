@@ -30,7 +30,6 @@ dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'com.android.support:support-annotations:+'
     // android Video++ 互动层依赖，必须导入,在对接完毕后提测前请和技术最后确认版本号
-    //    compile 'com.videoli:video_pub:1.6.0.16'
     compile 'org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.0.2'
     compile(name: 'venvy_pub-release', ext: 'aar')
     compile 'com.github.bumptech.glide:glide:3.7.0'
