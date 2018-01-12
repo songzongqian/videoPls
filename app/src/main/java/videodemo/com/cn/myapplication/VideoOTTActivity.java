@@ -15,18 +15,18 @@ import cn.com.venvy.common.utils.VenvyUIUtil;
 import cn.com.videopls.pub.Provider;
 import cn.com.videopls.pub.VideoPlusAdapter;
 import cn.com.videopls.pub.VideoPlusView;
-import cn.com.videopls.pub.os.VideoOsView;
+import cn.com.videopls.pub.ott.VideoOTTView;
 import videodemo.com.cn.myapplication.base.BasePlayerActivity;
 import videodemo.com.cn.myapplication.bean.SettingsBean;
 
-public class VideoOsActivity extends BasePlayerActivity {
+public class VideoOTTActivity extends BasePlayerActivity {
 
     private SettingsBean mSettingsBean;
 
     @NonNull
     @Override
     protected VideoPlusView initVideoPlusView() {
-        return new VideoOsView(this);
+        return new VideoOTTView(this);
     }
 
     @NonNull
@@ -49,9 +49,9 @@ public class VideoOsActivity extends BasePlayerActivity {
      */
     private String getAppKey() {
         if (VenvyDebug.isDebug()) {
-            return "ryKc0El-Z";
+            return "Hk_MWKOEW";
         }
-        return "ryZSzdBWZ";
+        return "Hk_MWKOEW";
     }
 
     /**
@@ -61,7 +61,7 @@ public class VideoOsActivity extends BasePlayerActivity {
      */
     private String getVideoPath() {
         if (VenvyDebug.isDebug()) {
-            return "http://sdkcdn.videojj.com/flash/player/video/1.mp4?v=5";
+            return "http://7xr4xn.media1.z0.glb.clouddn.com/snh48sxhsy.mp4?v=0";
         }
         return "http://sdkcdn.videojj.com/flash/player/video/1.mp4?v=5";
     }
@@ -70,8 +70,8 @@ public class VideoOsActivity extends BasePlayerActivity {
 
         @Override
         public Provider createProvider() {
-            final int width = VenvyUIUtil.getScreenWidth(VideoOsActivity.this);
-            final int height = VenvyUIUtil.getScreenHeight(VideoOsActivity.this);
+            final int width = VenvyUIUtil.getScreenWidth(VideoOTTActivity.this);
+            final int height = VenvyUIUtil.getScreenHeight(VideoOTTActivity.this);
             Provider provider = new Provider.Builder()
                     .setAppKey(getAppKey())//appkey
                     .setHorVideoHeight(Math.min(width, height))//横屏视频的高
@@ -123,7 +123,6 @@ public class VideoOsActivity extends BasePlayerActivity {
                 }
             };
         }
-
 
         /**
          * 广告点击监听

@@ -1,70 +1,28 @@
 package videodemo.com.cn.myapplication;
 
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
+import cn.com.venvy.common.bean.PlatformUserInfo;
 import cn.com.venvy.common.bean.WidgetInfo;
+
+import cn.com.venvy.common.interf.IPlatformLoginInterface;
 import cn.com.venvy.common.interf.IWidgetClickListener;
 import cn.com.venvy.common.interf.IWidgetCloseListener;
 import cn.com.venvy.common.interf.IWidgetEmptyListener;
 import cn.com.venvy.common.interf.IWidgetShowListener;
-import cn.com.venvy.common.interf.OnViewClickListener;
-import cn.com.venvy.common.interf.WedgeListener;
-import cn.com.venvy.common.utils.VenvyDebug;
-import cn.com.venvy.common.utils.VenvyLog;
 import cn.com.videopls.pub.Provider;
 import cn.com.videopls.pub.VideoPlusAdapter;
-import cn.com.videopls.pub.VideoPlusView;
-import cn.com.videopls.pub.live.VideoLiveView;
-import videodemo.com.cn.myapplication.weidget.CustomMediaController;
+import cn.com.videopls.pub.huyu.PlatFormUserInfoImpl;
 
-public class LiveOsActivity extends BasePlayerActivity {
-
-    private String mRoomId;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        mRoomId = getIntent().getStringExtra("roomId");
-        super.onCreate(savedInstanceState);
-    }
-
-    @NonNull
-    @Override
-    protected String getMediaUrl() {
-        return "http://7xr5j6.com1.z0.glb.clouddn.com/hunantv0129" +
-                ".mp4?v=999";
-    }
-
-    @Override
-    protected void initMediaPlayerController() {
-        super.initMediaPlayerController();
-        mController.isLive(true);
-    }
-
-    /**
-     * Video++直播PlatformId
-     */
-    private static String getPlatformId() {
-        if (VenvyDebug.getInstance().isDebug()) {
-            return "556c38e7ec69d5bf655a0fb2";
-        }
-        return "575e6e087c395e0501980c89";
-    }
-
-    @NonNull
-    @Override
-    protected VideoPlusView initVideoPlusView() {
-        return new VideoLiveView(this);
-    }
+public class LiveOsActivity extends LiveBaseActivity {
 
     @NonNull
     @Override
     protected VideoPlusAdapter initVideoPlusAdapter() {
         return new LiveAdapter();
     }
-
 
     //竖屏小屏adapter
     private class LiveAdapter extends VideoPlusAdapter {
@@ -73,8 +31,8 @@ public class LiveOsActivity extends BasePlayerActivity {
         public Provider createProvider() {
 
             return new Provider.Builder()
-                    .setUserId(mRoomId)//roomId 或者userId
-                    .setPlatformId(getPlatformId())//videojj直播后台平台Id
+                    .setUserId(mSettingsBean.mRoomId)//roomId 或者userId
+                    .setPlatformId(mSettingsBean.mPlatformId)//videojj直播后台平台Id
                     .setHorVideoWidth(Math.max(mScreenWidth, mScreenHeight))//横屏视频的宽
                     .setHorVideoHeight(Math.min(mScreenWidth, mScreenHeight))//横屏视频的高
                     .setVerticalFullVideoWidth(Math.min(mScreenWidth, mScreenHeight))//竖屏全屏视频的宽
@@ -83,67 +41,26 @@ public class LiveOsActivity extends BasePlayerActivity {
                     .setVerVideoHeight(mWidowPlayerHeight)//small 视频小屏视频的高
                     .setVerticalType(0)//1 竖屏小屏，0竖屏全屏
                     .setDirection(2) //2横竖屏，0竖屏，1是横屏
-                    .setIsMango() //是否为芒果配置
-                    //.setIsPear() //是否是梨视频配置
                     .build();
         }
 
+
         /**
-         * 中插视频播放监听接口，用来监听中插视频的播放和结束，
-         * 如果不用中插功能的话，不用重写buildWedgeListener
+         * buildLoginInterface : 设置分区信息, 用户登录信息
          *
-         * @return WedgeListener
+         * @return
          */
         @Override
-        public WedgeListener buildWedgeListener() {
-            return new WedgeListener() {
+        public IPlatformLoginInterface buildLoginInterface() {
+            return new PlatFormUserInfoImpl() {
                 @Override
-                public void onStart() {
-
-                }
-
-                @Override
-                public void onFinish() {
-
-                }
-
-                @Override
-                public void onEmpty() {
-
-                }
-
-                @Override
-                public void goBack() {
-
-                }
-
-                @Override
-                public void onResume() {
-
-                }
-
-                @Override
-                public void onPause() {
-
+                public PlatformUserInfo getLoginUser() {
+                    PlatformUserInfo userInfo = new PlatformUserInfo();
+                    userInfo.cate = mSettingsBean.mCate;
+                    return userInfo;
                 }
             };
         }
-
-        /**
-         * 1.6.0+版本已废弃，请使用最新接口IWidgetClickListener
-         * 用来监听页面元素的点击事件,当点击图片，图文链接等元素时会回调此方法，获取对应页面元素的
-         * 跳转url,url可能为null
-         */
-        @Override
-        public OnViewClickListener buildOnViewClickListener() {
-            return new OnViewClickListener() {
-                @Override
-                public void onClick(String url) {
-                    VenvyLog.i("---点击图片等页面元素的时候返回对应的url----");
-                }
-            };
-        }
-
 
         /**
          * 广告点击监听
@@ -177,7 +94,7 @@ public class LiveOsActivity extends BasePlayerActivity {
         }
 
         /**
-         * 广告点击监听
+         * 广告展示监听
          *
          * @return
          */
@@ -249,25 +166,6 @@ public class LiveOsActivity extends BasePlayerActivity {
 
                 }
             };
-        }
-    }
-
-    @Override
-    public void screenChanged(CustomMediaController.Screen screen) {
-        super.screenChanged(screen);
-        switch (screen) {
-            case PORTRAIT:
-                //屏幕切换调用，切换竖屏小屏
-                getAdapter().notifyLiveVerticalScreen(1);
-                break;
-            case PORTRAIT_FULL:
-                //屏幕切换调用，切换竖屏全屏
-                getAdapter().notifyLiveVerticalScreen(0);
-                break;
-
-            case LAND_SCAPE:
-
-                break;
         }
     }
 
