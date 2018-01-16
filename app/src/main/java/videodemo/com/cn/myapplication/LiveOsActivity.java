@@ -46,7 +46,7 @@ public class LiveOsActivity extends LiveBaseActivity {
                     .setVerticalFullVideoHeight(Math.max(mScreenWidth, mScreenHeight))//竖屏全屏视屏的高
                     .setVerVideoWidth(Math.min(mScreenWidth, mScreenHeight))//small视频小屏视频的宽
                     .setVerVideoHeight(mWidowPlayerHeight)//small 视频小屏视频的高
-                    .setVerticalType(0)//1 竖屏小屏，0竖屏全屏
+                    .setVerticalType(isSmallVertical ? 1 : 0)//1 竖屏小屏，0竖屏全屏
                     .setDirection(2) //2横竖屏，0竖屏，1是横屏
                     .build();
         }

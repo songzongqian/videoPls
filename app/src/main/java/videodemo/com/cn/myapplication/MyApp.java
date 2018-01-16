@@ -25,7 +25,7 @@ public class MyApp extends Application {
                 // VideoType.VIDEOOS 表示只接入点播
                 // VideoType.OTT 表示只接入OTT
                 // VideoType.MALL 表示只接入子商城
-                VideoPlus.appCreate(MyApp.this, VideoPlus.VideoType.BOTH, VideoPlus.VideoType.MALL);
+                VideoPlus.appCreate(MyApp.this, VideoPlus.VideoType.BOTH, VideoPlus.VideoType.MALL, VideoPlus.VideoType.HUYU);
             }
         }, 3000);
     }

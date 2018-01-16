@@ -36,5 +36,6 @@ dependencies {
     compile 'com.squareup.okhttp3:okhttp:3.4.1'
     compile 'com.github.bumptech.glide:okhttp3-integration:1.5.0@aar'
     compile "com.android.support:support-v4:25.3.1"
+    compile 'com.videoli:venvy_lua:1.0.0'
     compile 'com.android.support:recyclerview-v7:25+'
 }
