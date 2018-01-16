@@ -50,12 +50,15 @@ public class VideoControllerView extends FrameLayout {
     Formatter mFormatter;
     protected ImageButton mPauseButton;
     private ImageButton mFullscreenButton;
+    private ImageButton mSettingsButton;
     private Handler mHandler = new MessageHandler(this);
     View mScreenChangeView;
     View mVerFullScreenChangeView;
     private boolean isLive = false;
     private Screen mCurrentScreenOrientation = Screen.PORTRAIT;  // 初始化竖屏
     private OnMediaScreenChangedListener mediaScreenChangedListener;
+    private OnSetingsClickListener mOnSettingsClickListener;
+
 
     public VideoControllerView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -98,6 +101,11 @@ public class VideoControllerView extends FrameLayout {
 
     public void setMediaScreenChangedListener(OnMediaScreenChangedListener listener) {
         mediaScreenChangedListener = listener;
+    }
+
+
+    public void setmOnSettingsClickListener(OnSetingsClickListener listener) {
+        mOnSettingsClickListener = listener;
     }
 
     /**
@@ -175,6 +183,18 @@ public class VideoControllerView extends FrameLayout {
                 seeker.setOnSeekBarChangeListener(mSeekListener);
             }
             mProgress.setMax(1000);
+        }
+
+        mSettingsButton = (ImageButton) v.findViewById(R.id.settings);
+        if (mSettingsButton != null) {
+            mSettingsButton.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (mOnSettingsClickListener != null) {
+                        mOnSettingsClickListener.settingsClick();
+                    }
+                }
+            });
         }
 
         mEndTime = (TextView) v.findViewById(R.id.time);
@@ -630,6 +650,10 @@ public class VideoControllerView extends FrameLayout {
 
     public void onDestory() {
         mHandler.removeCallbacksAndMessages(null);
+    }
+
+    public interface OnSetingsClickListener {
+        void settingsClick();
     }
 
 }

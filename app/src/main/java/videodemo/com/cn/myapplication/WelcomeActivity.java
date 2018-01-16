@@ -16,7 +16,7 @@ import both.video.venvy.com.appdemo.R;
 public class WelcomeActivity extends Activity implements View.OnClickListener {
 
     private ImageView mImageDianbo, mImageLive;
-    private Button mOttButton, mMallBtn, mMyOderBtn;
+    private Button mOttButton, mMallBtn, mMyOderBtn, mHuyuBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +37,7 @@ public class WelcomeActivity extends Activity implements View.OnClickListener {
         mOttButton = (Button) findViewById(R.id.ott);
         mMallBtn = (Button) findViewById(R.id.mall);
         mMyOderBtn = (Button) findViewById(R.id.myoder);
+        mHuyuBtn = (Button) findViewById(R.id.huyu);
     }
 
     private void initListerner() {
@@ -45,6 +46,7 @@ public class WelcomeActivity extends Activity implements View.OnClickListener {
         mOttButton.setOnClickListener(this);
         mMallBtn.setOnClickListener(this);
         mMyOderBtn.setOnClickListener(this);
+        mHuyuBtn.setOnClickListener(this);
     }
 
     @Override
@@ -60,10 +62,13 @@ public class WelcomeActivity extends Activity implements View.OnClickListener {
                 goOTTActivity();
                 break;
             case R.id.mall:
-               goMallActivity();
+                goMallActivity();
                 break;
             case R.id.myoder:
                 goOrderActivity();
+                break;
+            case R.id.huyu:
+                goHuyuActivity();
                 break;
             default:
                 break;
@@ -99,6 +104,11 @@ public class WelcomeActivity extends Activity implements View.OnClickListener {
 
     private void goOrderActivity() {
         final Intent intent = new Intent(WelcomeActivity.this, MyOrderAcitvity.class);
+        startActivity(intent);
+    }
+
+    private void goHuyuActivity() {
+        final Intent intent = new Intent(WelcomeActivity.this, HuyuOsActivity.class);
         startActivity(intent);
     }
 }

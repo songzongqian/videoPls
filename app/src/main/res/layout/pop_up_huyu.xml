@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/popup_bg"
+    android:gravity="center_horizontal"
+    android:padding="10dp">
+
+    <TextView
+        android:id="@+id/tv_roomId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="10dp"
+        android:text="@string/roomId"
+        android:textColor="@color/text_white"
+        android:textSize="@dimen/text_title"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/et_roomId"
+        android:layout_width="220dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_toRightOf="@+id/tv_roomId"
+        android:background="@drawable/et_bg"
+        android:hint="@string/room_hint"
+        android:padding="5dp"
+        android:textColor="@color/text_nomal_black"
+        android:textColorHint="@color/text_nomal_black"
+        android:textSize="@dimen/text_content" />
+
+    <TextView
+        android:id="@+id/tv_uId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_roomId"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="17dp"
+        android:text="@string/UId"
+        android:textColor="@color/text_white"
+        android:textSize="@dimen/text_title"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/et_uId"
+        android:layout_width="220dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/et_roomId"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_toRightOf="@+id/tv_roomId"
+        android:background="@drawable/et_bg"
+        android:hint="@string/UId_hint"
+        android:padding="5dp"
+        android:textColor="@color/text_nomal_black"
+        android:textColorHint="@color/text_nomal_black"
+        android:textSize="@dimen/text_content" />
+
+    <TextView
+        android:id="@+id/tv_platform"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/et_platform"
+        android:layout_alignBottom="@+id/et_platform"
+        android:layout_alignLeft="@+id/tv_uId"
+        android:layout_alignStart="@+id/tv_uId"
+        android:text="@string/platformId"
+        android:textColor="@color/text_white"
+        android:textSize="@dimen/text_title"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/et_platform"
+        android:layout_width="220dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/et_uId"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_toRightOf="@+id/tv_platform"
+        android:background="@drawable/et_bg"
+        android:hint="@string/platform_hint"
+        android:padding="5dp"
+        android:textColor="@color/text_nomal_black"
+        android:textColorHint="@color/text_nomal_black"
+        android:textSize="@dimen/text_content" />
+
+
+    <Spinner
+        android:id="@+id/cate"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_below="@id/et_platform"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/et_bg"
+        android:entries="@array/spingarr"
+        android:spinnerMode="dialog">
+
+    </Spinner>
+
+    <LinearLayout
+        android:id="@+id/ll_cb"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/cate"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:id="@+id/rl_user"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_vertical">
+
+            <CheckBox
+                android:id="@+id/cb_user"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:background="@drawable/check_selector"
+                android:button="@null"
+                android:checked="false" />
+
+            <TextView
+                android:id="@+id/tv_user"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_toRightOf="@+id/cb_user"
+                android:text="用户"
+                android:textColor="@color/text_warning"
+                android:textSize="@dimen/text_content"
+                android:textStyle="bold" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_status"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_vertical">
+
+            <CheckBox
+                android:id="@+id/cb_status"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:background="@drawable/check_selector"
+                android:button="@null" />
+
+            <TextView
+                android:id="@+id/tv_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:text="未开播"
+                android:textColor="@color/text_warning"
+                android:textSize="@dimen/text_content"
+                android:textStyle="bold" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <RadioGroup
+        android:id="@+id/rg_select_env"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ll_cb"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/rb_test"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="测试环境" />
+
+        <RadioButton
+            android:id="@+id/rb_pre"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="预发布环境" />
+
+        <RadioButton
+            android:id="@+id/rb_release"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="正式环境" />
+
+    </RadioGroup>
+
+    <Button
+        android:id="@+id/btn_live"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_below="@+id/rg_select_env"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/et_bg"
+        android:text="@string/apply_btn" />
+
+
+</RelativeLayout>

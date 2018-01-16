@@ -4,7 +4,14 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.PopupWindow;
+import android.widget.RadioGroup;
 
+import both.video.venvy.com.appdemo.R;
 import cn.com.venvy.common.bean.WidgetInfo;
 import cn.com.venvy.common.interf.IMediaControlListener;
 import cn.com.venvy.common.interf.IWidgetClickListener;
@@ -22,6 +29,7 @@ import videodemo.com.cn.myapplication.bean.SettingsBean;
 public class VideoOTTActivity extends BasePlayerActivity {
 
     private SettingsBean mSettingsBean;
+    private boolean enableMQTT = false;
 
     @NonNull
     @Override
@@ -91,38 +99,9 @@ public class VideoOTTActivity extends BasePlayerActivity {
          */
         @Override
         public IMediaControlListener buildMediaController() {
-            return new IMediaControlListener() {
-                @Override
-                public void start() {
-                    startPlay();
-                }
-
-                @Override
-                public void pause() {
-                    pausePlay();
-                }
-
-                @Override
-                public void restart() {
-                    startPlay();
-                }
-
-                @Override
-                public void seekTo(long position) {
-                    playerSeekTo(position);
-                }
-
-                @Override
-                public void stop() {
-                    stopPlay();
-                }
-
-                @Override
-                public long getCurrentPosition() {
-                    return getPlayerPosition();
-                }
-            };
+            return new MyMediaController();
         }
+
 
         /**
          * 广告点击监听
@@ -217,6 +196,89 @@ public class VideoOTTActivity extends BasePlayerActivity {
 
     }
 
+    private class MyMediaController extends IMediaControlListener.LeMediaControlListener {
+        @Override
+        public void start() {
+
+        }
+
+        @Override
+        public boolean isLive() {
+            return enableMQTT;
+        }
+
+        @Override
+        public boolean isPositive() {
+            return true;
+        }
+
+        @Override
+        public void pause() {
+        }
+
+        @Override
+        public void seekTo(long position) {
+        }
+
+        @Override
+        public void restart() {
+
+        }
+
+        @Override
+        public void stop() {
+        }
+
+        @Override
+        public long getCurrentPosition() {
+            if (mCustomVideoView != null) {
+                return mCustomVideoView.getMediaPlayerCurrentPosition();
+            } else {
+                return -1;
+            }
+        }
+
+    }
+
+    @Override
+    protected View getInflate(LayoutInflater inflater) {
+        return inflater.inflate(R.layout.pop_up_demond, null);
+    }
+
+    @Override
+    protected void initButtons(View contentview,final PopupWindow popupWindow) {
+        final EditText appkey = (EditText) contentview.findViewById(R.id.et_appkey);
+        appkey.setText(mSettingsBean.mAppkey);
+
+        final EditText url = (EditText) contentview.findViewById(R.id.et_uri);
+        url.setText(mSettingsBean.mUrl);
+
+        final RadioGroup selectMqtt = (RadioGroup) contentview.findViewById(R.id.rg_select_mqtt);
+        selectMqtt.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                if (checkedId == R.id.rb_mqtt_true) {
+                    enableMQTT = true;
+                }
+            }
+        });
+
+        final int id = initEnvButtons(contentview);
+        Button apply = (Button) contentview.findViewById(R.id.btn_dianbo);
+        apply.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mSettingsBean.mUrl = url.getText().toString();
+                mSettingsBean.mAppkey = appkey.getText().toString();
+                debugToggle(id);
+                //update adapter
+                updateAdapter();
+
+                popupWindow.dismiss();
+            }
+        });
+    }
+
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
@@ -261,6 +323,25 @@ public class VideoOTTActivity extends BasePlayerActivity {
         mSettingsBean = new SettingsBean();
         mSettingsBean.mAppkey = getAppKey();
         mSettingsBean.mUrl = getVideoPath();
+    }
+
+    private void updateAdapter() {
+        final int width = VenvyUIUtil.getScreenWidth(VideoOTTActivity.this);
+        final int height = VenvyUIUtil.getScreenHeight(VideoOTTActivity.this);
+        Provider provider = new Provider.Builder()
+                .setAppKey(mSettingsBean.mAppkey)//appkey
+                .setHorVideoHeight(Math.min(width, height))//横屏视频的高
+                .setHorVideoWidth(Math.max(width, height))//横屏视频的宽
+                .setVerVideoWidth(Math.min(width, height))//small视频小屏视频的宽
+                .setVerVideoHeight(mWidowPlayerHeight)//small 视频小屏视频的高
+                .setVideoPath(mSettingsBean.mUrl)//视频地址
+                .setVideoType(3)//
+                .setVideoTitle("ttt")//
+                .build();
+        mCustomVideoView.mediaPlayerSeekTo(0);
+        getAdapter().updateProvider(provider);
+        videoPlusView.destroy();
+        videoPlusView.start();
     }
 
 }

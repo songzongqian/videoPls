@@ -16,8 +16,8 @@ public class SettingsBean {
     public String mCate;
 
     //互娱增加参数，在直播基础上增加用户和主播
-    public boolean isUser;
     public boolean isAnchor;
-
+    public String uId;
+    public boolean isPush;
 
 }

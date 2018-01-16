@@ -4,7 +4,14 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.PopupWindow;
+import android.widget.RadioGroup;
 
+import both.video.venvy.com.appdemo.R;
 import cn.com.venvy.common.bean.WidgetInfo;
 import cn.com.venvy.common.interf.IMediaControlListener;
 import cn.com.venvy.common.interf.IWidgetClickListener;
@@ -22,6 +29,7 @@ import videodemo.com.cn.myapplication.bean.SettingsBean;
 public class VideoOsActivity extends BasePlayerActivity {
 
     private SettingsBean mSettingsBean;
+    private boolean enableMQTT = false;
 
     @NonNull
     @Override
@@ -217,6 +225,45 @@ public class VideoOsActivity extends BasePlayerActivity {
         }
 
     }
+    @Override
+    protected View getInflate(LayoutInflater inflater) {
+        return inflater.inflate(R.layout.pop_up_demond, null);
+    }
+
+    @Override
+    protected void initButtons(View contentview,final PopupWindow popupWindow) {
+        final EditText appkey = (EditText) contentview.findViewById(R.id.et_appkey);
+        appkey.setText(mSettingsBean.mAppkey);
+
+        final EditText url = (EditText) contentview.findViewById(R.id.et_uri);
+        url.setText(mSettingsBean.mUrl);
+
+        final RadioGroup selectMqtt = (RadioGroup) contentview.findViewById(R.id.rg_select_mqtt);
+        selectMqtt.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                if (checkedId == R.id.rb_mqtt_true) {
+                    enableMQTT = true;
+                }
+            }
+        });
+        final int id = initEnvButtons(contentview);
+        Button apply = (Button) contentview.findViewById(R.id.btn_dianbo);
+        apply.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mSettingsBean.mUrl = url.getText().toString();
+                mSettingsBean.mAppkey = appkey.getText().toString();
+                debugToggle(id);
+                //update adapter
+                updateAdapter();
+
+                popupWindow.dismiss();
+            }
+        });
+    }
+
+
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -264,4 +311,22 @@ public class VideoOsActivity extends BasePlayerActivity {
         mSettingsBean.mUrl = getVideoPath();
     }
 
+    private void updateAdapter() {
+        final int width = VenvyUIUtil.getScreenWidth(VideoOsActivity.this);
+        final int height = VenvyUIUtil.getScreenHeight(VideoOsActivity.this);
+        Provider provider = new Provider.Builder()
+                .setAppKey(mSettingsBean.mAppkey)//appkey
+                .setHorVideoHeight(Math.min(width, height))//横屏视频的高
+                .setHorVideoWidth(Math.max(width, height))//横屏视频的宽
+                .setVerVideoWidth(Math.min(width, height))//small视频小屏视频的宽
+                .setVerVideoHeight(mWidowPlayerHeight)//small 视频小屏视频的高
+                .setVideoPath(mSettingsBean.mUrl)//视频地址
+                .setVideoType(3)//
+                .setVideoTitle("ttt")//
+                .build();
+        mCustomVideoView.mediaPlayerSeekTo(0);
+        getAdapter().updateProvider(provider);
+        videoPlusView.destroy();
+        videoPlusView.start();
+    }
 }

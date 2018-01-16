@@ -1,24 +1,32 @@
 package videodemo.com.cn.myapplication.base;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.view.Gravity;
+import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
+import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
+import android.widget.PopupWindow;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 
 import both.video.venvy.com.appdemo.R;
+import cn.com.venvy.common.utils.VenvyDebug;
 import cn.com.venvy.common.utils.VenvyUIUtil;
 import cn.com.videopls.pub.VideoPlusAdapter;
 import cn.com.videopls.pub.VideoPlusView;
 import videodemo.com.cn.myapplication.weidget.CustomVideoView;
 import videodemo.com.cn.myapplication.weidget.VideoControllerView;
 
-public abstract class BasePlayerActivity extends Activity implements VideoControllerView.OnMediaScreenChangedListener {
-
+public abstract class BasePlayerActivity extends Activity implements VideoControllerView.OnMediaScreenChangedListener,VideoControllerView.OnSetingsClickListener {
     protected VideoPlusAdapter mVideoPlusAdapter;
     protected VideoPlusView videoPlusView;
     protected int mScreenWidth;
@@ -48,8 +56,10 @@ public abstract class BasePlayerActivity extends Activity implements VideoContro
         mRootView.addView(mCustomVideoView);
 
         if (this.getRequestedOrientation() == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) {
-            rebuildSize(Math.max(mScreenWidth, mScreenHeight), Math.min(mScreenWidth, mScreenHeight));
-            mCustomVideoView.rebuildSize(Math.max(mScreenWidth, mScreenHeight), Math.min(mScreenWidth, mScreenHeight));
+            rebuildSize(Math.max(mScreenWidth, mScreenHeight), Math.min(mScreenWidth,
+                    mScreenHeight));
+            mCustomVideoView.rebuildSize(Math.max(mScreenWidth, mScreenHeight), Math.min
+                    (mScreenWidth, mScreenHeight));
 
         }
         initMediaController();
@@ -57,7 +67,8 @@ public abstract class BasePlayerActivity extends Activity implements VideoContro
         //Video++实例化
         videoPlusView = initVideoPlusView();
         mVideoPlusAdapter = initVideoPlusAdapter();
-        ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams
+                .MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         getContentView().addView(videoPlusView, layoutParams);
         videoPlusView.setVideoOSAdapter(mVideoPlusAdapter);
         //Video++中在一段视频播放中只调用一次start()，如果同页面切换视频，请先调用stop(),然后再调用start()
@@ -106,11 +117,6 @@ public abstract class BasePlayerActivity extends Activity implements VideoContro
         //Video++调用
         mVideoPlusAdapter.onStop();
         videoPlusView.stop();
-
-        //播放器销毁，对接忽略
-        if(mCustomVideoView != null){
-            mCustomVideoView.stopPlaying();
-        }
         super.onStop();
     }
 
@@ -121,8 +127,8 @@ public abstract class BasePlayerActivity extends Activity implements VideoContro
         videoPlusView.destroy();
 
         //播放控制器销毁，对接忽略
-        if (mController != null) {
-            mController.onDestory();
+        if (mCustomVideoView != null) {
+            mCustomVideoView.stopPlaying();
         }
         super.onDestroy();
     }
@@ -134,11 +140,15 @@ public abstract class BasePlayerActivity extends Activity implements VideoContro
     protected void initMediaController() {
         mController = new VideoControllerView(this, this);
         mController.setMediaScreenChangedListener(this);
+        mController.setmOnSettingsClickListener(this);
         mCustomVideoView.setMediaController(mController);
     }
 
     protected VideoPlusAdapter getAdapter() {
         return mVideoPlusAdapter;
+    }
+
+    public void verticalTypeChange(VideoControllerView.Screen screen) {
     }
 
     /**
@@ -169,8 +179,66 @@ public abstract class BasePlayerActivity extends Activity implements VideoContro
         getContentView().setLayoutParams(lp);
     }
 
+    @Override
+    public void settingsClick() {
+        initiatePopupWindow();
+    }
+
     protected void initSettingsValue() {
 
+    }
+
+    private void initiatePopupWindow() {
+        LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View contentview = getInflate(inflater);
+        contentview.setFocusable(true);
+        contentview.setFocusableInTouchMode(true);
+        final PopupWindow popupWindow = new PopupWindow(contentview, FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT);
+        popupWindow.setFocusable(true);
+        popupWindow.setOutsideTouchable(false);
+        contentview.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (keyCode == KeyEvent.KEYCODE_BACK) {
+                    popupWindow.dismiss();
+                    return true;
+                }
+                return false;
+            }
+        });
+        initButtons(contentview, popupWindow);
+        popupWindow.showAtLocation(getContentView(), Gravity.CENTER | Gravity.CENTER_HORIZONTAL, 0, 0);
+    }
+
+    @NonNull
+    protected abstract View getInflate(LayoutInflater inflater);
+
+
+    protected void initButtons(View view, PopupWindow popupWindow) {
+
+    }
+
+    protected int initEnvButtons(View contentview) {
+
+        final RadioGroup selectEnv = (RadioGroup) contentview.findViewById(R.id.rg_select_env);
+        final RadioButton testButton = (RadioButton) contentview.findViewById(R.id.rb_test);
+        final RadioButton preButton = (RadioButton) contentview.findViewById(R.id.rb_pre);
+        final RadioButton releaseButton = (RadioButton) contentview.findViewById(R.id.rb_release);
+        testButton.setChecked(VenvyDebug.isDebug());
+        preButton.setChecked(VenvyDebug.isPreView());
+        releaseButton.setChecked(VenvyDebug.isRelease());
+        return selectEnv.getCheckedRadioButtonId();
+    }
+
+
+    protected void debugToggle(int id) {
+        if (id == R.id.rb_test) {
+            VenvyDebug.changeEnvironmentStatus(VenvyDebug.EnvironmentStatus.DEBUG);
+        } else if (id == R.id.rb_pre) {
+            VenvyDebug.changeEnvironmentStatus(VenvyDebug.EnvironmentStatus.PREVIEW);
+        } else if (id == R.id.rb_release) {
+            VenvyDebug.changeEnvironmentStatus(VenvyDebug.EnvironmentStatus.RELEASE);
+        }
     }
 
     @Override

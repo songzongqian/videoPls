@@ -45,7 +45,6 @@ public class MallOsActivity extends LiveBaseActivity {
         super.onCreate(savedInstanceState);
         mMallRootView = getLayoutInflater().inflate(R.layout.activity_mall_buttons, getContentView(), true);
         initView();
-//        initLogin();
         initMall();
     }
 
@@ -107,7 +106,7 @@ public class MallOsActivity extends LiveBaseActivity {
 
             @Override
             public void screenChanged(ScreenChangedInfo changedInfo) {
-                System.out.println("---登陆的URL－－－" + changedInfo.getUrl());
+                System.out.println("---登陆的URL－－－" + changedInfo.url);
                 //设为竖屏全屏
                 VenvyReflectUtil.invokeStatic(mallClas,
                         "screenChanged", new Class[]{ScreenChangedInfo.class}, new Object[]{changedInfo});

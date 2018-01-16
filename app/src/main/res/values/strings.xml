@@ -1,3 +1,39 @@
 <resources>
-    <string name="app_name">My Application</string>
+    <string name="app_name">Video++Demo</string>
+    <string name="demo">DEMO</string>
+    <string name="appkey">AppKey:</string>
+    <string name="appkey_hint">请输入appkey</string>
+    <string name="uri">URL:</string>
+    <string name="uri_hint">请输入视频地址</string>
+    <string name="test_environment">当前使用测试库</string>
+    <string name="pub_environment">当前使用正式库</string>
+    <string name="ott_btn">OTT</string>
+    <string name="clear_cache">清除缓存</string>
+    <string name="clear_cache_suc">清除缓存成功</string>
+    <string name="appkey_empty">Appkey不能为空"</string>
+    <string name="uri_empty">视频地址不能为空</string>
+    <string name="dianbo_btn">点播</string>
+    <string name="live_btn">直播</string>
+    <string name="apply_btn">应用</string>
+    <string name="huyu_btn">互娱</string>
+    <string name="roomId">RoomId:</string>
+    <string name="UId">UId:</string>
+    <string name="room_hint">请输入房间号</string>
+    <string name="UId_hint">请输入UId</string>
+    <string name="platformId">PlatformId:</string>
+    <string name="platform_hint">请输入平台ID</string>
+    <string name="secretId">SecretId:</string>
+    <string name="secret_hint">请输入Secret</string>
+    <string name="huyu_user">用户</string>
+    <string name="huyu_anchor">主播</string>
+    <string-array name="spingarr">
+        <item>请选择分区</item>
+        <item>lol/英雄联盟</item>
+        <item>jingji/热门竞技</item>
+        <item>hearthstone/炉石传说</item>
+        <item>fortnite/堡垒之夜</item>
+        <item>overwatch/守望先锋</item>
+        <item>dota1/DOTA1</item>
+        <item>dota2/DOTA2</item>
+    </string-array>
 </resources>
