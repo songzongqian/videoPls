@@ -16,11 +16,11 @@ Video++ 互动层目前支持直播、点播、Video++商城、互动娱乐以�
     compile 'com.android.support:recyclerview-v7:25+'
     (版本号只是举例，具体版本请咨询对接技术同学)
     
-  2. 如果集成点播功能，请参考Demo项目中VideoOsActivity.java 中的调用。
-  3. 如果集成直播功能，请参考Demo项目中LiveOsActivity.java 中的调用。
-  4. 如果集成Video++商城功能，请参考Demo项目中MallOsActivity.java 中的调用。
-  5. 如果集成互动娱乐功能，请参考Demo项目中HuyuOsActivity.java 中的调用。
-  6. 如果集成OTT功能，请参考Demo项目中VideoOTTActivity.java 中的调用。
+2. 如果集成点播功能，请参考Demo项目中VideoOsActivity.java 中的调用。
+3. 如果集成直播功能，请参考Demo项目中LiveOsActivity.java 中的调用。
+4. 如果集成Video++商城功能，请参考Demo项目中MallOsActivity.java 中的调用。
+5. 如果集成互动娱乐功能，请参考Demo项目中HuyuOsActivity.java 中的调用。
+6. 如果集成OTT功能，请参考Demo项目中VideoOTTActivity.java 中的调用。
   
 
 注意点：
@@ -34,11 +34,10 @@ Video++ 互动层目前支持直播、点播、Video++商城、互动娱乐以�
   4. 直播互动竖屏有两种展示模式：即竖屏全屏和竖屏小屏。两种展示模式的切换可以调用VideoPlusAdapter的notifyLiveVerticalScreen方法，详见Demo中LiveOsActivity.java
 
   5. 直播互动中互动层的默认点击事件为:竖屏全屏和横屏全屏两种模式下由SDK打开自己的WebView,在竖屏小屏幕模式下由调用方监听点击事件，此时需要重写Adapter的IWidgetClickListener方法(详见Demo中LiveOsActivity.java)。
-
-  6. 在页面的生命周期方法中请对应调用adapter中提供的对应生命周期方法。例如：adapter.onDestroy()。详见Demo中的BasePlayerActivity.java
+  6. 在页面的生命周期方法中请对应调用adapter中提供的对应生命周期方法。例如：adapter.onDestroy()。详见Demo中的BasePlayerActivity.java
 
   7. 在点播构造Adapter的时候buildMediaController（）方法必须重载，此方法返回接口为控制播放器行为。其中getCurrentPosition方法为获取当前播放器时间，单位为毫秒级。
 
   8. 在需要对Provider动态设置属性的时候推荐奖Builder对象作为全局对象，每次利用Builder对象来构建provider对象后调用Adapter的updateProvider()方法。
-  9. 因为sdk的webView用的是腾讯的x5webView, 所以需要libs文件配置x5WebView的jar，同时需要在src/jniLibs文件放x5的so库,jar包和so库可以在该地址中下载到https://x5.tencent.com/tbs/sdk.html
+  9. 因为sdk的webView用的是腾讯的x5webView, 所以需要libs文件配置x5WebView的jar，同时需要在src/jniLibs文件放x5的so库,jar包和so库可以在该地址中下载到https://x5.tencent.com/tbs/sdk.html
 
