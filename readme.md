@@ -6,14 +6,17 @@ Video++ 互动层目前支持直播、点播、Video++商城、互动娱乐以�
 
  1. 在项目 build.gradle 中添加配置aar（注：完整请参考demo）
     
-    compile(name: 'venvy_pub-release-2.0.0', ext: 'aar') //video++ aar包，同时也支持远端依赖
-    compile  "com.github.bumptech.glide:glide:YOU_VERSION" // glide
+   ```
+dependencies {
+    compile fileTree(dir: x'libs', include: ['*.jar'])
+    compile(name: 'venvy_pub-release-2.0.0', ext: 'aar')//Video++ 互动层依赖:(版本号只是举例，具体版本以及aar包请咨询对接技术同学)
+    compile  "com.github.bumptech.glide:glide:YOU_VERSION" // glide
     compile "com.squareup.okhttp3:okhttp:YOU_VERSION" // okhttp
     compile 'org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.0.2' // mqtt 长链接
-    compile 'com.videoli:venvy_lua:1.0.0'//接入互娱以及子商城时需要另外添加依赖 
+    compile 'com.videoli:venvy_lua:1.0.0'  //接入互娱以及子商城时需要另外添加依赖 
     compile 'com.android.support:recyclerview-v7:25+' //接入子商城（横屏）时需要另外添加依赖 
-
-    (版本号只是举例，具体版本请咨询对接技术同学)
+}
+``` 
     
 2. 如果集成点播功能，请参考Demo项目中VideoOsActivity.java 中的调用。
 3. 如果集成直播功能，请参考Demo项目中LiveOsActivity.java 中的调用。
