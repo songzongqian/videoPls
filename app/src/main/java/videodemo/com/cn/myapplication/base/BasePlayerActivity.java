@@ -116,7 +116,6 @@ public abstract class BasePlayerActivity extends Activity implements VideoContro
     protected void onStop() {
         //Video++调用
         mVideoPlusAdapter.onStop();
-        videoPlusView.stop();
         super.onStop();
     }
 
