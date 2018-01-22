@@ -81,5 +81,4 @@
 -keep class cn.com.venvy.keep.** {
     <fields>;
     <methods>;
- }
 }

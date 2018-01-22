@@ -245,7 +245,6 @@ public class LiveOsActivity extends LiveBaseActivity {
     private void updateAdapter() {
         videoPlusView.stop();
         Provider provider = new Provider.Builder()
-                .setPlatformId(mSettingsBean.mPlatformId)//videojj直播后台平台Id
                 .setHorVideoWidth(Math.max(mScreenWidth, mScreenHeight))//横屏视频的宽
                 .setHorVideoHeight(Math.min(mScreenWidth, mScreenHeight))//横屏视频的高
                 .setVerticalFullVideoWidth(Math.min(mScreenWidth, mScreenHeight))//竖屏全屏视频的宽
