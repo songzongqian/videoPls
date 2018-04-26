@@ -45,7 +45,10 @@ public class VideoControllerView extends FrameLayout {
     private static final int sDefaultTimeout = 3000;
     private static final int FADE_OUT = 1;
     private static final int SHOW_PROGRESS = 2;
+    private boolean mUseFastForward;
     protected boolean mFromXml;
+    private boolean mListenersSet;
+    private OnClickListener mNextListener, mPrevListener;
     StringBuilder mFormatBuilder;
     Formatter mFormatter;
     protected ImageButton mPauseButton;
@@ -58,12 +61,13 @@ public class VideoControllerView extends FrameLayout {
     private Screen mCurrentScreenOrientation = Screen.PORTRAIT;  // 初始化竖屏
     private OnMediaScreenChangedListener mediaScreenChangedListener;
     private OnSetingsClickListener mOnSettingsClickListener;
-
+    private boolean mIsEnjoy;
 
     public VideoControllerView(Context context, AttributeSet attrs) {
         super(context, attrs);
         mRoot = null;
         mContext = context;
+        mUseFastForward = true;
         mFromXml = true;
 
         Log.i(TAG, TAG);
@@ -72,6 +76,7 @@ public class VideoControllerView extends FrameLayout {
     public VideoControllerView(Context context, boolean useFastForward, Activity activity) {
         super(context);
         mContext = activity;
+        mUseFastForward = useFastForward;
         mCurrentScreenOrientation = VenvyUIUtil.isScreenOriatationPortrait(activity) ? Screen.PORTRAIT : Screen.LAND_SCAPE;
         Log.i(TAG, TAG);
     }
@@ -86,6 +91,7 @@ public class VideoControllerView extends FrameLayout {
         mContext = context;
         return true;
     }
+
 
     @Override
     public void onFinishInflate() {
@@ -103,10 +109,10 @@ public class VideoControllerView extends FrameLayout {
         mediaScreenChangedListener = listener;
     }
 
-
     public void setmOnSettingsClickListener(OnSetingsClickListener listener) {
         mOnSettingsClickListener = listener;
     }
+
 
     /**
      * Set the view that acts as the anchor for the control view.
@@ -144,6 +150,9 @@ public class VideoControllerView extends FrameLayout {
 
     @SuppressLint("WrongViewCast")
     protected void initControllerView(View v) {
+
+        View pauseBg = v.findViewById(R.id.rl_top_setting);
+
         mPauseButton = (ImageButton) v.findViewById(R.id.pause);
         if (mPauseButton != null) {
             mPauseButton.requestFocus();
@@ -176,15 +185,6 @@ public class VideoControllerView extends FrameLayout {
             });
         }
 
-        mProgress = (ProgressBar) v.findViewById(R.id.mediacontroller_progress);
-        if (mProgress != null) {
-            if (mProgress instanceof SeekBar) {
-                SeekBar seeker = (SeekBar) mProgress;
-                seeker.setOnSeekBarChangeListener(mSeekListener);
-            }
-            mProgress.setMax(1000);
-        }
-
         mSettingsButton = (ImageButton) v.findViewById(R.id.settings);
         if (mSettingsButton != null) {
             mSettingsButton.setOnClickListener(new OnClickListener() {
@@ -197,17 +197,27 @@ public class VideoControllerView extends FrameLayout {
             });
         }
 
+        mProgress = (ProgressBar) v.findViewById(R.id.mediacontroller_progress);
+        if (mProgress != null) {
+            if (mProgress instanceof SeekBar) {
+                SeekBar seeker = (SeekBar) mProgress;
+                seeker.setOnSeekBarChangeListener(mSeekListener);
+            }
+            mProgress.setMax(1000);
+        }
+
         mEndTime = (TextView) v.findViewById(R.id.time);
         mCurrentTime = (TextView) v.findViewById(R.id.time_current);
         mFormatBuilder = new StringBuilder();
         mFormatter = new Formatter(mFormatBuilder, Locale.getDefault());
 
+        pauseBg.setVisibility(!isLive ? VISIBLE : GONE);
         mProgress.setVisibility(!isLive ? VISIBLE : GONE);
         mEndTime.setVisibility(!isLive ? VISIBLE : GONE);
         mPauseButton.setVisibility(!isLive ? VISIBLE : GONE);
         mCurrentTime.setVisibility(!isLive ? VISIBLE : GONE);
-        mVerFullScreenChangeView.setVisibility(isLive ? VISIBLE : GONE);
-
+        mVerFullScreenChangeView.setVisibility(mIsEnjoy || !isLive ? GONE : VISIBLE);
+        mScreenChangeView.setVisibility(mIsEnjoy ? GONE : VISIBLE);
     }
 
     /**
@@ -426,9 +436,9 @@ public class VideoControllerView extends FrameLayout {
             return;
         }
         if (mPlayer.isMediaPlayerPlaying()) {
-            mPauseButton.setBackgroundResource(R.drawable.ic_media_play);
+            mPauseButton.setImageResource(R.drawable.ic_media_play);
         } else {
-            mPauseButton.setBackgroundResource(R.drawable.ic_media_pause);
+            mPauseButton.setImageResource(R.drawable.ic_media_pause);
         }
     }
 
@@ -522,6 +532,10 @@ public class VideoControllerView extends FrameLayout {
         info.setClassName(VideoControllerView.class.getName());
     }
 
+    public void isEnjoy() {
+        mIsEnjoy = true;
+    }
+
     public interface MediaPlayerControl {
         void mediaPlayerStart();
 
@@ -603,15 +617,9 @@ public class VideoControllerView extends FrameLayout {
         if (mCurrentScreenOrientation == Screen.LAND_SCAPE) {
             activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
             mCurrentScreenOrientation = Screen.PORTRAIT;
-        } else if (mCurrentScreenOrientation == Screen.PORTRAIT_FULL) {
-            mCurrentScreenOrientation = Screen.PORTRAIT;
-        } else if (mCurrentScreenOrientation == Screen.PORTRAIT) {
-            mCurrentScreenOrientation = Screen.PORTRAIT_FULL;
-        } else {
-            return;
         }
         if (mediaScreenChangedListener != null) {
-            mediaScreenChangedListener.screenChanged(mCurrentScreenOrientation);
+            mediaScreenChangedListener.verticalTypeChange(mCurrentScreenOrientation);
         }
 
     }
@@ -640,20 +648,18 @@ public class VideoControllerView extends FrameLayout {
 
     public interface OnMediaScreenChangedListener {
         void screenChanged(Screen screen);
+
+        void verticalTypeChange(Screen screen);
+    }
+
+    public interface OnSetingsClickListener {
+        void settingsClick();
     }
 
     public enum Screen {
         PORTRAIT,
         PORTRAIT_FULL,
         LAND_SCAPE
-    }
-
-    public void onDestory() {
-        mHandler.removeCallbacksAndMessages(null);
-    }
-
-    public interface OnSetingsClickListener {
-        void settingsClick();
     }
 
 }

@@ -1,4 +1,4 @@
-package videodemo.com.cn.myapplication;
+package videodemo.com.cn.myapplication.player;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -13,20 +13,23 @@ import android.widget.RadioGroup;
 
 import both.video.venvy.com.appdemo.R;
 import cn.com.venvy.common.bean.WidgetInfo;
+import cn.com.venvy.common.image.IImageLoader;
 import cn.com.venvy.common.interf.IMediaControlListener;
 import cn.com.venvy.common.interf.IWidgetClickListener;
 import cn.com.venvy.common.interf.IWidgetCloseListener;
 import cn.com.venvy.common.interf.IWidgetShowListener;
 import cn.com.venvy.common.utils.VenvyDebug;
 import cn.com.venvy.common.utils.VenvyUIUtil;
+import cn.com.venvy.glide.GlideImageLoader;
 import cn.com.videopls.pub.Provider;
 import cn.com.videopls.pub.VideoPlusAdapter;
 import cn.com.videopls.pub.VideoPlusView;
-import cn.com.videopls.pub.ott.VideoOTTView;
+import cn.com.videopls.pub.os.VideoOsView;
 import videodemo.com.cn.myapplication.base.BasePlayerActivity;
 import videodemo.com.cn.myapplication.bean.SettingsBean;
+import videodemo.com.cn.myapplication.weidget.VideoControllerView;
 
-public class VideoOTTActivity extends BasePlayerActivity {
+public class VideoOsActivity extends BasePlayerActivity {
 
     private SettingsBean mSettingsBean;
     private boolean enableMQTT = false;
@@ -34,7 +37,7 @@ public class VideoOTTActivity extends BasePlayerActivity {
     @NonNull
     @Override
     protected VideoPlusView initVideoPlusView() {
-        return new VideoOTTView(this);
+        return new VideoOsView(this);
     }
 
     @NonNull
@@ -56,7 +59,7 @@ public class VideoOTTActivity extends BasePlayerActivity {
      * @return
      */
     private String getAppKey() {
-        if (VenvyDebug.isDebug()) {
+        if (VenvyDebug.isDebug() || VenvyDebug.isPreView()) {
             return "Hk_MWKOEW";
         }
         return "Hk_MWKOEW";
@@ -68,18 +71,23 @@ public class VideoOTTActivity extends BasePlayerActivity {
      * @return
      */
     private String getVideoPath() {
-        if (VenvyDebug.isDebug()) {
+        if (VenvyDebug.isDebug() || VenvyDebug.isPreView()) {
             return "http://7xr4xn.media1.z0.glb.clouddn.com/snh48sxhsy.mp4?v=0";
         }
         return "http://sdkcdn.videojj.com/flash/player/video/1.mp4?v=5";
+    }
+
+    @Override
+    public void verticalTypeChange(VideoControllerView.Screen screen) {
+
     }
 
     private class MyAdapter extends VideoPlusAdapter {
 
         @Override
         public Provider createProvider() {
-            final int width = VenvyUIUtil.getScreenWidth(VideoOTTActivity.this);
-            final int height = VenvyUIUtil.getScreenHeight(VideoOTTActivity.this);
+            final int width = VenvyUIUtil.getScreenWidth(VideoOsActivity.this);
+            final int height = VenvyUIUtil.getScreenHeight(VideoOsActivity.this);
             Provider provider = new Provider.Builder()
                     .setAppKey(getAppKey())//appkey
                     .setHorVideoHeight(Math.min(width, height))//横屏视频的高
@@ -91,6 +99,11 @@ public class VideoOTTActivity extends BasePlayerActivity {
                     .setVideoTitle("ttt")//
                     .build();
             return provider;
+        }
+
+        @Override
+        public Class<? extends IImageLoader> buildImageLoader() {
+            return GlideImageLoader.class;
         }
 
         /**
@@ -246,7 +259,7 @@ public class VideoOTTActivity extends BasePlayerActivity {
     }
 
     @Override
-    protected void initButtons(View contentview,final PopupWindow popupWindow) {
+    protected void initButtons(View contentview, final PopupWindow popupWindow) {
         final EditText appkey = (EditText) contentview.findViewById(R.id.et_appkey);
         appkey.setText(mSettingsBean.mAppkey);
 
@@ -262,15 +275,15 @@ public class VideoOTTActivity extends BasePlayerActivity {
                 }
             }
         });
-
-        final int id = initEnvButtons(contentview);
-        Button apply = (Button) contentview.findViewById(R.id.btn_dianbo);
+        initEnvButtons(contentview);
+        final RadioGroup selectEnv = (RadioGroup) contentview.findViewById(R.id.rg_select_env);
+        Button apply = (Button) contentview.findViewById(R.id.btn_apply);
         apply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mSettingsBean.mUrl = url.getText().toString();
                 mSettingsBean.mAppkey = appkey.getText().toString();
-                debugToggle(id);
+                debugToggle(selectEnv.getCheckedRadioButtonId());
                 //update adapter
                 updateAdapter();
 
@@ -278,6 +291,7 @@ public class VideoOTTActivity extends BasePlayerActivity {
             }
         });
     }
+
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -326,8 +340,8 @@ public class VideoOTTActivity extends BasePlayerActivity {
     }
 
     private void updateAdapter() {
-        final int width = VenvyUIUtil.getScreenWidth(VideoOTTActivity.this);
-        final int height = VenvyUIUtil.getScreenHeight(VideoOTTActivity.this);
+        final int width = VenvyUIUtil.getScreenWidth(VideoOsActivity.this);
+        final int height = VenvyUIUtil.getScreenHeight(VideoOsActivity.this);
         Provider provider = new Provider.Builder()
                 .setAppKey(mSettingsBean.mAppkey)//appkey
                 .setHorVideoHeight(Math.min(width, height))//横屏视频的高

@@ -1,3 +1,55 @@
 <resources>
 
+    <declare-styleable name="ShadowLayout">
+        <attr name="sl_cornerRadius" format="dimension"/>
+        <attr name="sl_shadowRadius" format="dimension"/>
+        <attr name="sl_shadowColor" format="color"/>
+        <attr name="sl_dx" format="dimension"/>
+        <attr name="sl_dy" format="dimension"/>
+    </declare-styleable>
+
+    <style name="MyCheckBox" parent="@android:style/Widget.CompoundButton.CheckBox">
+
+        <item name="android:button">@drawable/check_selector</item>
+    </style>
+
+    <!-- 设置页 TextView -->
+    <style name="room_setting_tv">
+        <item name="android:layout_marginBottom">10dp</item>
+        <item name="android:layout_marginTop">5dp</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/text_white</item>
+        <item name="android:textSize">@dimen/text_title</item>
+    </style>
+
+    <!-- 设置页 EditText -->
+    <style name="room_setting_et">
+        <item name="android:layout_width">200dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginBottom">8dp</item>
+        <item name="android:layout_alignParentRight">true</item>
+        <item name="android:background">@drawable/et_bg</item>
+        <item name="android:padding">5dp</item>
+        <item name="android:textColor">@color/text_nomal_black</item>
+        <item name="android:textColorHint">@color/text_nomal_black</item>
+        <item name="android:textSize">@dimen/text_content</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:singleLine">true</item>
+    </style>
+
+    <!-- 选择互娱房间类型 -->
+    <style name="huyu_select_room_type">
+        <item name="android:padding">6dp</item>
+        <item name="android:background">@drawable/huyu_config_bg</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">35dp</item>
+        <item name="android:layout_marginTop">15dp</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:layout_centerHorizontal">true</item>
+
+    </style>
+
+
 </resources>

@@ -14,10 +14,12 @@ public class SettingsBean {
     public String mRoomId;
     public String mPlatformId;
     public String mCate;
+    public String mUserName;
 
     //互娱增加参数，在直播基础上增加用户和主播
     public boolean isAnchor;
     public String uId;
     public boolean isPush;
+    public boolean isPortraitFullScreen;
 
 }

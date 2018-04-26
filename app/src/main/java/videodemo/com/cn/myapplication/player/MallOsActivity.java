@@ -1,4 +1,4 @@
-package videodemo.com.cn.myapplication;
+package videodemo.com.cn.myapplication.player;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -9,15 +9,19 @@ import android.widget.Button;
 import both.video.venvy.com.appdemo.R;
 import cn.com.venvy.common.bean.PlatformUserInfo;
 import cn.com.venvy.common.bean.WidgetInfo;
+import cn.com.venvy.common.image.IImageLoader;
 import cn.com.venvy.common.interf.IPlatformLoginInterface;
 import cn.com.venvy.common.interf.IWidgetCloseListener;
 import cn.com.venvy.common.route.RouterRegistry;
+import cn.com.venvy.common.utils.VenvyLog;
 import cn.com.venvy.common.utils.VenvyReflectUtil;
 import cn.com.videopls.pub.Provider;
 import cn.com.videopls.pub.VideoPlusAdapter;
 import cn.com.videopls.pub.VideoPlusView;
 import cn.com.videopls.pub.mall.VideoMallView;
 import videodemo.com.cn.myapplication.weidget.VideoControllerView;
+
+//import cn.com.venvy.glide.GlideImageLoader;
 
 public class MallOsActivity extends LiveBaseActivity {
 
@@ -44,7 +48,7 @@ public class MallOsActivity extends LiveBaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mMallRootView = getLayoutInflater().inflate(R.layout.activity_mall_buttons, getContentView(), true);
-        initView();
+        initMallView();
         initMall();
     }
 
@@ -58,6 +62,12 @@ public class MallOsActivity extends LiveBaseActivity {
                     .setPlatformId("56dd27a8b311dff60073e645")//videojj直播后台平台Id ：575e6e087c395e0501980c89
                     .build();
             return provider;
+        }
+
+        @Override
+        public Class<? extends IImageLoader> buildImageLoader() {
+//            return GlideImageLoader.class;
+            return null;
         }
 
         @Override
@@ -126,7 +136,7 @@ public class MallOsActivity extends LiveBaseActivity {
         }
     }
 
-    private void initView() {
+    private void initMallView() {
         mMallBtn = (Button) mMallRootView.findViewById(R.id.mall);
         mMallBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -145,26 +155,37 @@ public class MallOsActivity extends LiveBaseActivity {
     }
 
     @Override
-    public void screenChanged(VideoControllerView.Screen screen) {
-        super.screenChanged(screen);
-        switch (screen) {
-            case PORTRAIT:
-                //屏幕切换调用，切换竖屏小屏
-                VenvyReflectUtil.invokeStatic(mallClas,
-                        "gone", null, null);
-                getAdapter().notifyLiveVerticalScreen(1);
-                break;
-            case PORTRAIT_FULL:
-                //屏幕切换调用，切换竖屏全屏
-                mShelfBtn.setVisibility(View.VISIBLE);
-                mMallBtn.setVisibility(View.GONE);
-                getAdapter().notifyLiveVerticalScreen(0);
-                break;
+    public void verticalTypeChange(VideoControllerView.Screen screen) {
+        VenvyLog.i("screenChanged verticalTypeChange = " + screen);
+        if (isSmallVertical) {
+            //屏幕切换调用，切换竖屏全屏
+            getAdapter().notifyLiveVerticalScreen(0);
+            setFullScreen();
+            mShelfBtn.setVisibility(View.VISIBLE);
+            mMallBtn.setVisibility(View.GONE);
+        } else {
+            //屏幕切换调用，切换竖屏小屏
+            getAdapter().notifyLiveVerticalScreen(1);
+            setSmallScreen();
+            VenvyReflectUtil.invokeStatic(mallClas,
+                    "gone", null, null);
+        }
+        isSmallVertical = !isSmallVertical;
+    }
 
-            case LAND_SCAPE:
-                mMallBtn.setVisibility(View.VISIBLE);
-                mShelfBtn.setVisibility(View.GONE);
-                break;
+    @Override
+    public void screenChanged(VideoControllerView.Screen screen) {
+        VenvyLog.i("screenChanged = " + screen);
+        if (screen == VideoControllerView.Screen.LAND_SCAPE) {
+            setFullScreen();
+            mMallBtn.setVisibility(View.VISIBLE);
+            mShelfBtn.setVisibility(View.GONE);
+        } else {
+            if (isSmallVertical) {
+                setSmallScreen();
+            } else {
+                setFullScreen();
+            }
         }
     }
 }

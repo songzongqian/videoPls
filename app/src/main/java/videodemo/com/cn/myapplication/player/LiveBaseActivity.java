@@ -1,10 +1,11 @@
-package videodemo.com.cn.myapplication;
+package videodemo.com.cn.myapplication.player;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
@@ -19,7 +20,7 @@ import videodemo.com.cn.myapplication.base.BasePlayerActivity;
 import videodemo.com.cn.myapplication.bean.SettingsBean;
 import videodemo.com.cn.myapplication.weidget.VideoControllerView;
 
-public class LiveBaseActivity extends BasePlayerActivity implements AdapterView.OnItemSelectedListener{
+public class LiveBaseActivity extends BasePlayerActivity implements AdapterView.OnItemSelectedListener {
 
 
     protected SettingsBean mSettingsBean;
@@ -53,7 +54,7 @@ public class LiveBaseActivity extends BasePlayerActivity implements AdapterView.
     /**
      * Video++直播PlatformId
      */
-    protected static String getPlatformId() {
+    protected String getPlatformId() {
         if (VenvyDebug.isDebug() || VenvyDebug.isPreView()) {
             return "556c38e7ec69d5bf655a0fb2";
         }
@@ -68,6 +69,10 @@ public class LiveBaseActivity extends BasePlayerActivity implements AdapterView.
         mSettingsBean.mPlatformId = getPlatformId();
         mSettingsBean.mCate = "";
         mSettingsBean.isAnchor = false;
+    }
+
+   protected void updateSettingsBeans(){
+        mSettingsBean.mPlatformId = getPlatformId();
     }
 
     @Override
@@ -89,6 +94,7 @@ public class LiveBaseActivity extends BasePlayerActivity implements AdapterView.
     @Override
     public void verticalTypeChange(VideoControllerView.Screen screen) {
         VenvyLog.i("screenChanged verticalTypeChange = " + screen);
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
         if (isSmallVertical) {
             //屏幕切换调用，切换竖屏全屏
             getAdapter().notifyLiveVerticalScreen(0);
@@ -105,8 +111,10 @@ public class LiveBaseActivity extends BasePlayerActivity implements AdapterView.
     public void screenChanged(VideoControllerView.Screen screen) {
         VenvyLog.i("screenChanged = " + screen);
         if (screen == VideoControllerView.Screen.LAND_SCAPE) {
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
             setFullScreen();
         } else {
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
             if (isSmallVertical) {
                 setSmallScreen();
             } else {

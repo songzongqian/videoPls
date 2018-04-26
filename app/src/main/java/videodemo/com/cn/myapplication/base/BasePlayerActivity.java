@@ -3,20 +3,18 @@ package videodemo.com.cn.myapplication.base;
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
+import android.graphics.drawable.BitmapDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.Gravity;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.PopupWindow;
 import android.widget.RadioButton;
-import android.widget.RadioGroup;
 
 import both.video.venvy.com.appdemo.R;
 import cn.com.venvy.common.utils.VenvyDebug;
@@ -26,7 +24,8 @@ import cn.com.videopls.pub.VideoPlusView;
 import videodemo.com.cn.myapplication.weidget.CustomVideoView;
 import videodemo.com.cn.myapplication.weidget.VideoControllerView;
 
-public abstract class BasePlayerActivity extends Activity implements VideoControllerView.OnMediaScreenChangedListener,VideoControllerView.OnSetingsClickListener {
+public abstract class BasePlayerActivity extends Activity implements VideoControllerView.OnMediaScreenChangedListener, VideoControllerView.OnSetingsClickListener {
+
     protected VideoPlusAdapter mVideoPlusAdapter;
     protected VideoPlusView videoPlusView;
     protected int mScreenWidth;
@@ -35,18 +34,19 @@ public abstract class BasePlayerActivity extends Activity implements VideoContro
     protected FrameLayout mRootView;
     protected VideoControllerView mController;
     protected CustomVideoView mCustomVideoView;
+    private View mContentView;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // 隐藏标题栏
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        // 隐藏状态栏
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
         super.onCreate(savedInstanceState);
         initSettingsValue();
-        setContentView(R.layout.activity_base_player);
+        mContentView = LayoutInflater.from(this).inflate(R.layout.activity_base_player, null);
+        setContentView(mContentView);
+
         mScreenWidth = VenvyUIUtil.getScreenWidth(this);
         mScreenHeight = VenvyUIUtil.getScreenHeight(this);
         mWidowPlayerHeight = VenvyUIUtil.dip2px(this, 195);
@@ -63,9 +63,12 @@ public abstract class BasePlayerActivity extends Activity implements VideoContro
 
         }
         initMediaController();
+        initView();
+    }
 
-        //Video++实例化
+    protected void initView() {
         videoPlusView = initVideoPlusView();
+        //Video++实例化
         mVideoPlusAdapter = initVideoPlusAdapter();
         ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams
                 .MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
@@ -147,7 +150,8 @@ public abstract class BasePlayerActivity extends Activity implements VideoContro
         return mVideoPlusAdapter;
     }
 
-    public void verticalTypeChange(VideoControllerView.Screen screen) {
+    protected boolean belowSDK21() {
+        return Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP;
     }
 
     /**
@@ -190,21 +194,11 @@ public abstract class BasePlayerActivity extends Activity implements VideoContro
     private void initiatePopupWindow() {
         LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View contentview = getInflate(inflater);
-        contentview.setFocusable(true);
-        contentview.setFocusableInTouchMode(true);
-        final PopupWindow popupWindow = new PopupWindow(contentview, FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT);
+        final PopupWindow popupWindow = new PopupWindow(contentview, FrameLayout.LayoutParams
+                .WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT, true);
         popupWindow.setFocusable(true);
-        popupWindow.setOutsideTouchable(false);
-        contentview.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if (keyCode == KeyEvent.KEYCODE_BACK) {
-                    popupWindow.dismiss();
-                    return true;
-                }
-                return false;
-            }
-        });
+        popupWindow.setOutsideTouchable(true);
+        popupWindow.setBackgroundDrawable(new BitmapDrawable());
         initButtons(contentview, popupWindow);
         popupWindow.showAtLocation(getContentView(), Gravity.CENTER | Gravity.CENTER_HORIZONTAL, 0, 0);
     }
@@ -217,19 +211,20 @@ public abstract class BasePlayerActivity extends Activity implements VideoContro
 
     }
 
-    protected int initEnvButtons(View contentview) {
+    protected void initEnvButtons(View contentview) {
 
-        final RadioGroup selectEnv = (RadioGroup) contentview.findViewById(R.id.rg_select_env);
         final RadioButton testButton = (RadioButton) contentview.findViewById(R.id.rb_test);
         final RadioButton preButton = (RadioButton) contentview.findViewById(R.id.rb_pre);
         final RadioButton releaseButton = (RadioButton) contentview.findViewById(R.id.rb_release);
         testButton.setChecked(VenvyDebug.isDebug());
         preButton.setChecked(VenvyDebug.isPreView());
         releaseButton.setChecked(VenvyDebug.isRelease());
-        return selectEnv.getCheckedRadioButtonId();
     }
 
+    //更新相关的参数
+    protected void updateSettingsBeans(){
 
+    }
     protected void debugToggle(int id) {
         if (id == R.id.rb_test) {
             VenvyDebug.changeEnvironmentStatus(VenvyDebug.EnvironmentStatus.DEBUG);
@@ -238,36 +233,5 @@ public abstract class BasePlayerActivity extends Activity implements VideoContro
         } else if (id == R.id.rb_release) {
             VenvyDebug.changeEnvironmentStatus(VenvyDebug.EnvironmentStatus.RELEASE);
         }
-    }
-
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        return false;
-    }
-
-
-    public void startPlay() {
-        //Video++主动调用，开始播放
-        mCustomVideoView.mediaPlayerStart();
-    }
-
-    public void pausePlay() {
-        //Video++主动调用，暂停播放器
-        mCustomVideoView.mediaPlayerPause();
-    }
-
-    public void stopPlay() {
-        //Video++主动调用，停止播放器
-        mCustomVideoView.mediaPlayerPause();
-    }
-
-    public long getPlayerPosition() {
-        //Video++主动调用，获取播放器播放时间
-        return mCustomVideoView.getMediaPlayerCurrentPosition();
-    }
-
-    public void playerSeekTo(long position) {
-        //Video++主动调用，快进播放器
-        mCustomVideoView.mediaPlayerSeekTo((int) position);
     }
 }

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <Button
+        style="@style/huyu_select_room_type"
+        android:text="@string/huyu_anchor_vertical"
+        android:id="@+id/tv_popup_selector_anchor_vertical"/>
+
+    <Button
+        android:layout_below="@+id/tv_popup_selector_anchor_vertical"
+        style="@style/huyu_select_room_type"
+        android:text="@string/huyu_anchor_landscape"
+        android:id="@+id/tv_popup_selector_anchor_landscape"/>
+
+    <Button
+        android:text="@string/huyu_anchor_config"
+        android:layout_below="@+id/tv_popup_selector_anchor_landscape"
+        android:id="@+id/tv_popup_selector_anchor_config"
+        style="@style/huyu_select_room_type"/>
+
+    <Button
+        android:layout_marginBottom="15dp"
+        style="@style/huyu_select_room_type"
+        android:layout_below="@+id/tv_popup_selector_anchor_config"
+        android:text="@string/huyu_user"
+        android:id="@+id/tv_popup_selector_user"/>
+</RelativeLayout>

@@ -16,12 +16,12 @@
     <application
         android:name="videodemo.com.cn.myapplication.MyApp"
         android:allowBackup="true"
-        android:hardwareAccelerated="false"
+        android:hardwareAccelerated="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name">
 
         <activity
-            android:name="videodemo.com.cn.myapplication.WelcomeActivity"
+            android:name="videodemo.com.cn.myapplication.WelcomeNewActivity"
             android:configChanges="orientation|screenSize|smallestScreenSize|keyboard|keyboardHidden|navigation"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -32,29 +32,26 @@
         </activity>
 
         <activity
-            android:name="videodemo.com.cn.myapplication.VideoOsActivity"
+            android:name="videodemo.com.cn.myapplication.player.VideoOsActivity"
             android:configChanges="orientation|screenSize|smallestScreenSize|keyboard|keyboardHidden|navigation"
             android:screenOrientation="portrait" />
         <activity
-            android:name="videodemo.com.cn.myapplication.LiveOsActivity"
-            android:configChanges="orientation|screenSize|smallestScreenSize|keyboard|keyboardHidden|navigation"
-            android:screenOrientation="portrait" />
-
-        <activity
-            android:name="videodemo.com.cn.myapplication.MallOsActivity"
+            android:name="videodemo.com.cn.myapplication.player.LiveOsActivity"
             android:configChanges="orientation|screenSize|smallestScreenSize|keyboard|keyboardHidden|navigation"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name="videodemo.com.cn.myapplication.MyOrderAcitvity"
+            android:name="videodemo.com.cn.myapplication.player.MallOsActivity"
             android:configChanges="orientation|screenSize|smallestScreenSize|keyboard|keyboardHidden|navigation"
             android:screenOrientation="portrait" />
+
         <activity
-            android:name="videodemo.com.cn.myapplication.VideoOTTActivity"
+            android:name="videodemo.com.cn.myapplication.player.VideoOTTActivity"
             android:configChanges="orientation|screenSize|smallestScreenSize|keyboard|keyboardHidden|navigation"
             android:screenOrientation="landscape" />
         <activity
-            android:name="videodemo.com.cn.myapplication.HuyuOsActivity"
+            android:name="videodemo.com.cn.myapplication.player.HuyuOsActivity"
+            android:windowSoftInputMode="adjustNothing"
             android:configChanges="orientation|screenSize|smallestScreenSize|keyboard|keyboardHidden|navigation"
             android:screenOrientation="portrait" />
     </application>

@@ -75,6 +75,7 @@ public class CustomVideoView extends SurfaceView implements VideoControllerView.
     @Override
     public void mediaPlayerSeekTo(int pos) {
         mMediaPlayer.seekTo(pos);
+
     }
 
     @Override
