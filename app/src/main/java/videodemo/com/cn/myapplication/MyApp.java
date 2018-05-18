@@ -25,7 +25,7 @@ public class MyApp extends Application {
                 // VideoType.MALL 表示只接入子商城
                 // VideoPlus.VideoType.HUYU 互娱
                 VideoPlus.appCreate(MyApp.this, VideoPlus.VideoType.HUYU,VideoPlus.VideoType
-                        .LIVEOS);
+                        .LIVEOS, VideoPlus.VideoType.MALL);
             }
         }, 3000);
     }
