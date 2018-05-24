@@ -1,6 +1,5 @@
 package videodemo.com.cn.myapplication.player;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.View;
@@ -12,22 +11,17 @@ import cn.com.venvy.common.bean.WidgetInfo;
 import cn.com.venvy.common.image.IImageLoader;
 import cn.com.venvy.common.interf.IPlatformLoginInterface;
 import cn.com.venvy.common.interf.IWidgetCloseListener;
-import cn.com.venvy.common.route.RouterRegistry;
 import cn.com.venvy.common.utils.VenvyLog;
-import cn.com.venvy.common.utils.VenvyReflectUtil;
+import cn.com.venvy.glide.GlideImageLoader;
 import cn.com.videopls.pub.Provider;
 import cn.com.videopls.pub.VideoPlusAdapter;
 import cn.com.videopls.pub.VideoPlusView;
 import cn.com.videopls.pub.mall.VideoMallView;
 import videodemo.com.cn.myapplication.weidget.VideoControllerView;
 
-//import cn.com.venvy.glide.GlideImageLoader;
-
 public class MallOsActivity extends LiveBaseActivity {
 
     private IPlatformLoginInterface iPlatformLoginInterface;
-    private static final String webViewName = "cn.com.venvy.mall.test.MallWebViewFactory";
-    private Class mallClas;
     private View mMallRootView;
     private VideoMallView mVideoMallView;
     private Button mMallBtn, mShelfBtn;
@@ -49,7 +43,6 @@ public class MallOsActivity extends LiveBaseActivity {
         super.onCreate(savedInstanceState);
         mMallRootView = getLayoutInflater().inflate(R.layout.activity_mall_buttons, getContentView(), true);
         initMallView();
-        initMall();
     }
 
     //竖屏小屏adapter
@@ -66,8 +59,7 @@ public class MallOsActivity extends LiveBaseActivity {
 
         @Override
         public Class<? extends IImageLoader> buildImageLoader() {
-//            return GlideImageLoader.class;
-            return null;
+            return GlideImageLoader.class;
         }
 
         @Override
@@ -90,7 +82,7 @@ public class MallOsActivity extends LiveBaseActivity {
     }
 
     private void initLogin() {
-        iPlatformLoginInterface = new IPlatformLoginInterface() {
+        iPlatformLoginInterface = new IPlatformLoginInterface.PlatformLoginAdapter() {
             @Override
             public PlatformUserInfo getLoginUser() {
                 PlatformUserInfo platformUserInfo = new PlatformUserInfo();
@@ -117,39 +109,23 @@ public class MallOsActivity extends LiveBaseActivity {
             @Override
             public void screenChanged(ScreenChangedInfo changedInfo) {
                 System.out.println("---登陆的URL－－－" + changedInfo.url);
-                //设为竖屏全屏
-                VenvyReflectUtil.invokeStatic(mallClas,
-                        "screenChanged", new Class[]{ScreenChangedInfo.class}, new Object[]{changedInfo});
             }
         };
     }
 
-    private void initMall() {
-        mallClas = VenvyReflectUtil.getClass(webViewName);
-        if (mallClas != null) {
-            View view = (View)
-                    VenvyReflectUtil.invokeStatic(mallClas,
-                            "initMallWebView", new Class[]{Context.class, IPlatformLoginInterface.class}, new Object[]{this, iPlatformLoginInterface});
-            getContentView().addView(view);
-            VenvyReflectUtil.invokeStatic(mallClas,
-                    "gone", null, null);
-        }
-    }
 
     private void initMallView() {
         mMallBtn = (Button) mMallRootView.findViewById(R.id.mall);
         mMallBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                RouterRegistry.ROUTER_REGISTRY.invokeRouter("mall");
+                mVideoMallView.openMall();
             }
         });
         mShelfBtn = (Button) mMallRootView.findViewById(R.id.shelf);
         mShelfBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                VenvyReflectUtil.invokeStatic(mallClas,
-                        "open", new Class[]{String.class}, new Object[]{VideoMallView.getMallUrl() + "?video=34"});
             }
         });
     }
@@ -167,8 +143,6 @@ public class MallOsActivity extends LiveBaseActivity {
             //屏幕切换调用，切换竖屏小屏
             getAdapter().notifyLiveVerticalScreen(1);
             setSmallScreen();
-            VenvyReflectUtil.invokeStatic(mallClas,
-                    "gone", null, null);
         }
         isSmallVertical = !isSmallVertical;
     }

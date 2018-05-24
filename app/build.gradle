@@ -22,7 +22,7 @@ android {
 repositories { flatDir { dirs 'libs' } }
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile(name: 'venvy_pub-release-2.0.3.3', ext: 'aar')
+//    compile(name: 'venvy_pub-release-2.0.4.9', ext: 'aar')
 
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile "com.android.support:support-v4:25.3.1"
@@ -35,7 +35,7 @@ dependencies {
     // glide library
     compile 'com.videoli:venvy_glide:1.0.2@aar'
     // svgA library
-    compile 'com.videoli:venvy_svga:1.0.6'
+//    compile 'com.videoli:venvy_svga:1.0.6'
     // mqtt library
     compile 'org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.0.2'
     // okhttp
@@ -48,5 +48,5 @@ dependencies {
     compile "com.facebook.fresco:webpsupport:1.8.0"
 
 //    compile 'com.videoli:venvy_lua:1.0.11'
-    compile 'com.videoli:video_pub:2.0.4.5'
+    compile 'com.videoli:video_pub:2.0.4.7'
 }

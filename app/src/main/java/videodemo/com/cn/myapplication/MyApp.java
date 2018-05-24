@@ -2,6 +2,8 @@ package videodemo.com.cn.myapplication;
 
 import android.app.Application;
 
+import com.tencent.smtt.sdk.QbSdk;
+
 import cn.com.venvy.common.utils.VenvyUIUtil;
 import cn.com.videopls.pub.VideoPlus;
 
@@ -26,6 +28,7 @@ public class MyApp extends Application {
                 // VideoPlus.VideoType.HUYU 互娱
                 VideoPlus.appCreate(MyApp.this, VideoPlus.VideoType.HUYU,VideoPlus.VideoType
                         .LIVEOS, VideoPlus.VideoType.MALL);
+                QbSdk.forceSysWebView();
             }
         }, 3000);
     }

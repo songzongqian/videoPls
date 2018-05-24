@@ -65,7 +65,7 @@ public class LiveBaseActivity extends BasePlayerActivity implements AdapterView.
     @Override
     protected void initSettingsValue() {
         mSettingsBean = new SettingsBean();
-        mSettingsBean.mRoomId = "34";
+        mSettingsBean.mRoomId = "999";
         mSettingsBean.mPlatformId = getPlatformId();
         mSettingsBean.mCate = "";
         mSettingsBean.isAnchor = false;
