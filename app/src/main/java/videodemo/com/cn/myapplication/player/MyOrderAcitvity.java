@@ -6,14 +6,10 @@ import android.support.annotation.Nullable;
 import android.view.KeyEvent;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.FrameLayout;
 
 import cn.com.venvy.common.bean.PlatformUserInfo;
-import cn.com.venvy.common.exception.LoginException;
 import cn.com.venvy.common.interf.IPlatformLoginInterface;
 import cn.com.venvy.common.utils.VenvyUIUtil;
-import cn.com.venvy.keep.MallConfig;
-import cn.com.venvy.mall.view.MallWebView;
 
 
 /**
@@ -22,7 +18,6 @@ import cn.com.venvy.mall.view.MallWebView;
  */
 
 public class MyOrderAcitvity extends Activity {
-    private MallWebView mallWebView;
     private IPlatformLoginInterface loginInterface;
 
     @Override
@@ -41,16 +36,16 @@ public class MyOrderAcitvity extends Activity {
         int width = VenvyUIUtil.getScreenWidth(this);
         //屏幕的高
         int height = VenvyUIUtil.getScreenHeight(this);
-        mallWebView = new MallWebView(this);
-        mallWebView.setSsId(System.currentTimeMillis()+"");
-        mallWebView.setPlatformLoginInterface(loginInterface);
-
-        FrameLayout.LayoutParams
-                params = new FrameLayout.LayoutParams(width, height);
-        mallWebView.setLayoutParams(params);
-
-        setContentView(mallWebView);
-        mallWebView.loadUrl(MallConfig.getOrderUrl());
+//        mallWebView = new MallWebView(this);
+//        mallWebView.setSsId(System.currentTimeMillis()+"");
+//        mallWebView.setPlatformLoginInterface(loginInterface);
+//
+//        FrameLayout.LayoutParams
+//                params = new FrameLayout.LayoutParams(width, height);
+//        mallWebView.setLayoutParams(params);
+//
+//        setContentView(mallWebView);
+//        mallWebView.loadUrl(MallConfig.getOrderUrl());
     }
 
     private void initLogin() {
@@ -80,19 +75,9 @@ public class MyOrderAcitvity extends Activity {
 
             @Override
             public void login(LoginCallback loginCallback) {
-                //此接口方法为h5请求app打开自己的登录页面，app登录成功后将用户idd等信息回调给h5
-                if(true) {//登录成功回调
-                    PlatformUserInfo platformUserInfo = new PlatformUserInfo();
-                    platformUserInfo.setUid("必填");
-                    platformUserInfo.setNickName("nullable");
-                    platformUserInfo.setUserName("nullable");
-                    platformUserInfo.setPhoneNum("nullable");
-                    platformUserInfo.setUserToken("nullable");
-                    loginCallback.loginSuccess(platformUserInfo);
-                }else {
-                    loginCallback.loginError(new LoginException("登录失败"));
-                }
+
             }
+
 
             @Override
             public void screenChanged(ScreenChangedInfo changedInfo) {
@@ -109,10 +94,10 @@ public class MyOrderAcitvity extends Activity {
      */
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK && mallWebView.canGoBack()) {
-            mallWebView.goBack();// 返回前一个页面
-            return true;
-        }
+//        if (keyCode == KeyEvent.KEYCODE_BACK && mallWebView.canGoBack()) {
+//            mallWebView.goBack();// 返回前一个页面
+//            return true;
+//        }
         return super.onKeyDown(keyCode, event);
     }
 

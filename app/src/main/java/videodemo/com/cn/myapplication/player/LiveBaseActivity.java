@@ -55,7 +55,7 @@ public class LiveBaseActivity extends BasePlayerActivity implements AdapterView.
      * Video++直播PlatformId
      */
     protected String getPlatformId() {
-        if (VenvyDebug.isDebug() || VenvyDebug.isPreView()) {
+        if (VenvyDebug.isDebug()) {
             return "556c38e7ec69d5bf655a0fb2";
         }
         return "575e6e087c395e0501980c89";
@@ -65,8 +65,8 @@ public class LiveBaseActivity extends BasePlayerActivity implements AdapterView.
     @Override
     protected void initSettingsValue() {
         mSettingsBean = new SettingsBean();
-        mSettingsBean.mRoomId = "999";
-        mSettingsBean.mPlatformId = getPlatformId();
+        mSettingsBean.mRoomId = "229729";
+        mSettingsBean.mPlatformId = "593a6468fb893a4900ab4996";
         mSettingsBean.mCate = "";
         mSettingsBean.isAnchor = false;
     }

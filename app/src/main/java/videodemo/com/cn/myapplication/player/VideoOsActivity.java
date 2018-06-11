@@ -1,5 +1,6 @@
 package videodemo.com.cn.myapplication.player;
 
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
@@ -13,14 +14,12 @@ import android.widget.RadioGroup;
 
 import both.video.venvy.com.appdemo.R;
 import cn.com.venvy.common.bean.WidgetInfo;
-import cn.com.venvy.common.image.IImageLoader;
 import cn.com.venvy.common.interf.IMediaControlListener;
 import cn.com.venvy.common.interf.IWidgetClickListener;
 import cn.com.venvy.common.interf.IWidgetCloseListener;
 import cn.com.venvy.common.interf.IWidgetShowListener;
 import cn.com.venvy.common.utils.VenvyDebug;
 import cn.com.venvy.common.utils.VenvyUIUtil;
-import cn.com.venvy.glide.GlideImageLoader;
 import cn.com.videopls.pub.Provider;
 import cn.com.videopls.pub.VideoPlusAdapter;
 import cn.com.videopls.pub.VideoPlusView;
@@ -33,6 +32,11 @@ public class VideoOsActivity extends BasePlayerActivity {
 
     private SettingsBean mSettingsBean;
     private boolean enableMQTT = false;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
 
     @NonNull
     @Override
@@ -59,7 +63,7 @@ public class VideoOsActivity extends BasePlayerActivity {
      * @return
      */
     private String getAppKey() {
-        if (VenvyDebug.isDebug() || VenvyDebug.isPreView()) {
+        if (VenvyDebug.isDebug()) {
             return "Hk_MWKOEW";
         }
         return "Hk_MWKOEW";
@@ -71,7 +75,7 @@ public class VideoOsActivity extends BasePlayerActivity {
      * @return
      */
     private String getVideoPath() {
-        if (VenvyDebug.isDebug() || VenvyDebug.isPreView()) {
+        if (VenvyDebug.isDebug()) {
             return "http://7xr4xn.media1.z0.glb.clouddn.com/snh48sxhsy.mp4?v=0";
         }
         return "http://sdkcdn.videojj.com/flash/player/video/1.mp4?v=5";
@@ -97,13 +101,9 @@ public class VideoOsActivity extends BasePlayerActivity {
                     .setVideoPath(getVideoPath())//视频地址
                     .setVideoType(3)//
                     .setVideoTitle("ttt")//
+                    .setPackageName("both.video.venvy.com.appdemo")
                     .build();
             return provider;
-        }
-
-        @Override
-        public Class<? extends IImageLoader> buildImageLoader() {
-            return GlideImageLoader.class;
         }
 
         /**
@@ -340,6 +340,7 @@ public class VideoOsActivity extends BasePlayerActivity {
     }
 
     private void updateAdapter() {
+        videoPlusView.stop();
         final int width = VenvyUIUtil.getScreenWidth(VideoOsActivity.this);
         final int height = VenvyUIUtil.getScreenHeight(VideoOsActivity.this);
         Provider provider = new Provider.Builder()
@@ -351,10 +352,11 @@ public class VideoOsActivity extends BasePlayerActivity {
                 .setVideoPath(mSettingsBean.mUrl)//视频地址
                 .setVideoType(3)//
                 .setVideoTitle("ttt")//
+                .setPackageName("both.video.venvy.com.appdemo")
                 .build();
         mCustomVideoView.mediaPlayerSeekTo(0);
         getAdapter().updateProvider(provider);
-        videoPlusView.destroy();
+
         videoPlusView.start();
     }
 

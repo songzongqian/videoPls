@@ -58,11 +58,6 @@ public class MallOsActivity extends LiveBaseActivity {
         }
 
         @Override
-        public Class<? extends IImageLoader> buildImageLoader() {
-            return GlideImageLoader.class;
-        }
-
-        @Override
         public IPlatformLoginInterface buildLoginInterface() {
             initLogin();
             return iPlatformLoginInterface;
@@ -82,35 +77,6 @@ public class MallOsActivity extends LiveBaseActivity {
     }
 
     private void initLogin() {
-        iPlatformLoginInterface = new IPlatformLoginInterface.PlatformLoginAdapter() {
-            @Override
-            public PlatformUserInfo getLoginUser() {
-                PlatformUserInfo platformUserInfo = new PlatformUserInfo();
-                platformUserInfo.setUid("aaaaaa");
-                platformUserInfo.setNickName("bbbbbb");
-                platformUserInfo.setUserName("cccccc");
-                platformUserInfo.setPhoneNum("999999");
-                platformUserInfo.setUserToken("ddddddd");
-                return platformUserInfo;
-            }
-
-            @Override
-            public void userLogined(PlatformUserInfo userInfo) {
-                if (userInfo != null) {
-                    String token = userInfo.getUserToken();
-                }
-            }
-
-            @Override
-            public void login(LoginCallback loginCallback) {
-
-            }
-
-            @Override
-            public void screenChanged(ScreenChangedInfo changedInfo) {
-                System.out.println("---登陆的URL－－－" + changedInfo.url);
-            }
-        };
     }
 
 
@@ -119,7 +85,6 @@ public class MallOsActivity extends LiveBaseActivity {
         mMallBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mVideoMallView.openMall();
             }
         });
         mShelfBtn = (Button) mMallRootView.findViewById(R.id.shelf);

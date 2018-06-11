@@ -18,7 +18,6 @@ import cn.com.venvy.Platform;
 import cn.com.venvy.common.utils.VenvyAsyncTaskUtil;
 import cn.com.venvy.common.utils.VenvyFileUtil;
 import cn.com.venvy.common.utils.VenvyReflectUtil;
-import videodemo.com.cn.myapplication.player.HuyuOsActivity;
 import videodemo.com.cn.myapplication.player.LiveOsActivity;
 import videodemo.com.cn.myapplication.player.MallOsActivity;
 import videodemo.com.cn.myapplication.player.VideoOTTActivity;
@@ -139,10 +138,6 @@ public class WelcomeNewActivity extends Activity {
     }
 
     private void goHuyuActivity(@HyRoomType int type) {
-        Intent intent = new Intent(WelcomeNewActivity.this, HuyuOsActivity.class);
-        intent.putExtra("roomType", type);
-        startActivity(intent);
-        mSelectorRoomDialog.dismiss();
 
     }
 

@@ -102,12 +102,6 @@ public class VideoOTTActivity extends BasePlayerActivity {
             return provider;
         }
 
-        @Override
-        public Class<? extends IImageLoader> buildImageLoader() {
-//            return GlideImageLoader.class;
-            return null;
-        }
-
         /**
          * 点播视频控制监听接口，该接口必须提供，否则点播业务无法正常工作
          * 此接口是控制播放器行为

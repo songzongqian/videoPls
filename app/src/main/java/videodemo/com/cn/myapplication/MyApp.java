@@ -2,8 +2,10 @@ package videodemo.com.cn.myapplication;
 
 import android.app.Application;
 
+import com.squareup.leakcanary.LeakCanary;
 import com.tencent.smtt.sdk.QbSdk;
 
+import cn.com.venvy.common.utils.VenvyLog;
 import cn.com.venvy.common.utils.VenvyUIUtil;
 import cn.com.videopls.pub.VideoPlus;
 
@@ -17,6 +19,9 @@ public class MyApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+
+        LeakCanary.install(this);
+        VenvyLog.needLog = true;
         VenvyUIUtil.runOnUIThreadDelay(new Runnable() {
             @Override
             public void run() {
@@ -26,8 +31,7 @@ public class MyApp extends Application {
                 // VideoType.OTT 表示只接入OTT
                 // VideoType.MALL 表示只接入子商城
                 // VideoPlus.VideoType.HUYU 互娱
-                VideoPlus.appCreate(MyApp.this, VideoPlus.VideoType.HUYU,VideoPlus.VideoType
-                        .LIVEOS, VideoPlus.VideoType.MALL);
+                VideoPlus.appCreate(MyApp.this/*, VideoPlus.VideoType.VIDEOOS*/);
                 QbSdk.forceSysWebView();
             }
         }, 3000);

@@ -20,7 +20,8 @@ import cn.com.venvy.common.interf.IWidgetClickListener;
 import cn.com.venvy.common.interf.IWidgetCloseListener;
 import cn.com.venvy.common.interf.IWidgetEmptyListener;
 import cn.com.venvy.common.interf.IWidgetShowListener;
-import cn.com.venvy.common.interf.WedgeListener;
+import cn.com.venvy.common.interf.OnViewClickListener;
+import cn.com.venvy.common.utils.VenvyLog;
 import cn.com.venvy.glide.GlideImageLoader;
 import cn.com.videopls.pub.Provider;
 import cn.com.videopls.pub.VideoPlusAdapter;
@@ -40,6 +41,8 @@ public class LiveOsActivity extends LiveBaseActivity {
         @Override
         public Provider createProvider() {
             return new Provider.Builder()
+                    .setPlatformId(mSettingsBean.mPlatformId)
+                    .setUserId(mSettingsBean.mRoomId)
                     .setHorVideoWidth(Math.max(mScreenWidth, mScreenHeight))//横屏视频的宽
                     .setHorVideoHeight(Math.min(mScreenWidth, mScreenHeight))//横屏视频的高
                     .setVerticalFullVideoWidth(Math.min(mScreenWidth, mScreenHeight))//竖屏全屏视频的宽
@@ -65,52 +68,9 @@ public class LiveOsActivity extends LiveBaseActivity {
                     userInfo.cate = mSettingsBean.mCate;//设置分区，e.g. lol, hearthstone, dota1 ...
                     userInfo.roomId = mSettingsBean.mRoomId;
                     userInfo.platformId = mSettingsBean.mPlatformId;
-                    userInfo.uid = mSettingsBean.uId;
-                    userInfo.userName = mSettingsBean.mUserName;
                     return userInfo;
                 }
 
-                @Override
-                public void login(LoginCallback loginCallback) {
-
-                }
-            };
-        }
-
-        @Override
-        public WedgeListener buildWedgeListener() {
-            return new WedgeListener() {
-            };
-        }
-
-        /**
-         * 广告点击监听
-         *
-         * @return
-         */
-        public IWidgetClickListener<WidgetInfo> buildWidgetClickListener() {
-            return new IWidgetClickListener<WidgetInfo>() {
-
-                @Override
-                public void onClick(@Nullable WidgetInfo widgetInfo) {
-                    if (widgetInfo != null) {
-                        WidgetInfo.WidgetType type = widgetInfo.getWidgetType();
-                        String url = widgetInfo.getUrl();
-                        if (TextUtils.isEmpty(url)) {
-                            return;
-                        }
-                        //具体type为区分广告类型。具体广告内容可看枚举注释
-                        switch (type) {
-                            case CLOUND:
-                                //TODO,根据广告类型做不同的逻辑
-                                break;
-
-                            case ADGIFT:
-
-                                break;
-                        }
-                    }
-                }
             };
         }
 
@@ -168,6 +128,28 @@ public class LiveOsActivity extends LiveBaseActivity {
                             case ADGIFT:
 
                                 break;
+                        }
+                    }
+                }
+            };
+        }
+
+
+        /**
+         * 广告点击监听
+         *
+         * @return
+         */
+        public IWidgetClickListener<WidgetInfo> buildWidgetClickListener() {
+            return new IWidgetClickListener<WidgetInfo>() {
+
+                @Override
+                public void onClick(@Nullable WidgetInfo widgetInfo) {
+                    if (widgetInfo != null) {
+                        WidgetInfo.WidgetType type = widgetInfo.getWidgetType();
+                        String url = widgetInfo.getUrl();
+                        if (TextUtils.isEmpty(url)) {
+                            return;
                         }
                     }
                 }
