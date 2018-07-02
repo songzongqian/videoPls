@@ -22,7 +22,7 @@ android {
 repositories { flatDir { dirs 'libs' } }
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-//    compile(name: 'venvy_pub-release--', ext: 'aar')
+//    compile(name: 'venvy_pub-release-2.9.2', ext: 'aar')
 
     implementation 'com.android.support:appcompat-v7:27+'
     implementation "com.android.support:support-v4:27+"
@@ -31,7 +31,7 @@ dependencies {
     implementation 'com.android.support.constraint:constraint-layout:1.1.0'
 
     // android Video++ 互动层依赖，必须导入,在对接完毕后提测前请和技术最后确认版本号
-    implementation 'com.videoli:video_pub:2.9.1@aar'
+    compile 'com.videoli:video_pub:2.9.2@aar'
     // Video++ sdk 注解依赖
     implementation 'com.videoli:venvy_processor_annotation:1.0.0'
     annotationProcessor 'com.videoli:venvy_processor_compiler:1.0.1'

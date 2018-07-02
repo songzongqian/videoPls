@@ -474,9 +474,9 @@ public class VideoControllerView extends FrameLayout implements View.OnClickList
             return;
         }
         if (mPlayer.isMediaPlayerPlaying()) {
-            mPauseButton.setImageResource(R.drawable.ic_media_play);
+            mPauseButton.setImageResource(R.drawable.media_play);
         } else {
-            mPauseButton.setImageResource(R.drawable.ic_media_pause);
+            mPauseButton.setImageResource(R.drawable.media_pause);
         }
     }
 
