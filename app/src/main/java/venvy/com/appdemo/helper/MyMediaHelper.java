@@ -32,6 +32,9 @@ public class MyMediaHelper extends VideoOSMediaController {
         }
     }
 
+    /**
+     * 控制播放器开始播放
+     */
     @Override
     public void start() {
         if (mMediaPlayerControl != null) {
@@ -39,6 +42,9 @@ public class MyMediaHelper extends VideoOSMediaController {
         }
     }
 
+    /**
+     * 控制播放器暂停
+     */
     @Override
     public void pause() {
         if (mMediaPlayerControl != null) {
@@ -51,6 +57,10 @@ public class MyMediaHelper extends VideoOSMediaController {
         return true;
     }
 
+    /**
+     * {@link MediaStatus}
+     * @return 当前播放器的状态
+     */
     @Override
     public MediaStatus getCurrentMediaStatus() {
         return mMediaPlayerControl == null ? MediaStatus.STOP : mMediaPlayerControl
@@ -58,6 +68,10 @@ public class MyMediaHelper extends VideoOSMediaController {
                 ? MediaStatus.PLAYING : MediaStatus.DEFAULT;
     }
 
+    /**
+     * 点播业务必须要实现该方法
+     * @return 获取当前播放器的进度
+     */
     @Override
     public long getCurrentPosition() {
         if (mMediaPlayerControl != null) {
@@ -67,6 +81,10 @@ public class MyMediaHelper extends VideoOSMediaController {
         }
     }
 
+    /**
+     * 该方法必须要实现
+     * @return  设置 sdk 互动层 VideoOsView 的显示宽高
+     */
     @Override
     public VideoPlayerSize getVideoSize() {
         return mVideoSizes;

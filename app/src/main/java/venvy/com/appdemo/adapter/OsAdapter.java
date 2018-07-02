@@ -8,6 +8,7 @@ import cn.com.venvy.common.bean.VideoPlayerSize;
 import cn.com.venvy.common.bean.WidgetInfo;
 import cn.com.venvy.common.http.base.IRequestConnect;
 import cn.com.venvy.common.image.IImageLoader;
+import cn.com.venvy.common.image.IImageView;
 import cn.com.venvy.common.interf.IMediaControlListener;
 import cn.com.venvy.common.interf.IPlatformLoginInterface;
 import cn.com.venvy.common.interf.ISocketConnect;
@@ -17,6 +18,8 @@ import cn.com.venvy.common.interf.IWidgetCloseListener;
 import cn.com.venvy.common.interf.IWidgetShowListener;
 import cn.com.venvy.common.interf.PlatformLoginListener;
 import cn.com.venvy.common.utils.VenvyUIUtil;
+import cn.com.venvy.fresco.FrescoImageLoader;
+import cn.com.venvy.fresco.VenvyFrescoImageView;
 import cn.com.venvy.glide.GlideImageLoader;
 import cn.com.venvy.mqtt.VenvyMqtt;
 import cn.com.venvy.okhttp.OkHttpHelper;
@@ -128,21 +131,55 @@ public class OsAdapter extends VideoPlusAdapter {
     }
 
 
+    /**
+     *
+     * @return 加载网络请求插件
+     */
     @Override
     public Class<? extends IRequestConnect> buildConnectProvider() {
         return OkHttpHelper.class;
     }
 
+    /**
+     *
+     * @return 加载 svgA 动画插件
+     */
     @Override
     public Class<? extends ISvgaImageView> buildSvgaImageView() {
         return VenvySvgaImageView.class;
     }
 
+    /**
+     * 使用 glide
+     * @return 加载 glide 插件
+     */
     @Override
     public Class<? extends IImageLoader> buildImageLoader() {
         return GlideImageLoader.class;
     }
 
+    /**
+     * 使用 fresco
+     * @return 加载 fresco 插件
+     */
+//    @Override
+//    public Class<? extends IImageLoader> buildImageLoader() {
+//        return FrescoImageLoader.class;
+//    }
+
+    /**
+     *
+      * @return 加载 fresco 的 SimpleDraweeView 控件
+     */
+//    @Override
+//    public Class<? extends IImageView> buildImageView() {
+//        return VenvyFrescoImageView.class;
+//    }
+
+    /**
+     *
+     * @return 加载长连接插件
+     */
     @Override
     public Class<? extends ISocketConnect> buildSocketConnect() {
         return VenvyMqtt.class;
