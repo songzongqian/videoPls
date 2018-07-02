@@ -14,7 +14,8 @@
 
     <color name="view_stoke">#505050</color>
     <color name="view_content">#FFFCFCFC</color>
-    <color name="view_et">#EFEFEF</color>
+    <color name="view_et">#ffffff</color>
+    <color name="home_root_bg">#c9c9c9</color>
 
 
 </resources>

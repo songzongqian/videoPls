@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    android:layout_alignParentBottom="true"
+    android:layout_alignParentRight="true"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <Button
+        android:layout_marginRight="@dimen/os_setting_iv_margin"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/iv_os_setting"
+        android:id="@+id/bt_os_setting_mall"
+        android:text="@string/home_setting_item_mall"
+        style="@style/style_home_setting_menu_item"/>
+
+    <ImageView
+        android:elevation="@dimen/home_item_elevation"
+        android:layout_marginRight="@dimen/os_setting_iv_margin"
+        android:layout_marginBottom="@dimen/os_setting_iv_margin"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:id="@+id/iv_os_setting"
+        android:padding="@dimen/home_setting_menu_padding"
+        android:src="@mipmap/ic_home_setting_menu"
+        android:background="@drawable/shape_home_setting_menu_bg"
+        android:layout_width="@dimen/home_setting_menu"
+        android:layout_height="@dimen/home_setting_menu"/>
+</android.support.constraint.ConstraintLayout>

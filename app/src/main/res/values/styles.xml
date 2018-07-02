@@ -1,55 +1,47 @@
 <resources>
 
     <declare-styleable name="ShadowLayout">
-        <attr name="sl_cornerRadius" format="dimension"/>
-        <attr name="sl_shadowRadius" format="dimension"/>
-        <attr name="sl_shadowColor" format="color"/>
-        <attr name="sl_dx" format="dimension"/>
-        <attr name="sl_dy" format="dimension"/>
+        <attr name="sl_cornerRadius" format="dimension" />
+        <attr name="sl_shadowRadius" format="dimension" />
+        <attr name="sl_shadowColor" format="color" />
+        <attr name="sl_dx" format="dimension" />
+        <attr name="sl_dy" format="dimension" />
     </declare-styleable>
 
-    <style name="MyCheckBox" parent="@android:style/Widget.CompoundButton.CheckBox">
-
-        <item name="android:button">@drawable/check_selector</item>
+    <style name="BaseTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="windowNoTitle">true</item>
     </style>
 
-    <!-- 设置页 TextView -->
-    <style name="room_setting_tv">
-        <item name="android:layout_marginBottom">10dp</item>
-        <item name="android:layout_marginTop">5dp</item>
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:textColor">@color/text_white</item>
-        <item name="android:textSize">@dimen/text_title</item>
+    <style name="style_home_item">
+        <item name="android:layout_marginTop">@dimen/home_item_margin</item>
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:elevation">@dimen/home_item_elevation</item>
+        <item name="android:background">@android:color/white</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">0dp</item>
     </style>
 
-    <!-- 设置页 EditText -->
-    <style name="room_setting_et">
-        <item name="android:layout_width">200dp</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_marginBottom">8dp</item>
-        <item name="android:layout_alignParentRight">true</item>
+    <style name="style_home_setting_menu_item">
+        <item name="android:textSize">10sp</item>
+        <item name="android:background">@drawable/shape_home_setting_menu_normal_bg</item>
+        <item name="android:layout_marginBottom">@dimen/home_setting_menu_margin</item>
+        <item name="android:layout_width">@dimen/home_setting_menu</item>
+        <item name="android:layout_height">@dimen/home_setting_menu</item>
+    </style>
+
+    <style name="style_setting_spinner">
         <item name="android:background">@drawable/et_bg</item>
-        <item name="android:padding">5dp</item>
-        <item name="android:textColor">@color/text_nomal_black</item>
-        <item name="android:textColorHint">@color/text_nomal_black</item>
-        <item name="android:textSize">@dimen/text_content</item>
-        <item name="android:ellipsize">end</item>
-        <item name="android:singleLine">true</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">@dimen/setting_spinner_height</item>
     </style>
 
-    <!-- 选择互娱房间类型 -->
-    <style name="huyu_select_room_type">
-        <item name="android:padding">6dp</item>
-        <item name="android:background">@drawable/huyu_config_bg</item>
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">35dp</item>
-        <item name="android:layout_marginTop">15dp</item>
+    <style name="style_media_bt_bg">
+        <item name="android:textSize">10sp</item>
         <item name="android:textColor">@android:color/white</item>
-        <item name="android:layout_centerHorizontal">true</item>
-
+        <item name="android:background">@drawable/shape_media_mall_bg</item>
+        <item name="android:layout_marginRight">@dimen/media_play_margin_left</item>
+        <item name="android:layout_width">30dp</item>
+        <item name="android:layout_height">30dp</item>
     </style>
-
-
 </resources>
