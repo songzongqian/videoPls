@@ -153,28 +153,28 @@ public class OsAdapter extends VideoPlusAdapter {
      * 使用 glide
      * @return 加载 glide 插件
      */
-    @Override
+   /* @Override
     public Class<? extends IImageLoader> buildImageLoader() {
         return GlideImageLoader.class;
-    }
+    }*/
 
     /**
      * 使用 fresco
      * @return 加载 fresco 插件
      */
-//    @Override
-//    public Class<? extends IImageLoader> buildImageLoader() {
-//        return FrescoImageLoader.class;
-//    }
+    @Override
+    public Class<? extends IImageLoader> buildImageLoader() {
+        return FrescoImageLoader.class;
+    }
 
     /**
      *
       * @return 加载 fresco 的 SimpleDraweeView 控件
      */
-//    @Override
-//    public Class<? extends IImageView> buildImageView() {
-//        return VenvyFrescoImageView.class;
-//    }
+    @Override
+    public Class<? extends IImageView> buildImageView() {
+        return VenvyFrescoImageView.class;
+    }
 
     /**
      *

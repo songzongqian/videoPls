@@ -40,9 +40,14 @@ public class LiveOsActivity extends BasePlayerActivity {
                 // 预设置
                 mVideoContentView.removeView(mCustomVideoView);
                 clickHy();
-            } else if (mSettingsBean.isFullScreen) {
-                // 竖屏推流
-                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+
+            } else if (mSettingsBean.mUserType == PlatformUserInfo.UserType.Anchor) {
+
+                if (mSettingsBean.isFullScreen) {
+                    mSettingsBean.isFullScreen = false;
+                    // 横屏推流
+                    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+                }
             }
             setVideoFullScreen();
         } else {

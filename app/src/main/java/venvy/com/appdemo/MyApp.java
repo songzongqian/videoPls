@@ -2,6 +2,8 @@ package venvy.com.appdemo;
 
 import android.app.Application;
 
+import com.facebook.drawee.backends.pipeline.Fresco;
+
 import cn.com.venvy.common.debug.DebugStatus;
 import cn.com.venvy.common.utils.VenvyLog;
 import cn.com.videopls.pub.VideoPlus;
@@ -15,8 +17,13 @@ public class MyApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        DebugStatus.changeEnvironmentStatus(DebugStatus.EnvironmentStatus.DEBUG);
+        Fresco.initialize(this);
+
+        // 打开 video++ 日志
         VenvyLog.needLog = true;
+        // 切换成 debug
+        DebugStatus.changeEnvironmentStatus(DebugStatus.EnvironmentStatus.DEBUG);
+        // 初始化 video++
         VideoPlus.appCreate(MyApp.this);
     }
 }
