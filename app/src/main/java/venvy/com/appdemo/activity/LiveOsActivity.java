@@ -15,7 +15,7 @@ import cn.com.videopls.pub.os.VideoOsView;
 import venvy.com.appdemo.adapter.OsAdapter;
 import venvy.com.appdemo.widget.VideoControllerView;
 
-public class LiveOsActivity extends BasePlayerActivity {
+public class LiveOsActivity extends BasePlayerActivity implements OsAdapter.AdapterStatusChangedListener {
 
     private boolean isVerSmallScreen;
 
@@ -29,8 +29,10 @@ public class LiveOsActivity extends BasePlayerActivity {
             mVideoPlusAdapter = initVideoPlusAdapter();
             if(mVideoPlusAdapter instanceof OsAdapter){
                 ((OsAdapter) mVideoPlusAdapter).setVideoController(this);
+                ((OsAdapter) mVideoPlusAdapter).addScreenChangedListener(this);
             }
             mVideoPlusView.setVideoOSAdapter(mVideoPlusAdapter);
+
             mVideoPlusView.start();
         }
 
@@ -119,5 +121,15 @@ public class LiveOsActivity extends BasePlayerActivity {
         configMap.put("fullScreen", isFullScreen);
         Uri rule = Uri.parse("LuaView://defaultLuaView?template=enjoy_main.lua&id=enjoy_main");
         mVideoPlusView.navigation(rule, configMap, null);
+    }
+
+    @Override
+    public void screenChanged(int status) {
+
+    }
+
+    @Override
+    public void closePreConfig() {
+        finish();
     }
 }

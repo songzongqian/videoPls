@@ -20,7 +20,6 @@ import cn.com.venvy.common.interf.PlatformLoginListener;
 import cn.com.venvy.common.utils.VenvyUIUtil;
 import cn.com.venvy.fresco.FrescoImageLoader;
 import cn.com.venvy.fresco.VenvyFrescoImageView;
-import cn.com.venvy.glide.GlideImageLoader;
 import cn.com.venvy.mqtt.VenvyMqtt;
 import cn.com.venvy.okhttp.OkHttpHelper;
 import cn.com.venvy.svga.view.VenvySvgaImageView;
@@ -41,7 +40,7 @@ public class OsAdapter extends VideoPlusAdapter {
     private final int mScreenHeight;
     private MyMediaHelper mMediaController;
 
-    private AdapterScreenChangedListener mAdapterScreenChangedListener;
+    private AdapterStatusChangedListener mAdapterScreenChangedListener;
 
     public OsAdapter(Context context, SettingsBean bean) {
         mData = bean;
@@ -50,7 +49,7 @@ public class OsAdapter extends VideoPlusAdapter {
         mScreenHeight = VenvyUIUtil.getScreenHeight(mContext);
     }
 
-    public void addScreenChangedListener(AdapterScreenChangedListener listener) {
+    public void addScreenChangedListener(AdapterStatusChangedListener listener) {
         mAdapterScreenChangedListener = listener;
     }
 
@@ -275,6 +274,11 @@ public class OsAdapter extends VideoPlusAdapter {
                         case ADGIFT:
 
                             break;
+                        case ENJOY:
+                            if (!mData.isUserApp && mAdapterScreenChangedListener != null) {
+                                mAdapterScreenChangedListener.closePreConfig();
+                            }
+                            break;
                         case VIDEOCLIP:
                             if (mMediaController != null) {
                                 mMediaController.start();
@@ -295,7 +299,9 @@ public class OsAdapter extends VideoPlusAdapter {
         return provider;
     }
 
-    public interface AdapterScreenChangedListener {
+    public interface AdapterStatusChangedListener {
         void screenChanged(int status);
+
+        void closePreConfig();
     }
 }
