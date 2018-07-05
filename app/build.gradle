@@ -23,7 +23,7 @@ android {
 repositories { flatDir { dirs 'libs' } }
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-//    compile(name: 'venvy_pub-release-2.9.9', ext: 'aar')
+//    compile(name: 'venvy_pub-release-3.0.0', ext: 'aar')
 
     implementation 'com.android.support:appcompat-v7:27+'
     implementation "com.android.support:support-v4:27+"
@@ -32,7 +32,7 @@ dependencies {
     implementation 'com.android.support.constraint:constraint-layout:1.1.0'
 
     // android Video++ 互动层依赖，必须导入,在对接完毕后提测前请和技术最后确认版本号
-    implementation 'com.videoli:video_pub:2.9.9@aar'
+    implementation 'com.videoli:video_pub:3.0.0@aar'
     // video++ 基础 lua 库
     implementation 'com.videoli:venvy_lua:1.1.0@aar'
     // Video++ sdk 注解依赖
@@ -44,6 +44,7 @@ dependencies {
     // glide library
     implementation 'com.videoli:venvy_glide:1.0.2@aar'
 
+
     // fresco library
     implementation 'com.videoli:venvy_fresco:1.0.2@aar'
     implementation "com.facebook.fresco:fresco:1.8.0"
@@ -53,6 +54,8 @@ dependencies {
 
     // mqtt library
     implementation 'org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.1.1'
+    /**--------mqtt 插件引用——————————*/
+    implementation 'com.videoli:venvy_mqtt:1.0.1@aar'
 
     // okhttp
     implementation 'com.squareup.okhttp3:okhttp:3.8.0'
